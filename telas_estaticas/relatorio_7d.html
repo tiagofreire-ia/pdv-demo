@@ -1,0 +1,1433 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <script>
+      try{localStorage.setItem('tourVisto_v1','1');}catch(e){}
+      document.addEventListener('submit', function(e){
+        var f = e.target;
+        if (f && f.action && String(f.action).indexOf('login.html') !== -1 && !f.classList.contains('login-card')) {
+          e.preventDefault();
+          window.location.href = './login.html';
+        }
+      }, true);
+    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+    <title>Relatório de vendas</title>
+    <link rel="icon" href="./static/img/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="./static/img/favicon-32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="./static/img/logo-marca.svg">
+    
+    <link rel="manifest" href="#">
+    <meta name="theme-color" content="#16130E" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#110f0b" media="(prefers-color-scheme: dark)">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="SUA MARCA">
+    <link rel="preload" href="./static/fonts/manrope-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="./static/style.css">
+    <script>try{var _t=localStorage.getItem('tema');if(_t==='dark'||_t==='light')document.documentElement.setAttribute('data-theme',_t);if(localStorage.getItem('sidebarColapsado')==='1')document.documentElement.classList.add('sidebar-collapsed');}catch(e){}</script>
+    <script src="./static/vendor/htmx-2.0.3.min.js"></script>
+    <script>
+      // Anexa o token CSRF em toda requisição do htmx (forms comuns usam campo oculto, ver forms).
+      document.addEventListener('htmx:configRequest', function (e) {
+        var meta = document.querySelector('meta[name="csrf-token"]');
+        if (meta) e.detail.headers['X-CSRF-Token'] = meta.content;
+      });
+    </script>
+</head>
+<body>
+    <div class="app-shell">
+      
+      <aside class="sidebar" id="sidebar">
+        <div class="side-top">
+          <img class="side-mark" src="./static/img/logo-marca.svg" alt="" aria-hidden="true">
+          <span class="side-name">SUA MARCA</span>
+          
+          <button type="button" class="side-toggle" id="side-toggle" title="Recolher menu" aria-label="Recolher menu">
+            <svg class="ic-recolher" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            <svg class="ic-expandir" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            <svg class="ic-abrir" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <svg class="ic-fechar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <nav class="side-nav">
+          
+          <div class="side-secao">Operação</div>
+          <a href="./venda.html" title="Frente de caixa (F1)" data-tour="venda" data-tour-titulo="Vender" data-tour-text="Frente de caixa: bipe os produtos e receba o pagamento por atalhos de teclado.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 2h3l2.5 12.4a2 2 0 0 0 2 1.6h9.6a2 2 0 0 0 2-1.6L22 6H5.2"/></svg>
+            <span class="label">Vender</span>
+            <kbd class="side-kbd">F1</kbd>
+          </a>
+          <a href="./caixa.html" title="Abrir e fechar o caixa" data-tour="caixa" data-tour-text="Abra o caixa no início do dia e feche no fim, conferindo o dinheiro da gaveta.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>
+            <span class="label">Abrir/fechar caixa</span>
+          </a>
+
+          <div class="side-secao">Cadastros</div>
+          <details class="side-grupo" id="grupo-estoque"
+                    >
+            <summary title="Estoque">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5" rx="1"/><path d="M4 8v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8"/><path d="M10 13h4"/></svg>
+              <span class="label">Estoque</span>
+              <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="side-subnav">
+              <a href="./produtos.html" title="Produtos" data-tour="produtos" data-tour-text="Cadastre produtos, preços, código de barras e estoque mínimo.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg>
+                <span class="label">Produtos</span>
+              </a>
+              <a href="./entradas.html" title="Entradas" data-tour="entradas" data-tour-text="Registre a compra de mercadoria: aumenta o estoque automaticamente.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10"/><path d="M8 9l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+                <span class="label">Entradas</span>
+              </a>
+              
+              <a href="./inventarios.html" title="Inventário" data-tour="inventarios" data-tour-text="Contagem física do estoque (cega) e ajuste em massa ao fechar.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                <span class="label">Inventário</span>
+              </a>
+              <a href="./reposicao.html" title="Reposição" data-tour="reposicao" data-tour-text="Sugestão de compra com base na velocidade de venda dos últimos 30 dias.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"/><path d="M3 8h18l-1.5 11a2 2 0 0 1-2 1.7H6.5a2 2 0 0 1-2-1.7L3 8z"/><path d="M9 12h6"/></svg>
+                <span class="label">Reposição</span>
+              </a>
+              
+            </div>
+          </details>
+          <a href="./clientes.html" title="Clientes" data-tour="clientes" data-tour-text="Cadastre clientes (útil para vendas na Confiança e comprovantes).">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            <span class="label">Clientes</span>
+          </a>
+          <a href="./fornecedores.html" title="Fornecedores" data-tour="fornecedores" data-tour-text="Cadastre seus fornecedores de bebidas.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h13v10H1z"/><path d="M14 8h4l3 3v3h-7z"/><circle cx="5.5" cy="18" r="1.6"/><circle cx="17.5" cy="18" r="1.6"/></svg>
+            <span class="label">Fornecedores</span>
+          </a>
+
+          
+          <div class="side-secao">Gestão</div>
+          <a href="./painel.html" title="Painel" data-tour="admin" data-tour-text="Painel com cartões de faturamento, vendas, lucro e descontos do dia, e o que precisa de atenção.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+            <span class="label">Painel</span>
+          </a>
+          <a href="./contas_pagar.html" title="Contas" data-tour="contas_pagar" data-tour-titulo="Contas" data-tour-text="Contas a pagar: luz, água, energia, funcionário, aluguel e outros serviços.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/><path d="M8 2v4M16 2v4"/><path d="M8 14h4"/></svg>
+            <span class="label">Contas</span>
+          </a>
+          <a href="./relatorio.html" title="Relatórios" data-tour="relatorio" data-tour-text="Relatórios de vendas por período, com exportação em PDF e gráfico.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="10" width="3" height="8"/><rect x="12" y="6" width="3" height="12"/><rect x="17" y="13" width="3" height="5"/></svg>
+            <span class="label">Relatórios</span>
+          </a>
+          <a href="./patrimonio.html" title="Patrimônio" data-tour="patrimonio" data-tour-text="Bens da loja (freezer, móveis, equipamentos), separado do estoque de produtos.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            <span class="label">Patrimônio</span>
+          </a>
+          
+
+          <div class="side-secao">Apoio</div>
+          
+          <a href="./assistente.html" title="Assistente de IA" data-tour="assistente" data-tour-text="Pergunte em qualquer língua sobre vendas, estoque, contas e Confiança; peça cadastros e lançamentos para você confirmar.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
+            <span class="label">Assistente IA</span>
+          </a>
+          <a href="./ajuda.html" title="Ajuda" data-tour="ajuda" data-tour-text="Guias passo a passo, atalhos de teclado, perguntas frequentes e o que o assistente sabe fazer.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1 .9-1 1.6"/><path d="M12 17h.01"/></svg>
+            <span class="label">Ajuda</span>
+          </a>
+
+          <details class="side-grupo" id="grupo-configuracoes"
+                    >
+            <summary title="Configurações">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82 2 2 0 1 1-2.83 2.83 1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51 2 2 0 0 1-4 0 1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33 2 2 0 1 1-2.83-2.83A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1 2 2 0 0 1 0-4 1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82 2 2 0 1 1 2.83-2.83A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51 2 2 0 0 1 4 0 1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33 2 2 0 1 1 2.83 2.83A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1 2 2 0 0 1 0 4 1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span class="label">Configurações</span>
+              <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="side-subnav">
+              
+              <a href="./usuarios.html" title="Usuários" data-tour="usuarios" data-tour-text="Gerencie operadores e administradores do sistema.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0"/><path d="M16 5.6a3.5 3.5 0 0 1 0 4.8"/><path d="M18.5 21a6.5 6.5 0 0 0-3-5.4"/></svg>
+                <span class="label">Usuários</span>
+              </a>
+              
+              
+              <a href="./configuracoes.html" title="Loja" data-tour="loja" data-tour-text="Taxas das maquininhas e fechamento automático do caixa.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg>
+                <span class="label">Loja</span>
+              </a>
+              
+              
+              <a href="./saude.html" title="Sistema" data-tour="sistema" data-ativo-em="/admin/saude,/logs,/admin/uso-ia,/admin/conversas-ia,/admin/memoria-ia"
+                 data-tour-text="Saúde do sistema (backup, banco, alertas), logs de auditoria, uso, conversas e memória da IA.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <span class="label">Sistema</span>
+              </a>
+              
+              <a href="./suporte.html" title="Suporte" data-tour="suporte" data-tour-text="Relate um problema ou dúvida sobre o sistema.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24"/></svg>
+                <span class="label">Suporte</span>
+              </a>
+              <button type="button" id="btn-tour" class="side-link" title="Tour guiado">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>
+                <span class="label">Tour guiado</span>
+              </button>
+            </div>
+          </details>
+        </nav>
+
+        
+        
+        
+        
+        <div class="side-bottom">
+          <div class="usuario-wrap">
+            <button type="button" class="side-usuario" id="btn-usuario" aria-haspopup="menu" aria-expanded="false" aria-controls="usuario-menu" title="Carlos Eduardo (Proprietário) · Super admin">
+              <span class="side-avatar" aria-hidden="true">C(</span>
+              <span class="side-usuario-texto">
+                <span class="side-usuario-nome">Carlos Eduardo (Proprietário)</span>
+                <span class="side-usuario-papel">Super admin</span>
+              </span>
+            </button>
+            <div class="side-usuario-menu" id="usuario-menu" role="menu" aria-label="Conta" hidden>
+              <a href="./minha_conta.html" class="side-usuario-item" role="menuitem" title="Minha conta (trocar a senha)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+                <span>Minha conta</span>
+              </a>
+              
+              <button type="button" id="btn-tema" class="side-usuario-item" role="menuitem" title="Alternar tema claro/escuro">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="icone-tema-dark"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="icone-tema-light"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                <span class="icone-tema-dark">Tema escuro</span>
+                <span class="icone-tema-light">Tema claro</span>
+              </button>
+              <div class="side-usuario-sep" role="separator"></div>
+              <a href="./login.html" class="side-usuario-item side-sair" role="menuitem">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg>
+                <span>Sair</span>
+              </a>
+            </div>
+          </div>
+          <div class="sino-wrap">
+            <button type="button" id="btn-notificacoes" class="side-icone-btn" title="Notificações" aria-label="Notificações">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span id="sino-contador" class="sino-contador" hidden>0</span>
+            </button>
+            <div id="sino-painel" class="sino-painel" hidden
+                 hx-get="/notificacoes" hx-trigger="load, every 60s" hx-swap="innerHTML">
+              <p class="sino-vazio muted small">Carregando…</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+        <script>
+          // Menu lateral (spec 011 V1, spec 012 M1): restaura grupos abertos e a rolagem logo
+          // depois do menu COMPLETO (com o rodapé do usuário e o sino) — restaurar antes do
+          // rodapé existir limitava a rolagem, porque o menu ainda estava mais alto. Antes, o grupo Estoque reabria só no fim da página, depois
+          // do item ativo ser rolado para a vista, e empurrava o item para fora da tela.
+          (function () {
+            try {
+              var e = document.getElementById('grupo-estoque');
+              if (e && localStorage.getItem('menuEstoqueAberto') === '1') e.open = true;
+              var c = document.getElementById('grupo-configuracoes');
+              if (c && localStorage.getItem('menuConfiguracoesAberto') === '1') c.open = true;
+              var nav = document.querySelector('.side-nav');
+              var salvo = sessionStorage.getItem('menuRolagem');
+              if (nav && salvo !== null) { nav.scrollTop = parseInt(salvo, 10) || 0; window.__menuRolagemRestaurada = true; }
+              function guardar() { if (nav) sessionStorage.setItem('menuRolagem', String(nav.scrollTop)); }
+              if (nav) nav.addEventListener('click', function (ev) { if (ev.target.closest('a')) guardar(); });
+              window.addEventListener('pagehide', guardar);
+            } catch (err) {}
+          })();
+        </script>
+      
+
+      <div class="app-main">
+        <main>
+          
+          <a class="ajuda-contexto" href="./ajuda_assistente.html"
+             title="Ajuda desta tela" aria-label="Ajuda desta tela">?</a>
+          
+          
+          
+
+
+
+
+<div class="page relatorio-tela">
+  <div class="rl-topo">
+    <h1>Relatório de vendas</h1>
+    <div class="rl-controles">
+      <form method="get" action="/relatorio" class="rl-periodo-form" data-tour-tela data-tour-titulo="Período e exportação"
+            data-tour-text="Escolha Hoje, 7 dias, Este mês, Mês passado ou um intervalo próprio. Em Baixar ▾ exporte o período em PDF, CSV ou Excel.">
+        <div class="segmentado" role="group" aria-label="Período">
+          <a href="./relatorio_hoje.html" class="">Hoje</a>
+          <a href="./relatorio_7d.html" class="ativo">7 dias</a>
+          <a href="./relatorio.html" class="">Este mês</a>
+          <a href="./relatorio_mes_passado.html" class="">Mês passado</a>
+          <details class="hc-intervalo rl-intervalo" >
+            <summary class="">Outro período ▾</summary>
+            <div class="hc-intervalo-caixa">
+              <label>De <input type="date" name="de" value="2026-10-31" min="2020-01-01" max="2026-11-06"></label>
+              <label>Até <input type="date" name="ate" value="2026-11-06" min="2020-01-01" max="2026-11-06"></label>
+              <button class="btn-principal">Filtrar</button>
+            </div>
+          </details>
+        </div>
+      </form>
+      <details class="menu-acoes rl-baixar">
+        <summary class="btn-neutro btn-alto-medio">Baixar ▾</summary>
+        <div class="menu-acoes-lista">
+          <a href="/relatorio/pdf?de=2026-10-31&amp;ate=2026-11-06" target="_blank">⬇ PDF</a>
+          <a href="/relatorio/csv?de=2026-10-31&amp;ate=2026-11-06">⬇ CSV</a>
+          <a href="/relatorio/excel?de=2026-10-31&amp;ate=2026-11-06">⬇ Excel</a>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  
+
+  <div class="rl-kpis" data-tour-tela data-tour-titulo="Números do período" data-tour-text="Faturamento (comparado com o mesmo intervalo do mês anterior), vendas, ticket médio, lucro e descontos do balcão.">
+    <div class="cartao-destaque rl-kpi">
+      <span class="rotulo">Faturamento</span>
+      <strong class="valor-destaque">R$ 14.754,70</strong>
+      <span class="rl-apoio escuro">-16% vs. 30/09–06/10</span>
+    </div>
+    <div class="cartao rl-kpi"><span class="rotulo">Vendas</span><strong>168</strong><span class="rl-apoio">24 por dia</span></div>
+    <div class="cartao rl-kpi"><span class="rotulo">Ticket médio</span><strong>R$ 87,83</strong><span class="rl-apoio">por venda</span></div>
+    <div class="cartao rl-kpi" title="Faturamento − custo das mercadorias − taxas das maquininhas (mesma conta do Painel)">
+      <span class="rotulo">Lucro das vendas</span>
+      <strong class="rl-pos">R$ 4.817,07</strong>
+      <span class="rl-apoio">margem 32,6%</span>
+    </div>
+    <div class="cartao rl-kpi"><span class="rotulo">Descontos</span><strong class="">R$ 0,00</strong><span class="rl-apoio">0,0% do faturamento</span></div>
+  </div>
+
+  
+  <section class="cartao rl-bloco" aria-labelledby="titulo-por-dia" data-tour-tela data-tour-titulo="Faturamento por dia"
+           data-tour-text="Uma barra por dia do período, com a escala acompanhando o maior valor. Fim de semana com número em negrito; o melhor dia fica em dourado.">
+    <div class="rl-bloco-cabeca">
+      <h2 id="titulo-por-dia">Faturamento por dia</h2>
+      <span class="muted small">melhor dia: <strong class="rl-forte">sáb 31/10 · R$ 4.002,20</strong></span>
+    </div>
+    <div class="rl-grafico"><canvas id="grafico-por-dia"></canvas></div>
+  </section>
+  
+
+  <div class="rl-duas">
+    <section class="cartao rl-bloco rl-calor-bloco" aria-labelledby="titulo-calor" data-tour-tela data-tour-titulo="Quando a loja vende mais"
+             data-tour-text="Dia da semana × hora: quanto mais escura a célula, mais a loja vendeu naquele horário. A legenda mostra a faixa de valor de cada cor e, ao passar o mouse numa célula (no celular, ao tocar), aparece o valor exato.">
+      <div class="rl-bloco-cabeca">
+        <h2 id="titulo-calor">Quando a loja vende mais</h2>
+        <span class="muted small">pico: <strong class="rl-forte">sábado, 18h–19h</strong></span>
+      </div>
+      <div class="tabela-rolagem">
+        <div class="calor" role="img" aria-label="Mapa de calor das vendas por dia da semana e hora">
+          <div class="calor-linha calor-horas"><span class="calor-dia"></span><span class="calor-hora">9h</span><span class="calor-hora">10h</span><span class="calor-hora">11h</span><span class="calor-hora">12h</span><span class="calor-hora">13h</span><span class="calor-hora">14h</span><span class="calor-hora">15h</span><span class="calor-hora">16h</span><span class="calor-hora">17h</span><span class="calor-hora">18h</span><span class="calor-hora">19h</span><span class="calor-hora">20h</span><span class="calor-hora">21h</span><span class="calor-hora">22h</span></div>
+          
+          <div class="calor-linha"><span class="calor-dia">Seg</span><span class="calor-celula calor-0" style="--i: 0" title="Seg 09h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 1" title="Seg 10h: R$ 0,00"></span><span class="calor-celula calor-1" style="--i: 2" title="Seg 11h: R$ 42,80"></span><span class="calor-celula calor-0" style="--i: 3" title="Seg 12h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 4" title="Seg 13h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 5" title="Seg 14h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 6" title="Seg 15h: R$ 0,00"></span><span class="calor-celula calor-1" style="--i: 7" title="Seg 16h: R$ 346,10"></span><span class="calor-celula calor-1" style="--i: 8" title="Seg 17h: R$ 195,70"></span><span class="calor-celula calor-2" style="--i: 9" title="Seg 18h: R$ 641,70"></span><span class="calor-celula calor-1" style="--i: 10" title="Seg 19h: R$ 224,20"></span><span class="calor-celula calor-1" style="--i: 11" title="Seg 20h: R$ 122,30"></span><span class="calor-celula calor-1" style="--i: 12" title="Seg 21h: R$ 310,50"></span><span class="calor-celula calor-0" style="--i: 13" title="Seg 22h: R$ 0,00"></span></div>
+          
+          <div class="calor-linha"><span class="calor-dia">Ter</span><span class="calor-celula calor-0" style="--i: 1" title="Ter 09h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 2" title="Ter 10h: R$ 0,00"></span><span class="calor-celula calor-1" style="--i: 3" title="Ter 11h: R$ 149,40"></span><span class="calor-celula calor-1" style="--i: 4" title="Ter 12h: R$ 139,80"></span><span class="calor-celula calor-0" style="--i: 5" title="Ter 13h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 6" title="Ter 14h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 7" title="Ter 15h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 8" title="Ter 16h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 9" title="Ter 17h: R$ 0,00"></span><span class="calor-celula calor-2" style="--i: 10" title="Ter 18h: R$ 630,80"></span><span class="calor-celula calor-1" style="--i: 11" title="Ter 19h: R$ 94,20"></span><span class="calor-celula calor-1" style="--i: 12" title="Ter 20h: R$ 277,10"></span><span class="calor-celula calor-1" style="--i: 13" title="Ter 21h: R$ 148,80"></span><span class="calor-celula calor-0" style="--i: 14" title="Ter 22h: R$ 0,00"></span></div>
+          
+          <div class="calor-linha"><span class="calor-dia">Qua</span><span class="calor-celula calor-1" style="--i: 2" title="Qua 09h: R$ 25,00"></span><span class="calor-celula calor-0" style="--i: 3" title="Qua 10h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 4" title="Qua 11h: R$ 0,00"></span><span class="calor-celula calor-1" style="--i: 5" title="Qua 12h: R$ 253,50"></span><span class="calor-celula calor-0" style="--i: 6" title="Qua 13h: R$ 0,00"></span><span class="calor-celula calor-1" style="--i: 7" title="Qua 14h: R$ 81,00"></span><span class="calor-celula calor-1" style="--i: 8" title="Qua 15h: R$ 18,00"></span><span class="calor-celula calor-1" style="--i: 9" title="Qua 16h: R$ 142,60"></span><span class="calor-celula calor-1" style="--i: 10" title="Qua 17h: R$ 378,40"></span><span class="calor-celula calor-1" style="--i: 11" title="Qua 18h: R$ 34,20"></span><span class="calor-celula calor-1" style="--i: 12" title="Qua 19h: R$ 371,00"></span><span class="calor-celula calor-1" style="--i: 13" title="Qua 20h: R$ 477,40"></span><span class="calor-celula calor-1" style="--i: 14" title="Qua 21h: R$ 210,80"></span><span class="calor-celula calor-0" style="--i: 15" title="Qua 22h: R$ 0,00"></span></div>
+          
+          <div class="calor-linha"><span class="calor-dia">Qui</span><span class="calor-celula calor-0" style="--i: 3" title="Qui 09h: R$ 0,00"></span><span class="calor-celula calor-1" style="--i: 4" title="Qui 10h: R$ 224,70"></span><span class="calor-celula calor-0" style="--i: 5" title="Qui 11h: R$ 0,00"></span><span class="calor-celula calor-1" style="--i: 6" title="Qui 12h: R$ 99,80"></span><span class="calor-celula calor-0" style="--i: 7" title="Qui 13h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 8" title="Qui 14h: R$ 0,00"></span><span class="calor-celula calor-1" style="--i: 9" title="Qui 15h: R$ 32,00"></span><span class="calor-celula calor-1" style="--i: 10" title="Qui 16h: R$ 234,60"></span><span class="calor-celula calor-1" style="--i: 11" title="Qui 17h: R$ 255,20"></span><span class="calor-celula calor-1" style="--i: 12" title="Qui 18h: R$ 364,90"></span><span class="calor-celula calor-1" style="--i: 13" title="Qui 19h: R$ 225,00"></span><span class="calor-celula calor-1" style="--i: 14" title="Qui 20h: R$ 315,90"></span><span class="calor-celula calor-0" style="--i: 15" title="Qui 21h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 16" title="Qui 22h: R$ 0,00"></span></div>
+          
+          <div class="calor-linha"><span class="calor-dia">Sex</span><span class="calor-celula calor-1" style="--i: 4" title="Sex 09h: R$ 259,80"></span><span class="calor-celula calor-1" style="--i: 5" title="Sex 10h: R$ 479,70"></span><span class="calor-celula calor-1" style="--i: 6" title="Sex 11h: R$ 224,10"></span><span class="calor-celula calor-1" style="--i: 7" title="Sex 12h: R$ 212,90"></span><span class="calor-celula calor-1" style="--i: 8" title="Sex 13h: R$ 148,10"></span><span class="calor-celula calor-1" style="--i: 9" title="Sex 14h: R$ 263,70"></span><span class="calor-celula calor-0" style="--i: 10" title="Sex 15h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 11" title="Sex 16h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 12" title="Sex 17h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 13" title="Sex 18h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 14" title="Sex 19h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 15" title="Sex 20h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 16" title="Sex 21h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 17" title="Sex 22h: R$ 0,00"></span></div>
+          
+          <div class="calor-linha"><span class="calor-dia">Sáb</span><span class="calor-celula calor-0" style="--i: 5" title="Sáb 09h: R$ 0,00"></span><span class="calor-celula calor-1" style="--i: 6" title="Sáb 10h: R$ 121,70"></span><span class="calor-celula calor-1" style="--i: 7" title="Sáb 11h: R$ 105,50"></span><span class="calor-celula calor-1" style="--i: 8" title="Sáb 12h: R$ 70,60"></span><span class="calor-celula calor-0" style="--i: 9" title="Sáb 13h: R$ 0,00"></span><span class="calor-celula calor-1" style="--i: 10" title="Sáb 14h: R$ 118,70"></span><span class="calor-celula calor-1" style="--i: 11" title="Sáb 15h: R$ 14,90"></span><span class="calor-celula calor-1" style="--i: 12" title="Sáb 16h: R$ 483,90"></span><span class="calor-celula calor-0" style="--i: 13" title="Sáb 17h: R$ 0,00"></span><span class="calor-celula calor-4" style="--i: 14" title="Sáb 18h: R$ 1.243,10"></span><span class="calor-celula calor-1" style="--i: 15" title="Sáb 19h: R$ 195,30"></span><span class="calor-celula calor-2" style="--i: 16" title="Sáb 20h: R$ 735,10"></span><span class="calor-celula calor-3" style="--i: 17" title="Sáb 21h: R$ 781,80"></span><span class="calor-celula calor-1" style="--i: 18" title="Sáb 22h: R$ 131,60"></span></div>
+          
+          <div class="calor-linha"><span class="calor-dia">Dom</span><span class="calor-celula calor-0" style="--i: 6" title="Dom 09h: R$ 0,00"></span><span class="calor-celula calor-1" style="--i: 7" title="Dom 10h: R$ 49,90"></span><span class="calor-celula calor-1" style="--i: 8" title="Dom 11h: R$ 483,20"></span><span class="calor-celula calor-1" style="--i: 9" title="Dom 12h: R$ 469,10"></span><span class="calor-celula calor-1" style="--i: 10" title="Dom 13h: R$ 376,70"></span><span class="calor-celula calor-1" style="--i: 11" title="Dom 14h: R$ 267,80"></span><span class="calor-celula calor-1" style="--i: 12" title="Dom 15h: R$ 367,50"></span><span class="calor-celula calor-1" style="--i: 13" title="Dom 16h: R$ 20,60"></span><span class="calor-celula calor-1" style="--i: 14" title="Dom 17h: R$ 14,00"></span><span class="calor-celula calor-1" style="--i: 15" title="Dom 18h: R$ 48,00"></span><span class="calor-celula calor-0" style="--i: 16" title="Dom 19h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 17" title="Dom 20h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 18" title="Dom 21h: R$ 0,00"></span><span class="calor-celula calor-0" style="--i: 19" title="Dom 22h: R$ 0,00"></span></div>
+          
+          
+          <div class="calor-legenda" aria-label="Quanto vale cada cor, por hora">
+            <span class="calor-faixa"><i class="calor-0"></i>R$ 0</span><span class="calor-faixa"><i class="calor-1"></i>até R$ 497</span><span class="calor-faixa"><i class="calor-2"></i>R$ 497 a R$ 746</span><span class="calor-faixa"><i class="calor-3"></i>R$ 746 a R$ 1.057</span><span class="calor-faixa"><i class="calor-4"></i>acima de R$ 1.057</span>
+          </div>
+          
+        </div>
+      </div>
+      
+      <p class="calor-detalhe muted small" id="calor-detalhe" aria-live="polite"></p>
+    </section>
+
+    <div class="rl-lateral">
+      <section class="cartao rl-bloco" aria-labelledby="titulo-top">
+        <h2 id="titulo-top">Mais vendidos</h2>
+        
+        <div class="rl-top">
+          <div class="rl-top-linha"><span class="rl-forte rl-top-nome">Fardo Heineken Lata 350ml c/ 12 un</span><span><strong>R$ 2.698,60</strong> <span class="muted">· 37 un.</span></span></div>
+          <div class="barra fina"><span style="width: 100.0%; --i: 0"></span></div>
+        </div>
+        
+        <div class="rl-top">
+          <div class="rl-top-linha"><span class="rl-forte rl-top-nome">Fardo Brahma Duplo Malte 350ml c/ 12 un</span><span><strong>R$ 1.197,60</strong> <span class="muted">· 24 un.</span></span></div>
+          <div class="barra fina"><span style="width: 44.37856666419625%; --i: 1"></span></div>
+        </div>
+        
+        <div class="rl-top">
+          <div class="rl-top-linha"><span class="rl-forte rl-top-nome">Coca-Cola Original PET 2L</span><span><strong>R$ 880,60</strong> <span class="muted">· 74 un.</span></span></div>
+          <div class="barra fina"><span style="width: 32.631734973690065%; --i: 2"></span></div>
+        </div>
+        
+        <div class="rl-top">
+          <div class="rl-top-linha"><span class="rl-forte rl-top-nome">Coca-Cola Sem Açúcar PET 2L</span><span><strong>R$ 690,20</strong> <span class="muted">· 58 un.</span></span></div>
+          <div class="barra fina"><span style="width: 25.57622470910843%; --i: 3"></span></div>
+        </div>
+        
+        <div class="rl-top">
+          <div class="rl-top-linha"><span class="rl-forte rl-top-nome">Fardo Skol Pilsen Lata 350ml c/ 12 un</span><span><strong>R$ 673,50</strong> <span class="muted">· 15 un.</span></span></div>
+          <div class="barra fina"><span style="width: 24.95738531090195%; --i: 4"></span></div>
+        </div>
+        
+      </section>
+
+      <section class="cartao rl-bloco" aria-labelledby="titulo-formas">
+        <h2 id="titulo-formas">Por forma de pagamento</h2>
+        
+        <div class="rl-empilhada" role="img" aria-label="Débito 31%, Pix 29%, Crédito 16%, Dinheiro 13%, Confiança 12%">
+          <span style="flex: 31.234792981219545; background: #6B6355"></span><span style="flex: 29.065314781052816; background: #16130E"></span><span style="flex: 15.523189221061765; background: #E3CF94"></span><span style="flex: 12.519400597775624; background: #C9A13B"></span><span style="flex: 11.657302418890252; background: #C0574F"></span>
+        </div>
+        <div class="rl-legenda">
+          <span><i style="background: #6B6355"></i>Débito <strong>31%</strong></span><span><i style="background: #16130E"></i>Pix <strong>29%</strong></span><span><i style="background: #E3CF94"></i>Crédito <strong>16%</strong></span><span><i style="background: #C9A13B"></i>Dinheiro <strong>13%</strong></span><span><i style="background: #C0574F"></i>Confiança <strong>12%</strong></span>
+        </div>
+        
+      </section>
+    </div>
+  </div>
+
+  <section class="cartao rl-vendas" aria-labelledby="titulo-vendas" data-tour-tela data-tour-titulo="Vendas do período"
+           data-tour-text="Cada venda com o cupom. No ⋯ o administrador pode cancelar uma venda finalizada com a senha dele (o estoque volta).">
+    <div class="rl-vendas-cabeca">
+      <h2 id="titulo-vendas">Vendas do período <span class="rl-contagem">168</span></h2>
+      <form method="get" action="/relatorio" class="rl-busca">
+        <input type="hidden" name="periodo" value="7d">
+        <input type="search" name="q" value="" placeholder="Buscar por nº, cliente ou operador" aria-label="Buscar venda">
+      </form>
+    </div>
+    <div class="tabela-rolagem">
+      <table class="tabela rl-tabela">
+        <thead><tr><th>Nº</th><th>Data</th><th>Cliente</th><th>Operador</th><th>Pagamento</th><th class="num">Total</th><th class="rl-acao"><span class="so-leitor">Ações</span></th></tr></thead>
+        <tbody>
+          
+          <tr>
+            <td class="rl-forte">1547</td>
+            <td class="muted">06/11 14:27</td>
+            <td><span class="truncar" tabindex="0" title="Juliana Costa">Juliana Costa</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Dinheiro</td>
+            <td class="num"><strong>R$ 66,00</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1547/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1547">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1547/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1547 (R$ 66,00)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1549</td>
+            <td class="muted">06/11 14:18</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Pix</td>
+            <td class="num"><strong>R$ 197,70</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1549/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1549">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1549/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1549 (R$ 197,70)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1556</td>
+            <td class="muted">06/11 13:32</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Pix</td>
+            <td class="num"><strong>R$ 26,80</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1556/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1556">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1556/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1556 (R$ 26,80)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1551</td>
+            <td class="muted">06/11 13:28</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Pix</td>
+            <td class="num"><strong>R$ 47,60</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1551/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1551">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1551/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1551 (R$ 47,60)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1560</td>
+            <td class="muted">06/11 13:08</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Stone Débito</td>
+            <td class="num"><strong>R$ 73,70</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1560/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1560">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1560/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1560 (R$ 73,70)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1545</td>
+            <td class="muted">06/11 12:16</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Cielo Crédito</td>
+            <td class="num"><strong>R$ 71,90</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1545/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1545">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1545/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1545 (R$ 71,90)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1552</td>
+            <td class="muted">06/11 12:11</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Pix</td>
+            <td class="num"><strong>R$ 141,00</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1552/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1552">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1552/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1552 (R$ 141,00)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1554</td>
+            <td class="muted">06/11 11:35</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Pix</td>
+            <td class="num"><strong>R$ 165,60</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1554/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1554">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1554/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1554 (R$ 165,60)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1546</td>
+            <td class="muted">06/11 11:15</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Pix</td>
+            <td class="num"><strong>R$ 43,60</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1546/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1546">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1546/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1546 (R$ 43,60)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1555</td>
+            <td class="muted">06/11 11:11</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Cielo Crédito</td>
+            <td class="num"><strong>R$ 14,90</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1555/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1555">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1555/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1555 (R$ 14,90)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1557</td>
+            <td class="muted">06/11 10:53</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Cielo Débito</td>
+            <td class="num"><strong>R$ 104,40</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1557/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1557">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1557/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1557 (R$ 104,40)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1558</td>
+            <td class="muted">06/11 10:50</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Cielo Débito</td>
+            <td class="num"><strong>R$ 284,80</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1558/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1558">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1558/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1558 (R$ 284,80)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1548</td>
+            <td class="muted">06/11 10:20</td>
+            <td><span class="truncar" tabindex="0" title="Quadra Society Arena Gol">Quadra Society Arena Gol</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Stone Débito</td>
+            <td class="num"><strong>R$ 90,50</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1548/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1548">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1548/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1548 (R$ 90,50)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1550</td>
+            <td class="muted">06/11 09:36</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Stone Débito</td>
+            <td class="num"><strong>R$ 96,80</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1550/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1550">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1550/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1550 (R$ 96,80)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1559</td>
+            <td class="muted">06/11 09:34</td>
+            <td><span class="truncar" tabindex="0" title="Juliana Costa">Juliana Costa</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Pix</td>
+            <td class="num"><strong>R$ 12,00</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1559/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1559">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1559/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1559 (R$ 12,00)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1553</td>
+            <td class="muted">06/11 09:01</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Carlos Eduardo (Proprietário)</td>
+            <td>Pix</td>
+            <td class="num"><strong>R$ 151,00</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1553/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1553">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1553/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1553 (R$ 151,00)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1524</td>
+            <td class="muted">05/11 20:55</td>
+            <td><span class="truncar" tabindex="0" title="Henrique Moraes (Morador Qd. 12)">Henrique Moraes (Morador Qd. 12)</span></td>
+            <td class="muted">Lucas Mendes</td>
+            <td>Pix</td>
+            <td class="num"><strong>R$ 87,90</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1524/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1524">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1524/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1524 (R$ 87,90)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1531</td>
+            <td class="muted">05/11 20:45</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Lucas Mendes</td>
+            <td>Cielo Débito</td>
+            <td class="num"><strong>R$ 59,40</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1531/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1531">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1531/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1531 (R$ 59,40)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1539</td>
+            <td class="muted">05/11 20:38</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Lucas Mendes</td>
+            <td>Pix</td>
+            <td class="num"><strong>R$ 141,60</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1539/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1539">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1539/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1539 (R$ 141,60)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte">1538</td>
+            <td class="muted">05/11 20:09</td>
+            <td><span class="truncar" tabindex="0" title="Avulso">Avulso</span></td>
+            <td class="muted">Lucas Mendes</td>
+            <td>Stone Débito</td>
+            <td class="num"><strong>R$ 27,00</strong></td>
+            <td class="num rl-acao">
+              <a class="btn-neutro btn-baixo" href="/venda/1538/cupom" target="_blank">Cupom</a>
+              
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Mais ações da venda 1538">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Cancelar venda</summary>
+                    <form method="post" action="/venda/1538/cancelar-finalizada"
+                          data-confirm="Cancelar a venda #1538 (R$ 27,00)? Isso devolve o estoque e estorna qualquer cashback ligado a ela. Ação registrada em log."
+                          data-confirm-titulo="Cancelar venda finalizada">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar cancelamento</button>
+                    </form>
+                  </details>
+                </span>
+              </span>
+              
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+    
+
+<nav class="paginacao" aria-label="Páginas">
+  <span class="paginacao-total muted small">Mostrando 1–20 de 168</span>
+  
+  <span class="paginacao-links">
+    
+    
+      <span class="btn mini primary" aria-current="page">1</span>
+      
+    
+      <a class="btn mini" href="/relatorio?periodo=7d&amp;pagina=2" >2</a>
+    
+      <a class="btn mini" href="/relatorio?periodo=7d&amp;pagina=3" >3</a>
+    
+      <span class="paginacao-reticencias">…</span>
+      
+    
+      <a class="btn mini" href="/relatorio?periodo=7d&amp;pagina=9" >9</a>
+    
+    <a class="btn mini" href="/relatorio?periodo=7d&amp;pagina=2" >Próxima ›</a>
+  </span>
+  
+</nav>
+
+    <p class="muted small rl-nota">Cancelar venda fica no menu ⋯ e pede sua senha e uma confirmação.</p>
+  </section>
+
+  
+</div>
+
+        </main>
+        
+        <footer class="rodape">
+          <a href="https://optimati.com.br" target="_blank" rel="noopener">Desenvolvido por Óptima Tecnologia</a>
+        </footer>
+        
+      </div>
+    </div>
+
+    
+    <!-- Caixa de confirmação do próprio sistema (substitui o confirm() do navegador) -->
+    <div id="modal-confirmar" class="modal" hidden>
+      <div class="modal-box">
+        <h2 id="modal-confirmar-titulo">Confirmação</h2>
+        <p id="modal-confirmar-msg" class="muted"></p>
+        <div class="modal-acoes">
+          <button type="button" class="btn" id="modal-confirmar-nao">Não</button>
+          <button type="button" class="btn danger" id="modal-confirmar-sim">Sim, confirmar</button>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <script>
+      // Destaca o item do menu correspondente à página atual.
+      (function () {
+        var path = location.pathname;
+        var links = document.querySelectorAll('.side-nav a');
+        var melhor = null;
+        var tamanhoMelhor = 0;
+        links.forEach(function (a) {
+          // data-ativo-em: o item também fica ativo nessas rotas (ex.: "Sistema" em /logs).
+          var rotas = [a.getAttribute('href')].concat((a.dataset.ativoEm || '').split(',').filter(Boolean));
+          rotas.forEach(function (href) {
+            if (path === href || (href !== '/' && path.indexOf(href) === 0)) {
+              if (!melhor || href.length > tamanhoMelhor) { melhor = a; tamanhoMelhor = href.length; }
+            }
+          });
+        });
+        if (melhor) {
+          melhor.classList.add('ativo');
+          // Sem isto, cada navegação recarrega a página e a barra lateral
+          // (que rola por dentro, .side-nav) volta pro topo sozinha — se o
+          // item ativo estiver mais embaixo, parece que "a barra subiu"
+          // mesmo sem ninguém ter mexido nela. Mantém sempre visível, na
+          // mesma posição relativa, sem animação (block:"nearest" só move
+          // se precisar).
+          if (!window.__menuRolagemRestaurada) melhor.scrollIntoView({ block: 'nearest' });
+        }
+      })();
+      (function () {
+        var t = document.getElementById('side-toggle');
+        if (!t) return;
+        // O ícone (‹ › ☰ ✕) é trocado pelo CSS conforme o estado; aqui só o title e o aria-label.
+        function ajusta() {
+          var rotulo;
+          if (window.innerWidth <= 900) {
+            rotulo = document.documentElement.classList.contains('sidebar-mobile-open') ? 'Fechar menu' : 'Abrir menu';
+          } else {
+            rotulo = document.documentElement.classList.contains('sidebar-collapsed') ? 'Expandir menu' : 'Recolher menu';
+          }
+          t.title = rotulo;
+          t.setAttribute('aria-label', rotulo);
+        }
+        t.addEventListener('click', function () {
+          if (window.innerWidth <= 900) {
+            document.documentElement.classList.toggle('sidebar-mobile-open');
+          } else {
+            var col = document.documentElement.classList.toggle('sidebar-collapsed');
+            try { localStorage.setItem('sidebarColapsado', col ? '1' : '0'); } catch (e) {}
+          }
+          ajusta();
+        });
+        window.addEventListener('resize', ajusta);
+        ajusta();
+        
+        // No celular, clica em um link do menu e a gaveta se fecha automaticamente.
+        var sideNav = document.querySelector('.side-nav');
+        if (sideNav) sideNav.addEventListener('click', function(e) {
+          if (e.target.closest('a') && window.innerWidth <= 900) {
+            document.documentElement.classList.remove('sidebar-mobile-open');
+            ajusta();
+          }
+        });
+      })();
+      // Balão de confirmação (ex.: "produto cadastrado"): some sozinho depois de um tempo.
+      (function () {
+        document.querySelectorAll('.toast').forEach(function (el) {
+          setTimeout(function () { el.classList.add('toast-saindo'); }, 3000);
+          setTimeout(function () { el.remove(); }, 3400);
+        });
+      })();
+      // Grupo "Estoque" no menu: lembra se o usuário deixou aberto ou fechado.
+      (function () {
+        var grupo = document.getElementById('grupo-estoque');
+        if (!grupo) return;
+        try { if (localStorage.getItem('menuEstoqueAberto') === '1') grupo.open = true; } catch (e) {}
+        grupo.addEventListener('toggle', function () {
+          try { localStorage.setItem('menuEstoqueAberto', grupo.open ? '1' : '0'); } catch (e) {}
+        });
+      })();
+      // Grupo "Configurações" no menu: mesmo esquema do grupo Estoque acima.
+      (function () {
+        var grupo = document.getElementById('grupo-configuracoes');
+        if (!grupo) return;
+        try { if (localStorage.getItem('menuConfiguracoesAberto') === '1') grupo.open = true; } catch (e) {}
+        // Último grupo do menu: ao abrir por clique, rola o menu até as opções aparecerem inteiras
+        // (no celular elas ficavam abaixo da tela). Só no clique: abrir pelo localStorage não rola.
+        var clicado = false;
+        grupo.querySelector('summary').addEventListener('click', function () { clicado = true; });
+        grupo.addEventListener('toggle', function () {
+          try { localStorage.setItem('menuConfiguracoesAberto', grupo.open ? '1' : '0'); } catch (e) {}
+          if (grupo.open && clicado) grupo.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          clicado = false;
+        });
+      })();
+      // Ctrl+F foca a busca da tela (Produtos, Clientes, Fornecedores, Logs) em vez
+      // do buscador nativo do navegador — só nas telas que têm esse campo; nas
+      // demais o Ctrl+F cai pro comportamento normal do navegador.
+      (function () {
+        document.addEventListener('keydown', function (e) {
+          if (!(e.ctrlKey && e.key.toLowerCase() === 'f')) return;
+          var campo = document.querySelector('input[name="q"]');
+          if (!campo) return;
+          e.preventDefault();
+          campo.focus();
+          campo.select();
+        });
+      })();
+      // F1: vai pra Frente de Caixa (Vendas) de qualquer tela do sistema —
+      // mesmo espírito do F8 já existente dentro da venda (que vai pro Caixa).
+      (function () {
+        document.addEventListener('keydown', function (e) {
+          if (e.key !== 'F1') return;
+          e.preventDefault();
+          if (location.pathname !== '/venda') location.href = '/venda';
+        });
+      })();
+      // Alternar tema claro/escuro
+      (function () {
+        var b = document.getElementById('btn-tema');
+        if (!b) return;
+        function atual() {
+          var a = document.documentElement.getAttribute('data-theme');
+          if (a) return a;
+          return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        b.addEventListener('click', function () {
+          var novo = atual() === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', novo);
+          try { localStorage.setItem('tema', novo); } catch (e) {}
+        });
+      })();
+      // Menu do usuário (rodapé do menu lateral): Minha conta, Tema e Sair.
+      // position:fixed como o painel do sino (a .sidebar tem overflow:hidden).
+      (function () {
+        var btn = document.getElementById('btn-usuario');
+        var menu = document.getElementById('usuario-menu');
+        if (!btn || !menu) return;
+        function itens() { return Array.prototype.slice.call(menu.querySelectorAll('[role="menuitem"]')); }
+        function posicionar() {
+          var r = btn.getBoundingClientRect();
+          menu.style.top = 'auto';
+          menu.style.right = 'auto';
+          if (window.innerWidth > 900 && document.documentElement.classList.contains('sidebar-collapsed')) {
+            // Recolhido: à direita do avatar, alinhado por baixo.
+            menu.style.left = (document.getElementById('sidebar').getBoundingClientRect().right + 8) + 'px';
+            menu.style.bottom = (window.innerHeight - r.bottom) + 'px';
+          } else {
+            // Expandido e gaveta do celular: para cima, acima do bloco do usuário.
+            menu.style.left = r.left + 'px';
+            menu.style.bottom = (window.innerHeight - r.top + 6) + 'px';
+          }
+        }
+        function abrir() {
+          posicionar();
+          menu.hidden = false;
+          btn.setAttribute('aria-expanded', 'true');
+          itens()[0].focus();
+        }
+        function fechar(devolverFoco) {
+          if (menu.hidden) return;
+          menu.hidden = true;
+          btn.setAttribute('aria-expanded', 'false');
+          if (devolverFoco) btn.focus();
+        }
+        btn.addEventListener('click', function () { if (menu.hidden) abrir(); else fechar(false); });
+        // Seta para cima/baixo no próprio botão também abre (padrão de botão de menu).
+        btn.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); abrir(); }
+        });
+        menu.addEventListener('keydown', function (e) {
+          var lista = itens();
+          var i = lista.indexOf(document.activeElement);
+          if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); fechar(true); }
+          else if (e.key === 'ArrowDown') { e.preventDefault(); lista[(i + 1) % lista.length].focus(); }
+          else if (e.key === 'ArrowUp') { e.preventDefault(); lista[(i - 1 + lista.length) % lista.length].focus(); }
+          else if (e.key === 'Home') { e.preventDefault(); lista[0].focus(); }
+          else if (e.key === 'End') { e.preventDefault(); lista[lista.length - 1].focus(); }
+          else if (e.key === 'Tab') fechar(false);
+        });
+        // Clique fora fecha. Na fase de captura: o sino para a propagação do clique dele.
+        document.addEventListener('click', function (e) {
+          if (!menu.hidden && !menu.contains(e.target) && !btn.contains(e.target)) fechar(false);
+        }, true);
+        // Ao navegar (Minha conta, Sair) e ao mudar o tamanho da janela/estado do menu.
+        menu.addEventListener('click', function (e) { if (e.target.closest('a')) fechar(false); });
+        window.addEventListener('pagehide', function () { fechar(false); });
+        // Só a largura conta: no celular a barra de endereço some/aparece e muda a altura.
+        var largura = window.innerWidth;
+        window.addEventListener('resize', function () {
+          if (window.innerWidth !== largura) { largura = window.innerWidth; fechar(false); }
+        });
+        document.getElementById('side-toggle').addEventListener('click', function () { fechar(false); });
+      })();
+      // Painel de notificações (sino) — position:fixed, posição calculada ao abrir
+      // (o painel absolute ficaria cortado pelo overflow:hidden da .sidebar).
+      (function () {
+        var btn = document.getElementById('btn-notificacoes');
+        var painel = document.getElementById('sino-painel');
+        if (!btn || !painel) return;
+        function posicionar() {
+          var r = btn.getBoundingClientRect();
+          if (window.innerWidth <= 900) {
+            // Menu em gaveta: alinhado à direita da tela; abaixo do sino na barra do topo,
+            // acima dele no rodapé da gaveta aberta.
+            painel.style.left = 'auto';
+            painel.style.right = '8px';
+            var emCima = r.top < window.innerHeight / 2;
+            painel.style.top = emCima ? (r.bottom + 8) + 'px' : 'auto';
+            painel.style.bottom = emCima ? 'auto' : (window.innerHeight - r.top + 8) + 'px';
+            return;
+          }
+          // Computador: ao lado da barra (não do botão — recolhido, o sino fica no meio dela).
+          var lado = document.getElementById('sidebar').getBoundingClientRect().right;
+          painel.style.right = '';
+          painel.style.top = '';
+          painel.style.left = (lado + 8) + 'px';
+          painel.style.bottom = (window.innerHeight - r.bottom) + 'px';
+        }
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (painel.hidden) posicionar();
+          painel.hidden = !painel.hidden;
+        });
+        document.addEventListener('click', function (e) {
+          // Alvo que já saiu da página (ex.: notificação recém-dispensada) não conta como
+          // "clique fora" — o balão continua aberto (spec 012, N1).
+          if (!e.target.isConnected) return;
+          if (!painel.hidden && !painel.contains(e.target) && e.target !== btn) painel.hidden = true;
+        });
+      })();
+      // Notificações dispensáveis: guarda no localStorage quais "chaves" (versão
+      // do conteúdo, ver notificacoes.py) já foram vistas — o item some pro
+      // usuário e volta a aparecer sozinho quando a chave mudar (ex.: um produto
+      // novo entra em estoque baixo, um caixa fecha e abre de novo, etc.).
+      (function () {
+        var painel = document.getElementById('sino-painel');
+        if (!painel) return;
+
+        function dispensados() {
+          try { return JSON.parse(localStorage.getItem('sinoDispensados') || '[]'); }
+          catch (e) { return []; }
+        }
+
+        function aplicarDispensados() {
+          var vistos = dispensados();
+          painel.querySelectorAll('.sino-item-dispensavel').forEach(function (el) {
+            if (vistos.indexOf(el.dataset.chave) !== -1) el.remove();
+          });
+          // Só os filhos diretos: o aviso dispensável é um <div class="sino-item"> com um
+          // <a class="sino-item"> dentro — contar os dois dava "2" no sino com 1 aviso.
+          var visiveis = painel.querySelectorAll(':scope > .sino-item').length;
+          // Busca de novo a cada vez (não guarda em variável no topo): o
+          // hx-swap-oob="true" do sino troca o elemento inteiro (outerHTML) a
+          // cada atualização de /notificacoes, então uma referência guardada
+          // antes vira um nó desconectado do DOM — escrever nela não muda mais
+          // nada na tela (era exatamente por isso que o número não descia ao
+          // dispensar um aviso).
+          var contador = document.getElementById('sino-contador');
+          if (contador) {
+            contador.textContent = visiveis;
+            contador.hidden = visiveis === 0;
+          }
+          if (!visiveis && !painel.querySelector('.sino-vazio')) {
+            painel.innerHTML = '<p class="sino-vazio muted small">Sem avisos por enquanto.</p>';
+          }
+        }
+
+        painel.addEventListener('click', function (e) {
+          var b = e.target.closest('[data-dispensar]');
+          if (!b) return;
+          e.stopPropagation();
+          var chave = b.dataset.dispensar;
+          var vistos = dispensados();
+          if (vistos.indexOf(chave) === -1) {
+            vistos.push(chave);
+            try { localStorage.setItem('sinoDispensados', JSON.stringify(vistos)); } catch (e) {}
+          }
+          var item = b.closest('.sino-item-dispensavel');
+          if (item) item.remove();
+          aplicarDispensados();
+        });
+
+        document.body.addEventListener('htmx:afterSwap', function (evt) {
+          if (evt.detail.target === painel) aplicarDispensados();
+        });
+        aplicarDispensados();
+      })();
+    </script>
+    <script src="./static/confirmar.js"></script>
+    <script src="./static/mascaras.js"></script>
+    <script src="./static/tabela-menu.js"></script>
+    <script src="./static/arquivo.js"></script>
+    <script src="./static/tabela-empilha.js"></script>
+    <script src="./static/menu-fora.js"></script>
+    <script src="./static/tour.js"></script>
+    <script src="./static/busca-sugestao.js"></script>
+    
+    
+<script>
+document.addEventListener("click", function (e) {
+  var c = e.target.closest && e.target.closest(".calor-celula");
+  var saida = document.getElementById("calor-detalhe");
+  if (!c || !saida) return;
+  document.querySelectorAll(".calor-celula.tocada").forEach(function (x) { x.classList.remove("tocada"); });
+  c.classList.add("tocada");
+  saida.textContent = c.title;
+});
+</script>
+
+<script src="./static/vendor/chart-4.5.1.umd.min.js"></script>
+<script src="./static/graficos-tema.js"></script>
+<script>
+(function () {
+  function brl(v) {
+    return "R$ " + Number(v || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function curto(v) {
+    if (v >= 1000) return (v / 1000).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    return String(Math.round(v));
+  }
+  var barras = [{"fim_semana": true, "rotulo": "31", "titulo": "s\u00e1b 31/10", "valor": 4002.2}, {"fim_semana": true, "rotulo": "01", "titulo": "dom 01/11", "valor": 2096.8}, {"fim_semana": false, "rotulo": "02", "titulo": "seg 02/11", "valor": 1883.3}, {"fim_semana": false, "rotulo": "03", "titulo": "ter 03/11", "valor": 1440.1}, {"fim_semana": false, "rotulo": "04", "titulo": "qua 04/11", "valor": 1991.9}, {"fim_semana": false, "rotulo": "05", "titulo": "qui 05/11", "valor": 1752.1}, {"fim_semana": false, "rotulo": "06", "titulo": "sex 06/11", "valor": 1588.3}];
+  var melhor = 0;
+  var el = document.getElementById("grafico-por-dia");
+  if (!el || !barras.length) return;
+  var estilo = getComputedStyle(document.documentElement);
+  var corMuted = estilo.getPropertyValue("--muted-2").trim() || "#8A8172";
+  var corTexto = estilo.getPropertyValue("--ink").trim() || "#1E1B16";
+  var corBarra = "#0D6EFD", corMelhor = "#F97316";
+  var estreito = window.innerWidth < 640;  // celular: menos números no eixo, para não ficarem colados
+
+  // Valor escrito em cima de cada barra (some quando são muitas, para não encavalar).
+  var rotulos = {
+    id: "rotulosPorDia",
+    afterDatasetsDraw: function (chart) {
+      if (barras.length > (estreito ? 12 : 31)) return;
+      var ctx = chart.ctx;
+      ctx.save();
+      ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.font = "700 10px Manrope, system-ui, sans-serif"; ctx.fillStyle = corMuted;
+      chart.getDatasetMeta(0).data.forEach(function (b, i) { if (barras[i].valor > 0) ctx.fillText(curto(barras[i].valor), b.x, b.y - 3); });
+      ctx.restore();
+    },
+  };
+
+  function criar() {
+    new Chart(el, {
+      type: "bar",
+      data: {
+        labels: barras.map(function (b) { return b.rotulo; }),
+        datasets: [{
+          data: barras.map(function (b) { return b.valor; }), borderRadius: { topLeft: 6, topRight: 6 }, maxBarThickness: 36,
+          backgroundColor: CORES_GRAFICO.degrade(function (i) { return i === melhor ? corMelhor : corBarra; }),
+        }],
+      },
+      plugins: [rotulos],
+      options: {
+        maintainAspectRatio: false,  // a altura é a do quadro (.rl-grafico), não proporcional à largura
+        layout: { padding: { top: 18 } },
+        animation: CORES_GRAFICO.animacao(),
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: {
+            title: function (it) { return barras[it[0].dataIndex].titulo; },
+            label: function (ctx) { return brl(ctx.parsed.y); },
+          } },
+        },
+        // Escala automática: o topo do eixo acompanha o maior valor do período.
+        scales: {
+          x: { grid: { display: false }, ticks: { color: corMuted, autoSkip: estreito, maxTicksLimit: estreito ? 7 : undefined, maxRotation: 0,
+               font: function (c) { var b = barras[c.index]; return { size: estreito ? 10 : 11, weight: b && b.fim_semana ? 800 : 600 }; },
+               color: function (c) { var b = barras[c.index]; return b && b.fim_semana ? corTexto : corMuted; } } },
+          y: { display: false, beginAtZero: true },
+        },
+      },
+    });
+  }
+  if ("IntersectionObserver" in window) {
+    var obs = new IntersectionObserver(function (e) { if (e.some(function (x) { return x.isIntersecting; })) { obs.disconnect(); criar(); } }, { threshold: 0.2 });
+    obs.observe(el);
+  } else { criar(); }
+})();
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SUA MARCA · Sistema PDV e Gestão com Inteligência Artificial</title>
+  <link rel="icon" href="./static/img/logo-marca.svg">
+  <link rel="stylesheet" href="./static/style.css">
+  <style>
+    :root {
+      --lp-bg: #0B1120;
+      --lp-card: #1E293B;
+      --lp-card-hover: #243248;
+      --lp-border: rgba(255, 255, 255, 0.08);
+      --lp-border-focus: rgba(13, 110, 253, 0.4);
+      --lp-blue: #0D6EFD;
+      --lp-blue-light: #60A5FA;
+      --lp-orange: #F97316;
+      --lp-text: #F8FAFC;
+      --lp-muted: #94A3B8;
+    }
+    body.lp-body {
+      margin: 0;
+      background: 
+        radial-gradient(circle at 15% 15%, rgba(13, 110, 253, 0.18), transparent 35%),
+        radial-gradient(circle at 85% 25%, rgba(249, 115, 22, 0.12), transparent 30%),
+        var(--lp-bg);
+      color: var(--lp-text);
+      font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .lp-nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 17, 32, 0.8);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--lp-border);
+    }
+    .lp-nav {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .lp-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--lp-text);
+    }
+    .lp-brand img {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    .lp-brand-title {
+      font-weight: 800;
+      font-size: 17px;
+      letter-spacing: 0.5px;
+      display: block;
+    }
+    .lp-brand-sub {
+      font-size: 11.5px;
+      color: var(--lp-blue-light);
+      display: block;
+    }
+    .lp-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .lp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      transition: all 0.18s ease;
+      cursor: pointer;
+    }
+    .lp-btn-blue {
+      background: linear-gradient(135deg, #0D6EFD 0%, #0052CC 100%);
+      color: #FFFFFF;
+      box-shadow: 0 4px 16px rgba(13, 110, 253, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .lp-btn-blue:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(13, 110, 253, 0.5);
+    }
+    .lp-btn-orange {
+      background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+      color: #FFFFFF;
+      box-shadow: 0 4px 16px rgba(249, 115, 22, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .lp-btn-orange:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(249, 115, 22, 0.5);
+    }
+    .lp-btn-outline {
+      border: 1px solid var(--lp-border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--lp-text);
+      backdrop-filter: blur(8px);
+    }
+    .lp-btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-1px);
+    }
+
+    /* Hero */
+    .lp-hero-wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 56px 24px 72px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .lp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(13, 110, 253, 0.14);
+      border: 1px solid rgba(13, 110, 253, 0.35);
+      color: var(--lp-blue-light);
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(13, 110, 253, 0.15);
+    }
+    .lp-hero h1 {
+      font-size: clamp(34px, 4.4vw, 54px);
+      line-height: 1.12;
+      margin: 0 0 20px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+    }
+    .lp-hero h1 span.highlight {
+      background: linear-gradient(135deg, #60A5FA 0%, #0D6EFD 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .lp-hero h1 span.orange {
+      background: linear-gradient(135deg, #FB923C 0%, #F97316 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .lp-hero p {
+      font-size: 17.5px;
+      line-height: 1.6;
+      color: var(--lp-muted);
+      margin: 0 0 32px;
+      max-width: 580px;
+    }
+    .lp-cta-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .lp-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .lp-stat strong {
+      display: block;
+      font-size: 26px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+    }
+    .lp-stat span {
+      font-size: 13px;
+      color: var(--lp-muted);
+    }
+
+    /* Showcase card */
+    .lp-showcase {
+      background: linear-gradient(160deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid var(--lp-border);
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      position: relative;
+    }
+    .lp-showcase-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .lp-showcase-pill {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--lp-blue-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .lp-showcase-pill::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10B981;
+      display: inline-block;
+      box-shadow: 0 0 8px #10B981;
+    }
+    .lp-chat-demo {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .lp-msg-user {
+      align-self: flex-end;
+      background: #0D6EFD;
+      color: #FFFFFF;
+      padding: 12px 16px;
+      border-radius: 16px 16px 4px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      max-width: 85%;
+      box-shadow: 0 4px 14px rgba(13, 110, 253, 0.3);
+    }
+    .lp-msg-ai {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 16px 18px;
+      border-radius: 16px 16px 16px 4px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .lp-card-approve {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 12px;
+      background: rgba(13, 110, 253, 0.08);
+      border: 1px solid rgba(13, 110, 253, 0.28);
+    }
+    .lp-card-approve-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: rgba(16, 185, 129, 0.16);
+      color: #34D399;
+      font-weight: 700;
+      font-size: 12.5px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    /* Grid de Módulos */
+    .lp-section-title {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 20px 24px 16px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .lp-section-title h2 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+    .lp-section-title span {
+      color: var(--lp-muted);
+      font-size: 14px;
+    }
+    .lp-grid {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 8px 24px 64px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 20px;
+    }
+    .lp-feature {
+      background: var(--lp-card);
+      border: 1px solid var(--lp-border);
+      border-radius: 18px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .lp-feature::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #0D6EFD, #60A5FA);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .lp-feature:hover {
+      background: var(--lp-card-hover);
+      border-color: rgba(255, 255, 255, 0.16);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+    }
+    .lp-feature:hover::before {
+      opacity: 1;
+    }
+    .lp-feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(13, 110, 253, 0.14);
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      color: var(--lp-blue-light);
+    }
+    .lp-feature h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .lp-feature h3 .seta {
+      color: var(--lp-blue-light);
+      transition: transform 0.18s ease;
+    }
+    .lp-feature:hover h3 .seta {
+      transform: translateX(4px);
+    }
+    .lp-feature p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--lp-muted);
+    }
+
+    /* Footer */
+    .lp-footer {
+      border-top: 1px solid var(--lp-border);
+      padding: 32px 24px;
+      text-align: center;
+      color: var(--lp-muted);
+      font-size: 13.5px;
+      background: rgba(11, 17, 32, 0.6);
+    }
+
+    @media (max-width: 900px) {
+      .lp-hero-wrap { grid-template-columns: 1fr; padding-top: 24px; }
+      .lp-stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="lp-body">
+
+  <div class="lp-nav-wrap">
+    <header class="lp-nav">
+      <a href="./landing.html" class="lp-brand">
+        <img src="./static/img/logo-marca.svg" alt="SUA MARCA">
+        <div>
+          <span class="lp-brand-title">SUA MARCA AQUI</span>
+          <span class="lp-brand-sub">Sistema de Gestão & PDV com Inteligência Artificial</span>
+        </div>
+      </a>
+      <div class="lp-nav-actions">
+        <a href="./login.html" class="lp-btn lp-btn-outline">Tela de Login</a>
+        <a href="./painel.html" class="lp-btn lp-btn-blue">Entrar no Sistema →</a>
+      </div>
+    </header>
+  </div>
+
+  <section class="lp-hero-wrap">
+    <div>
+      <div class="lp-badge">
+        ✦ Demonstração Comercial Online · 60 Dias de Dados
+      </div>
+      <h1>
+        O sistema com a <span class="highlight">sua marca</span> e uma IA que <span class="orange">trabalha pelo dono</span>.
+      </h1>
+      <p>
+        Frente de caixa rápida, controle de estoque inteligente, lucro líquido real diário e um Assistente de Inteligência Artificial que lê indicadores, responde dúvidas financeiras e prepara ações com dupla confirmação humana.
+      </p>
+
+      <div class="lp-cta-row">
+        <a href="./painel.html" class="lp-btn lp-btn-blue" style="font-size: 15px; padding: 12px 24px;">
+          Entrar no Sistema Demo →
+        </a>
+        <a href="./assistente.html" class="lp-btn lp-btn-orange" style="font-size: 15px; padding: 12px 24px;">
+          Testar Assistente de IA ✦
+        </a>
+        <a href="./venda.html" class="lp-btn lp-btn-outline">
+          Frente de Caixa (PDV)
+        </a>
+      </div>
+
+      <div class="lp-stats">
+        <div class="lp-stat">
+          <strong>60 dias</strong>
+          <span>de histórico e vendas simuladas</span>
+        </div>
+        <div class="lp-stat">
+          <strong>32,8%</strong>
+          <span>margem líquida real calculada</span>
+        </div>
+        <div class="lp-stat">
+          <strong>100% White-Label</strong>
+          <span>personalizado com o nome do seu cliente</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card de Demonstração Interativo -->
+    <div class="lp-showcase">
+      <div class="lp-showcase-top">
+        <div class="lp-showcase-pill">Assistente IA Interativo</div>
+        <span style="font-size: 12px; color: var(--lp-muted);">Dupla aprovação do proprietário</span>
+      </div>
+
+      <div class="lp-chat-demo">
+        <div class="lp-msg-user">
+          "Chegaram 15 fardos de Brahma Duplo Malte a R$ 37,90 e 30 pacotes de Gelo 5kg a R$ 6,50 da Ambev"
+        </div>
+
+        <div class="lp-msg-ai">
+          <strong style="color: #60A5FA;">Proposta preparada para o estoque:</strong>
+          <div style="font-size: 12.5px; color: var(--lp-muted); margin-top: 4px;">
+            Fornecedor: Ambev S.A. · Nota Fiscal #51904 · Total R$ 763,50
+          </div>
+
+          <div class="lp-card-approve">
+            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px;">
+              <span>• Brahma Duplo Malte (15 cx / 180 un)</span>
+              <strong>R$ 568,50</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px;">
+              <span>• Gelo Cubo Cristal 5kg (30 un)</span>
+              <strong>R$ 195,00</strong>
+            </div>
+            <div class="lp-card-approve-badge">
+              ✓ Confirmado e aprovado pelo proprietário
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 12.5px; color: var(--lp-muted);">Quer ver respondendo suas perguntas?</span>
+        <a href="./assistente.html" style="font-size: 13px; font-weight: 700; color: #60A5FA; text-decoration: none;">Abrir Chat Completo →</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="lp-section-title">
+    <h2>Módulos do Sistema Prontos para Apresentar</h2>
+    <span>Clique em qualquer cartão para navegar</span>
+  </div>
+
+  <section class="lp-grid">
+    <a href="./painel.html" class="lp-feature">
+      <div class="lp-feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+      </div>
+      <h3>1. Painel & Lucro Real <span class="seta">→</span></h3>
+      <p>Faturamento de hoje, comparativo com a média, 7 dias, mês fechado e cálculo real de margem descontando custo e taxas de cartão.</p>
+    </a>
+
+    <a href="./assistente.html" class="lp-feature">
+      <div class="lp-feature-icon" style="background: rgba(249, 115, 22, 0.14); color: var(--lp-orange);">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+      </div>
+      <h3>2. Assistente IA ao Vivo <span class="seta">→</span></h3>
+      <p>Respostas imediatas sobre estoque crítico, faturamento da semana, destilados parados e propostas interativas de reposição e promoções.</p>
+    </a>
+
+    <a href="./venda.html" class="lp-feature">
+      <div class="lp-feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 2h3l2.5 12.4a2 2 0 0 0 2 1.6h9.6a2 2 0 0 0 2-1.6L22 6H5.2"/></svg>
+      </div>
+      <h3>3. Frente de Caixa (PDV) <span class="seta">→</span></h3>
+      <p>Agilidade no balcão com leitor de código de barras, atalhos de teclado (F1 a F9), pagamento em Pix, dinheiro, cartão e fiado/confiança.</p>
+    </a>
+
+    <a href="./relatorio.html" class="lp-feature">
+      <div class="lp-feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+      </div>
+      <h3>4. Relatórios & Horários de Pico <span class="seta">→</span></h3>
+      <p>Gráficos interativos diários, divisão por forma de pagamento e mapa de calor dos dias e horários com maior movimento na loja.</p>
+    </a>
+
+    <a href="./caixa.html" class="lp-feature">
+      <div class="lp-feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>
+      </div>
+      <h3>5. Controle de Caixa & Gaveta <span class="seta">→</span></h3>
+      <p>Conferência cega no fechamento de turno, registro de sangrias e histórico detalhado sem quebra de caixa.</p>
+    </a>
+
+    <a href="./produtos.html" class="lp-feature">
+      <div class="lp-feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg>
+      </div>
+      <h3>6. Estoque & Lotes com Validade <span class="seta">→</span></h3>
+      <p>Acompanhamento de estoque mínimo, alerta de produtos vencendo em até 7 dias e giro médio de 30 dias.</p>
+    </a>
+  </section>
+
+  <footer class="lp-footer">
+    Ambiente de Demonstração Comercial · Sistema White-Label Personalizado para o seu Cliente
+  </footer>
+
+</body>
+</html>

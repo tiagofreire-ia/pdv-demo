@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <script>
+      try{localStorage.setItem('tourVisto_v1','1');}catch(e){}
+      document.addEventListener('submit', function(e){
+        var f = e.target;
+        if (f && f.action && String(f.action).indexOf('login.html') !== -1 && !f.classList.contains('login-card')) {
+          e.preventDefault();
+          window.location.href = './login.html';
+        }
+      }, true);
+    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+    <title>Ajuda</title>
+    <link rel="icon" href="./static/img/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="./static/img/favicon-32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="./static/img/logo-marca.svg">
+    
+    <link rel="manifest" href="#">
+    <meta name="theme-color" content="#16130E" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#110f0b" media="(prefers-color-scheme: dark)">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="SUA MARCA">
+    <link rel="preload" href="./static/fonts/manrope-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="./static/style.css">
+    <script>try{var _t=localStorage.getItem('tema');if(_t==='dark'||_t==='light')document.documentElement.setAttribute('data-theme',_t);if(localStorage.getItem('sidebarColapsado')==='1')document.documentElement.classList.add('sidebar-collapsed');}catch(e){}</script>
+    <script src="./static/vendor/htmx-2.0.3.min.js"></script>
+    <script>
+      // Anexa o token CSRF em toda requisição do htmx (forms comuns usam campo oculto, ver forms).
+      document.addEventListener('htmx:configRequest', function (e) {
+        var meta = document.querySelector('meta[name="csrf-token"]');
+        if (meta) e.detail.headers['X-CSRF-Token'] = meta.content;
+      });
+    </script>
+</head>
+<body>
+    <div class="app-shell">
+      
+      <aside class="sidebar" id="sidebar">
+        <div class="side-top">
+          <img class="side-mark" src="./static/img/logo-marca.svg" alt="" aria-hidden="true">
+          <span class="side-name">SUA MARCA</span>
+          
+          <button type="button" class="side-toggle" id="side-toggle" title="Recolher menu" aria-label="Recolher menu">
+            <svg class="ic-recolher" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            <svg class="ic-expandir" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            <svg class="ic-abrir" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <svg class="ic-fechar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <nav class="side-nav">
+          
+          <div class="side-secao">Operação</div>
+          <a href="./venda.html" title="Frente de caixa (F1)" data-tour="venda" data-tour-titulo="Vender" data-tour-text="Frente de caixa: bipe os produtos e receba o pagamento por atalhos de teclado.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 2h3l2.5 12.4a2 2 0 0 0 2 1.6h9.6a2 2 0 0 0 2-1.6L22 6H5.2"/></svg>
+            <span class="label">Vender</span>
+            <kbd class="side-kbd">F1</kbd>
+          </a>
+          <a href="./caixa.html" title="Abrir e fechar o caixa" data-tour="caixa" data-tour-text="Abra o caixa no início do dia e feche no fim, conferindo o dinheiro da gaveta.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>
+            <span class="label">Abrir/fechar caixa</span>
+          </a>
+
+          <div class="side-secao">Cadastros</div>
+          <details class="side-grupo" id="grupo-estoque"
+                    >
+            <summary title="Estoque">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5" rx="1"/><path d="M4 8v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8"/><path d="M10 13h4"/></svg>
+              <span class="label">Estoque</span>
+              <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="side-subnav">
+              <a href="./produtos.html" title="Produtos" data-tour="produtos" data-tour-text="Cadastre produtos, preços, código de barras e estoque mínimo.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg>
+                <span class="label">Produtos</span>
+              </a>
+              <a href="./entradas.html" title="Entradas" data-tour="entradas" data-tour-text="Registre a compra de mercadoria: aumenta o estoque automaticamente.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10"/><path d="M8 9l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+                <span class="label">Entradas</span>
+              </a>
+              
+              <a href="./inventarios.html" title="Inventário" data-tour="inventarios" data-tour-text="Contagem física do estoque (cega) e ajuste em massa ao fechar.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                <span class="label">Inventário</span>
+              </a>
+              <a href="./reposicao.html" title="Reposição" data-tour="reposicao" data-tour-text="Sugestão de compra com base na velocidade de venda dos últimos 30 dias.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"/><path d="M3 8h18l-1.5 11a2 2 0 0 1-2 1.7H6.5a2 2 0 0 1-2-1.7L3 8z"/><path d="M9 12h6"/></svg>
+                <span class="label">Reposição</span>
+              </a>
+              
+            </div>
+          </details>
+          <a href="./clientes.html" title="Clientes" data-tour="clientes" data-tour-text="Cadastre clientes (útil para vendas na Confiança e comprovantes).">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            <span class="label">Clientes</span>
+          </a>
+          <a href="./fornecedores.html" title="Fornecedores" data-tour="fornecedores" data-tour-text="Cadastre seus fornecedores de bebidas.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h13v10H1z"/><path d="M14 8h4l3 3v3h-7z"/><circle cx="5.5" cy="18" r="1.6"/><circle cx="17.5" cy="18" r="1.6"/></svg>
+            <span class="label">Fornecedores</span>
+          </a>
+
+          
+          <div class="side-secao">Gestão</div>
+          <a href="./painel.html" title="Painel" data-tour="admin" data-tour-text="Painel com cartões de faturamento, vendas, lucro e descontos do dia, e o que precisa de atenção.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+            <span class="label">Painel</span>
+          </a>
+          <a href="./contas_pagar.html" title="Contas" data-tour="contas_pagar" data-tour-titulo="Contas" data-tour-text="Contas a pagar: luz, água, energia, funcionário, aluguel e outros serviços.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/><path d="M8 2v4M16 2v4"/><path d="M8 14h4"/></svg>
+            <span class="label">Contas</span>
+          </a>
+          <a href="./relatorio.html" title="Relatórios" data-tour="relatorio" data-tour-text="Relatórios de vendas por período, com exportação em PDF e gráfico.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="10" width="3" height="8"/><rect x="12" y="6" width="3" height="12"/><rect x="17" y="13" width="3" height="5"/></svg>
+            <span class="label">Relatórios</span>
+          </a>
+          <a href="./patrimonio.html" title="Patrimônio" data-tour="patrimonio" data-tour-text="Bens da loja (freezer, móveis, equipamentos), separado do estoque de produtos.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            <span class="label">Patrimônio</span>
+          </a>
+          
+
+          <div class="side-secao">Apoio</div>
+          
+          <a href="./assistente.html" title="Assistente de IA" data-tour="assistente" data-tour-text="Pergunte em qualquer língua sobre vendas, estoque, contas e Confiança; peça cadastros e lançamentos para você confirmar.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
+            <span class="label">Assistente IA</span>
+          </a>
+          <a href="./ajuda.html" title="Ajuda" data-tour="ajuda" data-tour-text="Guias passo a passo, atalhos de teclado, perguntas frequentes e o que o assistente sabe fazer.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1 .9-1 1.6"/><path d="M12 17h.01"/></svg>
+            <span class="label">Ajuda</span>
+          </a>
+
+          <details class="side-grupo" id="grupo-configuracoes"
+                    >
+            <summary title="Configurações">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82 2 2 0 1 1-2.83 2.83 1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51 2 2 0 0 1-4 0 1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33 2 2 0 1 1-2.83-2.83A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1 2 2 0 0 1 0-4 1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82 2 2 0 1 1 2.83-2.83A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51 2 2 0 0 1 4 0 1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33 2 2 0 1 1 2.83 2.83A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1 2 2 0 0 1 0 4 1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span class="label">Configurações</span>
+              <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="side-subnav">
+              
+              <a href="./usuarios.html" title="Usuários" data-tour="usuarios" data-tour-text="Gerencie operadores e administradores do sistema.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0"/><path d="M16 5.6a3.5 3.5 0 0 1 0 4.8"/><path d="M18.5 21a6.5 6.5 0 0 0-3-5.4"/></svg>
+                <span class="label">Usuários</span>
+              </a>
+              
+              
+              <a href="./configuracoes.html" title="Loja" data-tour="loja" data-tour-text="Taxas das maquininhas e fechamento automático do caixa.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg>
+                <span class="label">Loja</span>
+              </a>
+              
+              
+              <a href="./saude.html" title="Sistema" data-tour="sistema" data-ativo-em="/admin/saude,/logs,/admin/uso-ia,/admin/conversas-ia,/admin/memoria-ia"
+                 data-tour-text="Saúde do sistema (backup, banco, alertas), logs de auditoria, uso, conversas e memória da IA.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <span class="label">Sistema</span>
+              </a>
+              
+              <a href="./suporte.html" title="Suporte" data-tour="suporte" data-tour-text="Relate um problema ou dúvida sobre o sistema.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24"/></svg>
+                <span class="label">Suporte</span>
+              </a>
+              <button type="button" id="btn-tour" class="side-link" title="Tour guiado">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>
+                <span class="label">Tour guiado</span>
+              </button>
+            </div>
+          </details>
+        </nav>
+
+        
+        
+        
+        
+        <div class="side-bottom">
+          <div class="usuario-wrap">
+            <button type="button" class="side-usuario" id="btn-usuario" aria-haspopup="menu" aria-expanded="false" aria-controls="usuario-menu" title="Carlos Eduardo (Proprietário) · Super admin">
+              <span class="side-avatar" aria-hidden="true">C(</span>
+              <span class="side-usuario-texto">
+                <span class="side-usuario-nome">Carlos Eduardo (Proprietário)</span>
+                <span class="side-usuario-papel">Super admin</span>
+              </span>
+            </button>
+            <div class="side-usuario-menu" id="usuario-menu" role="menu" aria-label="Conta" hidden>
+              <a href="./minha_conta.html" class="side-usuario-item" role="menuitem" title="Minha conta (trocar a senha)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+                <span>Minha conta</span>
+              </a>
+              
+              <button type="button" id="btn-tema" class="side-usuario-item" role="menuitem" title="Alternar tema claro/escuro">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="icone-tema-dark"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="icone-tema-light"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                <span class="icone-tema-dark">Tema escuro</span>
+                <span class="icone-tema-light">Tema claro</span>
+              </button>
+              <div class="side-usuario-sep" role="separator"></div>
+              <a href="./login.html" class="side-usuario-item side-sair" role="menuitem">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg>
+                <span>Sair</span>
+              </a>
+            </div>
+          </div>
+          <div class="sino-wrap">
+            <button type="button" id="btn-notificacoes" class="side-icone-btn" title="Notificações" aria-label="Notificações">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span id="sino-contador" class="sino-contador" hidden>0</span>
+            </button>
+            <div id="sino-painel" class="sino-painel" hidden
+                 hx-get="/notificacoes" hx-trigger="load, every 60s" hx-swap="innerHTML">
+              <p class="sino-vazio muted small">Carregando…</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+        <script>
+          // Menu lateral (spec 011 V1, spec 012 M1): restaura grupos abertos e a rolagem logo
+          // depois do menu COMPLETO (com o rodapé do usuário e o sino) — restaurar antes do
+          // rodapé existir limitava a rolagem, porque o menu ainda estava mais alto. Antes, o grupo Estoque reabria só no fim da página, depois
+          // do item ativo ser rolado para a vista, e empurrava o item para fora da tela.
+          (function () {
+            try {
+              var e = document.getElementById('grupo-estoque');
+              if (e && localStorage.getItem('menuEstoqueAberto') === '1') e.open = true;
+              var c = document.getElementById('grupo-configuracoes');
+              if (c && localStorage.getItem('menuConfiguracoesAberto') === '1') c.open = true;
+              var nav = document.querySelector('.side-nav');
+              var salvo = sessionStorage.getItem('menuRolagem');
+              if (nav && salvo !== null) { nav.scrollTop = parseInt(salvo, 10) || 0; window.__menuRolagemRestaurada = true; }
+              function guardar() { if (nav) sessionStorage.setItem('menuRolagem', String(nav.scrollTop)); }
+              if (nav) nav.addEventListener('click', function (ev) { if (ev.target.closest('a')) guardar(); });
+              window.addEventListener('pagehide', guardar);
+            } catch (err) {}
+          })();
+        </script>
+      
+
+      <div class="app-main">
+        <main>
+          
+          
+          
+
+
+<div class="page ajuda aj-tela">
+
+  
+  <section class="aj-cabeca" data-tour-tela data-tour-titulo="Busca na ajuda" data-tour-text="Digite o que procura (ex.: validade, confiança, planilha) e escolha o guia ou a pergunta.">
+    <div>
+      <h1>Como podemos ajudar?</h1>
+      <p>Guias curtos para o dia a dia da loja.</p>
+    </div>
+    <label class="aj-busca">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <span class="so-leitor">Buscar na ajuda</span>
+      <input type="search" class="ajuda-busca" id="ajuda-busca" placeholder="Buscar: validade, confiança, sangria, nota, atalho…" autocomplete="off">
+    </label>
+    
+    <div class="aj-procurados">
+      <span>Mais procurados:</span>
+      <a href="./ajuda_caixa.html">Abrir e fechar o caixa</a><a href="./ajuda_fiado.html">Vender na Confiança</a><a href="./ajuda_atalhos.html">Atalhos de teclado</a><a href="./ajuda_assistente.html">Lançar nota pelo XML</a>
+    </div>
+    
+  </section>
+  <div id="ajuda-resultados" class="ajuda-resultados" hidden></div>
+  <script type="application/json" id="ajuda-indice">[{"texto": "Abra o caixa no in\u00edcio do turno, registre retiradas (sangria) e feche conferindo a gaveta. Menu  Abrir/fechar caixa . Em  Fundo inicial (troco na gaveta)  (j\u00e1 vem preenchido com o que foi contado no \u00faltimo fechamento), digite o dinheiro que est\u00e1 na gaveta e clique em  Abrir caixa . Confirme o valor na caixa de confirma\u00e7\u00e3o. Esse valor \u00e9 o fundo inicial do turno e aparece tamb\u00e9m na frente de caixa. Durante o turno, para tirar dinheiro da gaveta (dep\u00f3sito, pagamento de fornecedor, troco):  Registrar retirada  \u2192  Valor a retirar  e  Motivo  \u2192  Confirmar retirada . Digitou a abertura errado?  Corrigir fundo inicial  (na faixa escura da gaveta) \u2192  Novo valor de abertura  e a senha (funcion\u00e1rio: a de um  administrador ; administrador: a pr\u00f3pria) \u2192  Salvar corre\u00e7\u00e3o . S\u00f3 pode corrigir uma vez; fica no registro de auditoria, com quem autorizou, e no hist\u00f3rico de caixas. No fim do turno:  Fechar caixa  \u2192 conte o dinheiro e digite em  Valor contado na gaveta  \u2192  Confirmar fechamento . O sistema mostra o esperado na gaveta (abertura + dinheiro \u2212 retiradas) para comparar. Esqueceram de fechar? Administrador: em  Configura\u00e7\u00f5es \u203a Loja \u203a Fechamento autom\u00e1tico do caixa , ligue e escolha o  Hor\u00e1rio (Bras\u00edlia)  \u2192  Salvar . Ligado, o sistema fecha sozinho os caixas que ficaram abertos depois do hor\u00e1rio escolhido, como  n\u00e3o conferido  (ningu\u00e9m contou a gaveta). No dia seguinte, a tela  Caixa  e o Painel cobram a contagem: conte o dinheiro e clique em  Registrar contagem  \u2014 a falta ou sobra aparece no hist\u00f3rico. Vale para todos os usu\u00e1rios. Administrador:  hist\u00f3rico de caixas  (link na faixa do topo da tela Caixa) mostra os turnos de 10 em 10 \u2014 quem abriu, quando, vendas,  esperado \u00d7 contado  e se a gaveta bateu, teve sobra ou falta. Escolha o per\u00edodo (7 dias, 30 dias, este m\u00eas ou outro), o operador e use  N\u00e3o conferidos  ou  Com diferen\u00e7a  para ver s\u00f3 o que precisa de aten\u00e7\u00e3o. A seta  \u203a  abre o resumo do turno (e o link para o turno completo). No fim da p\u00e1gina vem o total  por operador ;  Baixar PDF  e  Baixar Excel  levam o per\u00edodo inteiro.  Recebimentos por forma de pagamento  mostra quanto entrou em dinheiro, Pix, d\u00e9bito, cr\u00e9dito e Confian\u00e7a neste turno.  Descontos deste turno  mostra quanto foi dado de desconto no balc\u00e3o. O administrador v\u00ea tamb\u00e9m o custo das mercadorias, as taxas das maquininhas e o  lucro do turno . Administrador: o dono levando o lucro em dinheiro? Em  Registrar retirada , escolha o tipo  Retirada do dono (lucro) . Ela baixa o esperado na gaveta e aparece no Painel, em  Dispon\u00edvel para o dono . Como est\u00e1 meu caixa agora? Quanto deveria ter na gaveta? Tira 50 do caixa pra pagar o gelo", "tipo": "Guia", "titulo": "Caixa: abrir, retirar e fechar", "url": "/ajuda/caixa"}, {"texto": "Bipe os produtos, escolha o pagamento pelo teclado e finalize. Abra o caixa antes (as vendas entram no turno aberto) e entre em  Vender  (Frente de caixa, atalho  F1 ). Com o caixa fechado, nenhum produto entra na sacola. Bipe o c\u00f3digo de barras ou digite parte do nome e escolha na lista com  \u2191   \u2193  e  Enter . No celular ou tablet: toque na  c\u00e2mera  ao lado de Adicionar, aponte para o c\u00f3digo de barras, ajuste a quantidade ( \u2212  /  + ) e toque em  Adicionar ; a c\u00e2mera volta a ler o pr\u00f3ximo.  Concluir  volta para a sacola. S\u00f3 funciona no endere\u00e7o seguro do sistema (https). Para corrigir o carrinho:  F3  entra na lista;  + / -  mudam a quantidade,  Delete  remove,  Esc  volta. Terminou?  Enter  com o campo vazio (ou  F9 ) vai para o pagamento. CPF/CNPJ na nota:  1  N\u00e3o,  2  CPF,  3  CNPJ. Forma de pagamento:  1  Dinheiro,  2  D\u00e9bito,  3  Cr\u00e9dito,  4  Pix,  5  Confian\u00e7a,  6  Combinar formas. Em d\u00e9bito/cr\u00e9dito escolha a maquininha ( 1  Cielo,  2  Stone); no cr\u00e9dito parcelado,  3  Cielo parcelado ou  4  Stone parcelado (o n\u00famero de parcelas fica s\u00f3 na maquininha). No dinheiro, digite o  Valor recebido  para ver o troco e confirme com  Enter . Venda na Confian\u00e7a precisa de cliente:  F2  seleciona o cliente cadastrado.  F4  repete a \u00faltima venda;  Ctrl + L  cancela a venda atual;  ?  mostra todos os atalhos. Tirar um produto do carrinho, diminuir a quantidade ou cancelar a venda fica registrado no seu nome, com o valor (Relat\u00f3rio, quadro  Itens removidos do carrinho ).  F6  abre a tela do cliente (Vitrine do Balc\u00e3o) para mostrar o total ao comprador. Cliente sem o valor cheio? Antes de escolher o pagamento,  F7  (ou  % Desconto , abaixo do Total): digite quanto o cliente vai pagar (ou o valor do desconto), escolha o motivo e clique em  Confirmar desconto . At\u00e9 R$ 1,00 n\u00e3o pede senha; at\u00e9 R$ 2,00 pede a  sua  senha; acima disso, a senha de um  administrador . O produto continua com o pre\u00e7o cheio e todo desconto fica registrado no seu nome (log e Relat\u00f3rio). O assistente n\u00e3o faz nem cancela vendas: isso \u00e9 s\u00f3 nesta tela e no Relat\u00f3rio (administrador). Quanto vendi hoje, por forma de pagamento? Qual foi o produto mais vendido desta semana?", "tipo": "Guia", "titulo": "Vender na frente de caixa", "url": "/ajuda/venda"}, {"texto": "Configure uma vez o computador do caixa para o comprovante sair na impressora t\u00e9rmica sem a janela de impress\u00e3o. Instale o  driver  da impressora t\u00e9rmica (vem no CD ou no site do fabricante), ligue o cabo USB e imprima a p\u00e1gina de teste do Windows. No Windows:  Configura\u00e7\u00f5es \u203a Bluetooth e dispositivos \u203a Impressoras e scanners  \u2192 desligue  Permitir que o Windows gerencie minha impressora padr\u00e3o  \u2192 clique na t\u00e9rmica \u2192  Definir como padr\u00e3o . Ainda na t\u00e9rmica:  Prefer\u00eancias de impress\u00e3o  \u2192 papel de  80 mm  (o mesmo da bobina) e corte autom\u00e1tico ligado, se a impressora tiver. Imprima um comprovante uma vez pelo jeito normal (bot\u00e3o  Imprimir  do comprovante): escolha a t\u00e9rmica, em  Mais defini\u00e7\u00f5es  deixe  Margens: Nenhuma ,  Escala: Padr\u00e3o  e desmarque  Cabe\u00e7alhos e rodap\u00e9s . O Chrome guarda essas escolhas. Crie um atalho do Chrome s\u00f3 para o caixa: copie o atalho do Chrome na \u00e1rea de trabalho \u2192 bot\u00e3o direito \u2192  Propriedades  \u2192 no campo  Destino , depois de  chrome.exe\" , acrescente um espa\u00e7o,  --kiosk-printing , outro espa\u00e7o e o endere\u00e7o do sistema \u2192  OK . Feche  todas  as janelas do Chrome e abra o sistema pelo atalho novo. Ao finalizar a venda e pedir o comprovante, ele sai direto na t\u00e9rmica, sem a janela de impress\u00e3o. Use o atalho com impress\u00e3o direta s\u00f3 no computador do caixa: nele, tudo o que for impresso pelo Chrome sai na impressora padr\u00e3o sem perguntar. Bobina de  58 mm ? Pe\u00e7a ao suporte para mudar a largura do comprovante (configura\u00e7\u00e3o  CUPOM_LARGURA ) e ajuste o papel nas prefer\u00eancias da impressora. Para imprimir de novo um comprovante:  Relat\u00f3rios  \u2192 na venda,  cupom . O comprovante do cart\u00e3o continua saindo na maquininha (Cielo ou Stone): ela n\u00e3o \u00e9 ligada ao sistema. O assistente n\u00e3o imprime nem configura a impressora. Quantas vendas eu fiz hoje?", "tipo": "Guia", "titulo": "Impressora do caixa: comprovante direto na t\u00e9rmica", "url": "/ajuda/impressora"}, {"texto": "Cadastro com c\u00f3digo de barras, pre\u00e7o e estoque; validade e lotes; exportar e importar a planilha. Menu  Estoque \u203a Produtos  \u2192  + Cadastrar produto  (abre um painel do lado direito;  Esc  fecha). Bipe o c\u00f3digo em  C\u00f3digo de barras  ou toque na c\u00e2mera para ler pelo celular (c\u00e2mera traseira; s\u00f3 funciona no endere\u00e7o seguro do sistema, com https). Se o c\u00f3digo for conhecido, nome e marca podem vir preenchidos. Em  1 \u00b7 O essencial  preencha  Nome ,  Custo  e  Venda  (a faixa verde mostra a margem sozinha). Em  2 \u00b7 Estoque , o  Estoque inicial  e o  Avisar quando ficar abaixo de  (o alerta de estoque baixo usa esse m\u00ednimo). Categoria, marca, volume e fornecedor ficam em  3 \u00b7 Organiza\u00e7\u00e3o  (opcional); NCM e CEST s\u00f3 aparecem com a nota fiscal ativada. Categoria e subcategoria aceitam at\u00e9 30 letras; marca, at\u00e9 40. Campos com  *  s\u00e3o obrigat\u00f3rios (nome e pre\u00e7o de venda).  Enter  passa para o pr\u00f3ximo campo: o produto s\u00f3 \u00e9 gravado em  Cadastrar produto , depois de conferir o resumo na confirma\u00e7\u00e3o. Perec\u00edvel? Informe a  Validade  (de hoje at\u00e9 10 anos \u00e0 frente) e, se quiser, o  N\u00ba do lote  do estoque inicial \u2192  Cadastrar produto . Para cadastrar v\u00e1rios em sequ\u00eancia, use  Salvar e cadastrar outro . Estoque antigo sem validade: abra o produto ( \u22ef \u203a Editar ) e, em  Lotes e validade , use  Registrar validade do estoque atual . A quantidade em estoque n\u00e3o muda. Salvar uma edi\u00e7\u00e3o pede confirma\u00e7\u00e3o ( Salvar altera\u00e7\u00f5es  ou  Cancelar ).  Planilha (s\u00f3 administrador, porque traz o pre\u00e7o de custo): o mesmo arquivo serve para exportar e importar.  Em  Planilha \u25be , clique em  \u2b07 Exportar planilha , altere pre\u00e7os, estoque m\u00ednimo ou acrescente linhas no Excel e use  \u2b06 Importar planilha  (no mesmo menu) com esse mesmo arquivo. O  c\u00f3digo de barras  liga a linha ao produto: linha com c\u00f3digo j\u00e1 cadastrado atualiza o produto; linha sem c\u00f3digo vira produto novo. Nada \u00e9 gravado antes de voc\u00ea conferir a  pr\u00e9via  e confirmar. A lista mostra 50 produtos por p\u00e1gina; use a busca por nome ou c\u00f3digo, os bot\u00f5es  Estoque baixo ,  Validade  e  Categoria  e os n\u00fameros de p\u00e1gina embaixo da lista. Se aparecer o aviso de produtos duplicados (mesmo nome), clique em  Revisar . A coluna  Validade  mostra a etiqueta: amarela = vence em at\u00e9 7 dias, vermelha = vencido. Etiqueta vermelha no  Estoque  = no m\u00ednimo ou abaixo.  \u22ef \u203a Duplicar  copia um produto parecido (ex.: Skol lata \u2192 Skol litr\u00e3o) para agilizar. Reposi\u00e7\u00e3o com lote \u00e9 pela  Entrada de mercadoria . Lote vencido ou avariado: em  Lotes e validade , informe a quantidade, escolha  Vencido  ou  Avaria  e clique em  Dar baixa  (s\u00f3 administrador). Sai do estoque e fica registrado como perda, pelo pre\u00e7o de custo. Quando o estoque diminui sem venda (invent\u00e1rio, edi\u00e7\u00e3o do estoque, entrada exclu\u00edda), os lotes acompanham: a diferen\u00e7a sai primeiro do que vence antes \u2014 ou dos lotes mais novos, se foi uma entrada exclu\u00edda. Pre\u00e7o de venda e pre\u00e7o de custo de um produto j\u00e1 cadastrado s\u00f3 o  administrador  altera (o lucro depende do custo). O funcion\u00e1rio edita o resto do cadastro; o custo tamb\u00e9m \u00e9 atualizado pela Entrada de mercadoria. Excluir produto \u00e9 s\u00f3 do administrador e pede a senha dele ( \u22ee \u203a Excluir ). Produto que j\u00e1 teve venda ou entrada \u00e9 inativado, n\u00e3o apagado. Quantas Skol lata eu tenho em estoque? Cadastra Heineken Zero long neck 330ml, c\u00f3digo 7896045505296, custo 4,50, venda 8,00 Aumenta 5% todas as cervejas da Heineken, arredondando pra 0,10", "tipo": "Guia", "titulo": "Produtos: cadastro, validade, lotes e planilha", "url": "/ajuda/produto-validade"}, {"texto": "Registre a compra: soma o estoque, atualiza o custo e guarda lote e validade. Menu  Estoque \u203a Entradas : a tela j\u00e1 abre em  Nova entrada de estoque . Tem o XML da NF-e do fornecedor?  Arraste o arquivo  para o quadro tracejado (ou use  Escolher XML ): fornecedor, n\u00famero da nota, data, produtos, quantidades e custos entram preenchidos para voc\u00ea conferir. Sem XML, lance \u00e0 m\u00e3o. Em  Dados da compra :  Fornecedor  (digite parte do nome ou o CNPJ e escolha na lista),  N\u00ba da nota  e  Data da compra  (j\u00e1 vem a de hoje; n\u00e3o pode ser futura).  + Adicionar observa\u00e7\u00e3o  abre o campo de observa\u00e7\u00e3o. Em  Produtos da nota , bipe ou digite o produto no campo da \u00faltima linha e escolha na lista: ele vira uma linha. Informe a quantidade em  unidades  (10 caixas de 12 = 120) e o custo unit\u00e1rio; se perec\u00edvel,  + lote  abre lote e validade. Bipar de novo o mesmo produto soma 1 na quantidade. Abaixo do nome aparece quanto tem em estoque e (administrador) se o custo subiu, caiu ou \u00e9 o mesmo da \u00faltima compra. Confira o  Total da nota  (soma ao vivo) e clique em  Salvar entrada . O estoque e o custo dos produtos s\u00e3o atualizados na hora. Lote e validade s\u00e3o opcionais: preencha s\u00f3 para produtos perec\u00edveis. Quando preenchidos, a venda baixa primeiro o lote mais pr\u00f3ximo de vencer (FEFO). N\u00ba do lote aceita s\u00f3 letras, n\u00fameros, h\u00edfen, ponto e barra (at\u00e9 20), sempre em mai\u00fasculas. Em  \u00daltimas entradas  aparecem as 4 mais recentes ( ver todas  abre a lista completa). No  \u22ef  de cada linha:  Editar  corrige fornecedor, nota e observa\u00e7\u00e3o,  Corrigir  e  Excluir . Total  R$ 0,00 \u00b7 conferir  pede uma olhada: a entrada foi lan\u00e7ada sem valor. Entrada lan\u00e7ada errada (administrador, entradas do m\u00eas):  \u22ef \u203a Corrigir  na linha \u2192 o formul\u00e1rio abre com os itens \u2192 altere quantidades, custos ou itens \u2192 sua senha \u2192  Corrigir entrada . O estoque muda s\u00f3 pela diferen\u00e7a; se parte j\u00e1 foi vendida e o estoque ficaria negativo, a corre\u00e7\u00e3o \u00e9 recusada. A entrada fica com a data de hoje e marcada  corrigida  (a data original fica registrada). Entrada de m\u00eas anterior: exclua (pede a senha do admin, o estoque volta) e lance de novo. Chegaram 10 caixas com 12 de Brahma Duplo Malte, custo 3,10 a unidade, lote L0925, validade 30/11 Lan\u00e7a essa nota (anexe o XML, o PDF ou a foto) Qual foi o \u00faltimo custo da Heineken long neck?", "tipo": "Guia", "titulo": "Entrada de mercadoria (compras) e XML da nota", "url": "/ajuda/entrada"}, {"texto": "Cadastro com CPF/CNPJ formatado, limite por cliente, venda na Confian\u00e7a (o que muitos chamam de fiado) e registro do pagamento. Menu  Clientes  \u2192  + Cadastrar cliente  (abre um painel do lado direito). O  CPF / CNPJ  se formata enquanto voc\u00ea digita (11 n\u00fameros = CPF, 14 = CNPJ) e o tipo de pessoa acompanha. Defina o  Limite de cr\u00e9dito  da Confian\u00e7a (zero = fiado n\u00e3o liberado) \u2192  Cadastrar cliente . Na venda:  F2  seleciona o cliente e, no pagamento,  5  Confian\u00e7a. Os cart\u00f5es do topo mostram quanto h\u00e1  a receber na Confian\u00e7a , quantos passaram do limite e quantos clientes est\u00e3o ativos. Na lista,  Confian\u00e7a (deve / limite)  tem uma barra (vermelha a partir de 80% do limite). Para ver o extrato:  \u22ef \u203a Ver compras / extrato . Recebeu um pagamento?  \u22ef \u203a Receber pagamento da Confian\u00e7a : no extrato,  Registrar quita\u00e7\u00e3o (abater d\u00edvida)  \u2192  Valor  (at\u00e9 o saldo devedor),  Forma de recebimento  \u2192  Registrar quita\u00e7\u00e3o . Editar um cliente pede confirma\u00e7\u00e3o ao salvar. A lista mostra 50 clientes por p\u00e1gina; a busca aceita nome, apelido (observa\u00e7\u00e3o), telefone ou o CPF/CNPJ completo. Os bot\u00f5es  Todos ,  Devendo  e  Inativos  filtram a lista. Cliente cadastrado mais de uma vez (inclusive como \u201cc\u00f3pia\u201d)? O aviso amarelo oferece  Juntar cadastros  (administrador, com a senha): escolha o cadastro principal; vendas, Confian\u00e7a e cashback dos outros passam para ele e os outros ficam inativos. Quanto o Bar do Z\u00e9 est\u00e1 devendo? O Bar do Z\u00e9 pagou 150 da Confian\u00e7a no pix Cadastra o cliente Mercearia Boa Vista, telefone (61) 99999-0000, limite de confian\u00e7a 800", "tipo": "Guia", "titulo": "Clientes e Confian\u00e7a: vender e receber", "url": "/ajuda/fiado"}, {"texto": "Cadastro de fornecedor com CNPJ conferido, duplicar, editar e pedidos de dados pela LGPD. Menu  Fornecedores  \u2192  + Cadastrar fornecedor  (painel do lado direito). O  CNPJ  vem primeiro: se formata enquanto voc\u00ea digita (00.000.000/0000-00) e \u00e9 conferido ao sair do campo (d\u00edgito verificador); a mensagem aparece abaixo dele. A lista mostra a \u00faltima compra e o total comprado em 90 dias (v\u00eam das entradas de estoque), e etiquetas  CNPJ inv\u00e1lido  (cadastro antigo) e  sem CNPJ . No  \u22ef :  Editar ,  Ver entradas ,  Duplicar  (copia um fornecedor parecido, sem o CNPJ, \u00fatil para outra filial) e  Inativar . Editar pede confirma\u00e7\u00e3o ( Salvar altera\u00e7\u00f5es  ou  Cancelar ). Pedido do cliente pela LGPD (administrador): em Clientes,  \u22ef \u203a Exportar dados (LGPD)  baixa tudo o que o sistema guarda dele. Para apagar um cliente:  \u22ef \u203a Excluir / anonimizar  + sua senha. Sem compras, o cadastro \u00e9 exclu\u00eddo; com compras, nome, CPF, telefone, e-mail e endere\u00e7o s\u00e3o apagados e as vendas ficam (obriga\u00e7\u00e3o cont\u00e1bil). Com valor em aberto na Confian\u00e7a, n\u00e3o \u00e9 permitido. Nomes longos aparecem cortados na lista; passe o mouse ou toque para ver inteiro. Toda exclus\u00e3o, anonimiza\u00e7\u00e3o e exporta\u00e7\u00e3o fica no registro de auditoria. Qual o telefone da Distribuidora Planalto? Cadastra o fornecedor Distribuidora Planalto, telefone 61 3333-4444", "tipo": "Guia", "titulo": "Fornecedores e dados de clientes (LGPD)", "url": "/ajuda/cadastros"}, {"texto": "Lance contas (luz, aluguel, boletos), marque como pagas e use recorr\u00eancia mensal. Menu  Contas  \u2192  + Nova conta  (abre um painel do lado direito):  Descri\u00e7\u00e3o ,  Categoria ,  Benefici\u00e1rio ,  Valor ,  Vencimento  e, se quiser, uma  Observa\u00e7\u00e3o . Mais r\u00e1pido:  Lan\u00e7ar por foto do boleto  (bot\u00e3o ao lado de + Nova conta) \u2192 tire a foto do boleto ou da conta (ou escolha o PDF). Os campos v\u00eam preenchidos; confira e clique em  Salvar . Pelo c\u00f3digo do boleto o sistema confere o valor e o vencimento, e a foto fica guardada como  comprovante  (\ud83d\udcce na lista). Com a  linha digit\u00e1vel  salva, a op\u00e7\u00e3o  Copiar c\u00f3digo do boleto  no  \u22ef  da conta copia os n\u00fameros para colar no app do banco. Conta que se repete todo m\u00eas: marque  Conta recorrente (repete todo m\u00eas) . Ao pagar, a do m\u00eas seguinte \u00e9 criada sozinha. Pagou? Bot\u00e3o verde  \u2713 Marcar como paga  na conta (pede confirma\u00e7\u00e3o). Para corrigir,  \u22ef \u203a Editar . Excluir ( \u22ef \u203a Excluir ) pede a senha do admin (\u00e9 hist\u00f3rico financeiro). No topo, tr\u00eas cart\u00f5es:  Vencidas  (verde quando n\u00e3o h\u00e1 nenhuma),  Pr\u00f3ximos 30 dias  e  Total em aberto . Abaixo, as abas  A pagar ,  Pagas  e  Todas  e o filtro de categoria; as contas aparecem agrupadas pelo m\u00eas do vencimento. O prazo de cada conta aparece escrito:  vence em N dias  (em \u00e2mbar at\u00e9 7 dias),  vence hoje  e  venceu h\u00e1 N dias  (vermelho). A observa\u00e7\u00e3o da conta fica logo abaixo. Boleto de compra de mercadoria (Ambev, distribuidora): use a categoria  Mercadoria (fornecedor) . Ela n\u00e3o entra nas despesas do lucro, porque o custo da mercadoria j\u00e1 est\u00e1 no custo das vendas. As outras contas pagas no m\u00eas saem do  lucro l\u00edquido  no Painel. Quais contas vencem esta semana? Lan\u00e7a a conta de \u00e1gua de 180 reais para o dia 15, \u00e9 mensal J\u00e1 paguei o aluguel, d\u00e1 baixa", "tipo": "Guia", "titulo": "Contas a pagar", "url": "/ajuda/contas"}, {"texto": "Conte o estoque f\u00edsico sem ver o n\u00famero do sistema, ajuste tudo de uma vez e exporte o resultado. Menu  Estoque \u203a Invent\u00e1rio . No cart\u00e3o escuro do topo: sem contagem aberta,  + Abrir novo invent\u00e1rio ; com uma aberta,  Continuar contagem  (mostra quantos produtos j\u00e1 foram contados). S\u00f3 pode haver  uma contagem aberta por vez . Conte e digite a quantidade de cada produto (contagem cega: o sistema n\u00e3o mostra o estoque esperado). A lista tem 50 produtos por p\u00e1gina; filtre por nome, categoria ou  S\u00f3 n\u00e3o contados . Trocar de p\u00e1gina ou filtrar salva o que j\u00e1 foi digitado. Ou use  Contar por c\u00f3digo : bipe o produto, informe a quantidade e  Somar contagem . A quantidade \u00e9 somada \u00e0 contagem daquele produto (bom para contar prateleira por prateleira).  Salvar contagem  guarda sem fechar. Terminou:  Fechar invent\u00e1rio e ajustar estoque . O estoque passa a ser o contado e as diferen\u00e7as ficam registradas. Em  Invent\u00e1rios conclu\u00eddos  ficam o dia, a dura\u00e7\u00e3o, quantos produtos tiveram diferen\u00e7a e o ajuste em R$.  Ver resultado  abre o detalhe;  Baixar \u25be  traz o PDF ou o Excel (sistema, contado, diferen\u00e7a e diferen\u00e7a em R$). Contagem aberta errada ou de teste?  Descartar  (pede sua senha): apaga a contagem e o estoque n\u00e3o muda. Se sobraram contagens antigas abertas, o aviso amarelo mostra os n\u00fameros:  Ver as N  ou  Descartar todas  (pede a senha; fica a mais recente). Invent\u00e1rio fechado n\u00e3o tem excluir: ele \u00e9 o registro do ajuste feito no estoque. Fa\u00e7a fora do hor\u00e1rio de venda, ou as vendas durante a contagem v\u00e3o gerar diferen\u00e7a. O assistente consulta o invent\u00e1rio, mas n\u00e3o abre, fecha nem descarta: isso \u00e9 s\u00f3 nesta tela. Como foi o \u00faltimo invent\u00e1rio? Qual a diferen\u00e7a em reais? Quais produtos tiveram mais diferen\u00e7a no invent\u00e1rio?", "tipo": "Guia", "titulo": "Invent\u00e1rio (contagem do estoque)", "url": "/ajuda/inventario"}, {"texto": "O que comprar antes de acabar e o que est\u00e1 parado na prateleira. Menu  Estoque \u203a Reposi\u00e7\u00e3o . Em  Calcular com  escolha os \u00faltimos 30, 60 ou 90 dias de venda. Os tr\u00eas cart\u00f5es mostram quantos produtos  comprar agora , o  dinheiro parado na prateleira  e as  vendas usadas no c\u00e1lculo .  O que comprar  usa a velocidade de venda por dia da semana comparada ao estoque atual: aparecem os produtos com estoque no m\u00ednimo ou com menos de 14 dias de cobertura, com a etiqueta  acabou ,  abaixo do m\u00ednimo  ou  em N dias . O campo  Comprar  j\u00e1 vem com a sugest\u00e3o e voc\u00ea pode mudar. Com menos de 14 dias de vendas no per\u00edodo, o sistema avisa que ainda n\u00e3o d\u00e1 para prever o consumo: a sugest\u00e3o rep\u00f5e at\u00e9 o  estoque m\u00ednimo  e  Sai por dia  mostra  sem hist\u00f3rico .  Gerar lista de compras  abre um PDF com as quantidades que ficaram na tela, agrupado por fornecedor (o fornecedor principal do produto), com o custo estimado.  Produtos parados : com estoque e sem venda no per\u00edodo, os que mais prendem dinheiro primeiro. Filtre por  Nunca venderam ,  30+ dias  ou  60+ dias ; o  \u22ef  abre o produto para ajustar o estoque m\u00ednimo. Quem j\u00e1 est\u00e1 em  O que comprar  n\u00e3o aparece aqui.  Baixar PDF  traz as duas listas completas. O  ?  ao lado de cada t\u00edtulo explica como a lista \u00e9 calculada. O que preciso comprar para o fim de semana? Quais produtos est\u00e3o parados h\u00e1 mais tempo?", "tipo": "Guia", "titulo": "Reposi\u00e7\u00e3o e produtos parados", "url": "/ajuda/reposicao"}, {"texto": "Vendas, faturamento, lucro do dia e do m\u00eas, retirada do dono, descontos e alertas. Menu  Painel . No topo, uma frase resume o dia (quanto acima ou abaixo da m\u00e9dia dos \u00faltimos 6 dias, estoque baixo e lotes). \u00c0 direita, escolha  Hoje ,  Ontem ,  7 dias ,  M\u00eas  ou o \u00edcone do calend\u00e1rio para outro dia. Os quatro cart\u00f5es mostram  Faturamento ,  Vendas  (com o ticket m\u00e9dio),  Lucro  (com a margem;  ver a conta  abre o detalhe no fim da p\u00e1gina) e  Descontos no balc\u00e3o .  \u00daltimos 7 dias : o lucro aparece em verde dentro de cada barra e a linha tracejada \u00e9 a m\u00e9dia dos 6 dias anteriores.  Lucro l\u00edquido do m\u00eas : faturamento \u2212 custo das mercadorias \u2212 taxas das maquininhas \u2212 contas pagas no m\u00eas \u2212 perdas (lote vencido ou avariado).  Precisa de aten\u00e7\u00e3o  re\u00fane em uma lista o que pede a\u00e7\u00e3o: lotes vencidos ou a vencer, estoque zerado ou acabando, produtos sem pre\u00e7o de custo, taxas n\u00e3o informadas e vendas com custo estimado. Cada linha tem o bot\u00e3o que leva \u00e0 tela certa (Baixar perda, Repor, Corrigir, Informar taxas, Entender).  Dispon\u00edvel para o dono : o lucro l\u00edquido do m\u00eas menos o que o dono j\u00e1 retirou. Para registrar:  Registrar retirada  \u2192 valor \u2192 de onde saiu ( Conta / Pix do banco  ou  Gaveta do meu caixa ) \u2192  Confirmar retirada . Retirada n\u00e3o \u00e9 despesa: o lucro continua o mesmo.  Taxas das maquininhas  ficam em  Configura\u00e7\u00f5es \u203a Loja : informe o percentual de cada uma e clique em  Salvar taxas . Sem elas, o lucro aparece sem esse desconto.  \u00daltimas vendas  mostra as quatro mais recentes;  ver todas  leva ao Relat\u00f3rio.  Por forma de pagamento  mostra o valor e a parte de cada forma. Em  Precisa de aten\u00e7\u00e3o , produto sem pre\u00e7o de custo faz o lucro dele sair maior do que \u00e9; vendas antigas com custo estimado foram feitas antes de o sistema guardar o custo da venda. Em  ver a conta  (fim da p\u00e1gina) est\u00e1 o detalhe do lucro e quanto cada operador deu de desconto no balc\u00e3o, no per\u00edodo e no m\u00eas. Retirada do banco lan\u00e7ada por engano: o  \u00d7  na lista de retiradas apaga. A da gaveta virou retirada no caixa e n\u00e3o se apaga por ali. Me d\u00e1 um resumo das vendas de hoje Quanto vendi ontem comparado com a semana passada?", "tipo": "Guia", "titulo": "Painel do dia", "url": "/ajuda/painel"}, {"texto": "Faturamento por per\u00edodo, gr\u00e1ficos e exporta\u00e7\u00e3o em PDF, Excel e CSV. Menu  Relat\u00f3rios . Escolha o per\u00edodo:  Hoje ,  7 dias ,  Este m\u00eas ,  M\u00eas passado  ou  Outro per\u00edodo  (campos De e At\u00e9 \u2192  Filtrar ). Os cinco cart\u00f5es mostram faturamento (comparado com o mesmo intervalo do m\u00eas anterior), vendas (e a m\u00e9dia por dia), ticket m\u00e9dio, lucro das vendas (com a margem) e descontos do balc\u00e3o.  Faturamento por dia : uma barra por dia, com a escala ajustada ao maior valor do per\u00edodo; o melhor dia fica em dourado e fim de semana tem o n\u00famero em negrito.  Quando a loja vende mais  \u00e9 um mapa de calor (dia da semana \u00d7 hora): quanto mais escuro, mais vendeu. Ao lado:  Mais vendidos  (os 5 de maior valor) e  Por forma de pagamento .  Vendas do per\u00edodo  mostra 20 por p\u00e1gina; busque por n\u00ba, cliente ou operador. Os totais e gr\u00e1ficos somam o per\u00edodo inteiro.  Baixar \u25be : PDF, CSV ou Excel do per\u00edodo. Cancelar uma venda finalizada \u00e9 pelo  \u22ef  da linha \u203a  Cancelar venda , com a senha do administrador. Mais abaixo ficam  Descontos concedidos  e  Itens removidos do carrinho , por operador. Quanto vendi de 01/09 a 26/09? Quanto vendi de Heineken semana passada?", "tipo": "Guia", "titulo": "Relat\u00f3rios de vendas", "url": "/ajuda/relatorios"}, {"texto": "Freezer, m\u00f3veis e equipamentos com o valor atual depois da deprecia\u00e7\u00e3o. Menu  Patrim\u00f4nio  \u2192  + Cadastrar bem  (painel do lado direito):  Nome ,  Categoria ,  Valor de aquisi\u00e7\u00e3o ,  Data de aquisi\u00e7\u00e3o ,  Vida \u00fatil  (de 1 a 50 anos) e  Valor residual . O valor residual \u00e9 sugerido em 10% da aquisi\u00e7\u00e3o. Se ficar maior que a aquisi\u00e7\u00e3o, a tela avisa, mas deixa salvar. Os quatro cart\u00f5es do topo mostram o  valor dos bens hoje  (e quanto isso \u00e9 do que foi pago), o  valor pago , o  j\u00e1 depreciado  e os bens  em manuten\u00e7\u00e3o . Bens baixados n\u00e3o entram na soma. A lista vai do bem mais caro para o mais barato, com o  valor de hoje  e uma barra do quanto resta do valor (\u00e2mbar abaixo de 60%). Filtre por  Em uso ,  Manuten\u00e7\u00e3o  ou  Baixados . O total fica no rodap\u00e9 da tabela. Se o mesmo bem parecer cadastrado duas vezes, o aviso amarelo oferece  Revisar . No  \u22ef  de cada bem:  Editar ,  Marcar como  em uso, manuten\u00e7\u00e3o ou baixado, e  Excluir . Em  Baixar \u25be  ficam o relat\u00f3rio em PDF e em Excel, com a lista completa. Bens da loja n\u00e3o afetam o estoque de produtos nem as vendas. Valor atual = deprecia\u00e7\u00e3o linear da aquisi\u00e7\u00e3o at\u00e9 o residual, ao longo da vida \u00fatil. Editar pede confirma\u00e7\u00e3o ao salvar; excluir pede a senha do administrador. Mudar o estado fica registrado no log. O assistente n\u00e3o consulta nem altera o patrim\u00f4nio: use esta tela. Quanto vale hoje o estoque da loja a pre\u00e7o de custo?", "tipo": "Guia", "titulo": "Patrim\u00f4nio (bens da loja)", "url": "/ajuda/patrimonio"}, {"texto": "Crie funcion\u00e1rios, administradores e super admins, redefina senhas e desative quem saiu. Menu  Configura\u00e7\u00f5es \u203a Usu\u00e1rios  (super admin) \u2192  + Novo usu\u00e1rio  (abre o painel ao lado): nome, e-mail e  N\u00edvel , com  Gerar senha provis\u00f3ria  marcado \u2192  Criar usu\u00e1rio . A senha aparece  uma vez  no topo: anote e entregue pessoalmente. No primeiro acesso com a senha provis\u00f3ria, a pessoa cria a  pr\u00f3pria  senha antes de usar o sistema. Ningu\u00e9m mais sabe qual \u00e9 (nem o super admin). Escolha o  N\u00edvel :  Funcion\u00e1rio  (balc\u00e3o, caixa e cadastros do dia a dia),  Administrador  (tamb\u00e9m as \u00e1reas de gest\u00e3o) ou  Super admin  (tamb\u00e9m usu\u00e1rios, logs e o uso da IA). Regra da senha: de 8 a 24 caracteres, com letra mai\u00fascula, min\u00fascula, n\u00famero e caractere especial (ex.:  !   @   # ). A lista abaixo do campo fica verde item por item. Algu\u00e9m esqueceu a senha: o pedido aparece no sino (\ud83d\udd11  Fulano pediu uma nova senha ) e na lista ( Pediu nova senha ) \u2192 no  \u22ef  da pessoa,  Redefinir senha  \u2192  Salvar altera\u00e7\u00f5es . A lista tamb\u00e9m mostra o  \u00daltimo acesso  e avisa quem ainda n\u00e3o entrou com a senha provis\u00f3ria. Quem saiu: no  \u22ef  escolha  Desativar  ou  Excluir  (com hist\u00f3rico, a conta \u00e9 desativada, n\u00e3o apagada). A pessoa sai na hora de onde estiver logada e passa para  Desativados , no fim da lista. Sua pr\u00f3pria conta n\u00e3o pode ser desativada nem perder o acesso de super admin. Para trocar a sua senha, clique no seu nome, no rodap\u00e9 do menu, e escolha  Minha conta .  Excluir  pede a  sua  senha (de quem est\u00e1 logado), n\u00e3o a do usu\u00e1rio que vai sair. A etiqueta  Conta fixa  marca a conta de manuten\u00e7\u00e3o do sistema (\u00d3ptima): ningu\u00e9m exclui nem altera. Quem fez mais vendas hoje?", "tipo": "Guia", "titulo": "Usu\u00e1rios e permiss\u00f5es", "url": "/ajuda/usuarios"}, {"texto": "Backup, alertas t\u00e9cnicos, registro de auditoria e consumo da IA. Menu  Configura\u00e7\u00f5es \u203a Sistema . As abas ficam no topo (Sa\u00fade, Logs, Uso da IA, Conversas da IA e Mem\u00f3ria da IA). A  Sa\u00fade  come\u00e7a por um resumo: o que tem  Problema  (faixa vermelha, tamb\u00e9m vira alerta no sino) ou ainda  n\u00e3o \u00e9 monitorado  (\u00e2mbar) aparece em cart\u00f5es; o que est\u00e1 bem aparece em  Funcionando , cada item com o valor medido agora.  Verificar de novo  roda as checagens na hora;  Como cada item \u00e9 verificado , no fim do cart\u00e3o, explica o que \u00e9 medido em cada um. Backup:  \u2b07 Baixar \u00faltimo backup  (pede sua senha) e guarde num pendrive ou na nuvem uma vez por semana; depois  J\u00e1 salvei uma c\u00f3pia fora do computador . Tudo sobre o backup:  guia do backup .  \u2b07 PDF  baixa as checagens, os alertas abertos e o hist\u00f3rico. Super admin:  Logs  mostra quem fez o qu\u00ea, em portugu\u00eas, agrupado por dia; filtre por pessoa, dia ou tipo (Vendas, Caixa, Estoque, Cadastros, Acessos, Usu\u00e1rios, Seguran\u00e7a) e baixe em  Baixar \u25be .  Uso da IA  traz chamadas e tokens de hoje e dos \u00faltimos 30 dias (cinza = deu certo, vermelho = falhou) e avisa quando a IA est\u00e1 fora do ar. Super admin:  Conversas da IA  \u00e9 a lista das conversas de todos com o assistente (guardadas por 30 dias; s\u00f3 leitura).  Mem\u00f3ria da IA  \u00e9 o que o assistente aprende: em  Ensinar uma li\u00e7\u00e3o  escreva o que ele deve saber e para quem vale (sempre, um assunto, um perfil ou uma pessoa); s\u00f3 vale depois que voc\u00ea aprova. Exemplos e dicas:  guia da Mem\u00f3ria da IA . Alerta dispensado no sino volta se o problema acontecer de novo; na Sa\u00fade ele fica at\u00e9 ser resolvido ou encerrado. Os logs ficam guardados conforme a pol\u00edtica de reten\u00e7\u00e3o (ver Perguntas frequentes). Tem algum lote vencendo nos pr\u00f3ximos 30 dias?", "tipo": "Guia", "titulo": "Sistema: sa\u00fade, logs e uso da IA", "url": "/ajuda/sistema"}, {"texto": "Li\u00e7\u00f5es curtas sobre a loja que o assistente passa a usar nas respostas, com exemplos de como escrever. Menu  Configura\u00e7\u00f5es \u203a Sistema \u203a Mem\u00f3ria da IA  (super admin). Uma  li\u00e7\u00e3o  \u00e9 um fato ou uma regra da loja que o assistente recebe junto com a pergunta, como informa\u00e7\u00e3o da loja. Ela s\u00f3 vale depois de  aprovada . Escreva  uma ideia por li\u00e7\u00e3o , numa linha, com at\u00e9 200 caracteres, do jeito que voc\u00ea explicaria para um funcion\u00e1rio novo. Bons exemplos:  \u201cFardo de Skol lata tem 12 unidades.\u201d  \u00b7  \u201cA loja abre \u00e0s 8h e fecha \u00e0s 23h; domingo fecha \u00e0s 21h.\u201d  \u00b7  \u201cA Vale Bebidas entrega \u00e0s ter\u00e7as e sextas de manh\u00e3; pedido at\u00e9 o dia anterior.\u201d  \u00b7  \u201cGelo e carv\u00e3o saem mais no fim de semana: no s\u00e1bado o estoque m\u00ednimo do gelo \u00e9 20.\u201d  Evite pedidos vagos ( \u201cseja mais esperto\u201d ) e duas ideias numa li\u00e7\u00e3o s\u00f3. Em  Vale para  escolha quando a li\u00e7\u00e3o entra.  Sempre : em toda pergunta (use para o que vale para tudo, ex.: hor\u00e1rio da loja).  Um assunto : s\u00f3 quando a pergunta \u00e9 sobre produtos, estoque, vendas, caixa, financeiro, clientes, fornecedores ou logs (ex.: assunto  estoque  \u2192  \u201cCerveja lata a gente conta em fardos de 12 no invent\u00e1rio.\u201d ).  Um perfil : s\u00f3 para administradores ou s\u00f3 para funcion\u00e1rios (ex.: funcion\u00e1rio \u2192  \u201cPara desconto acima de R$ 2,00, chame um administrador.\u201d ).  Uma pessoa : s\u00f3 para ela (ex.:  \u201cO Lucas prefere respostas curtas, em t\u00f3picos.\u201d ).  Salvar e aprovar  j\u00e1 vale na pr\u00f3xima pergunta;  Salvar como pendente  guarda para decidir depois. Na lista  Li\u00e7\u00f5es  filtre por Aprovadas, Pendentes ou Desativadas; no  \u22ef  de cada uma, aprove, desative (d\u00e1 para reativar) ou exclua. Em  Sinais para revisar  aparece o que pode virar li\u00e7\u00e3o: algu\u00e9m marcou \ud83d\udc4e numa resposta, cancelou ou mudou um cart\u00e3o do assistente, ou uma nota sugeriu uma convers\u00e3o de embalagem. Leia o que aconteceu e  transforme em li\u00e7\u00e3o  (j\u00e1 vem preenchido para voc\u00ea ajustar) ou  descarte . Sinais somem sozinhos depois de 90 dias.  Convers\u00e3o de embalagem : quando a nota do fornecedor vem em caixa ou fardo (ex.:  \u201cCX 12 SKOL LT 350\u201d ), o sistema sugere quantas unidades cada embalagem tem. Aprovada, a convers\u00e3o \u00e9 usada ao lan\u00e7ar as pr\u00f3ximas notas daquele item, sem passar pela IA. D\u00e1 para aprovar uma a uma ou todas de uma vez. Para conferir: depois de aprovar, pergunte no  Assistente  algo do mesmo assunto (ex.:  \u201cQuantas unidades tem o fardo de Skol lata?\u201d ) e veja se a resposta usa a li\u00e7\u00e3o. Se n\u00e3o usar, confira o  Vale para  e se a li\u00e7\u00e3o est\u00e1 aprovada. Cabem cerca de  600 caracteres  de li\u00e7\u00f5es em cada pergunta (umas 3 a 5 li\u00e7\u00f5es): as de  Sempre  entram primeiro. Prefira  Um assunto  sempre que der, para sobrar espa\u00e7o para o que importa na pergunta. Li\u00e7\u00f5es sobre  vendas, financeiro e clientes  nunca v\u00e3o para funcion\u00e1rios, mesmo marcadas como Sempre. A li\u00e7\u00e3o \u00e9 informa\u00e7\u00e3o da loja, n\u00e3o uma ordem: ela  n\u00e3o  d\u00e1 ao assistente nenhuma permiss\u00e3o nova (ele continua sem alterar nada sem o seu OK no cart\u00e3o). Li\u00e7\u00e3o errada atrapalha mais do que ajuda: quando algo mudar na loja (hor\u00e1rio, fardo, regra de desconto), desative a li\u00e7\u00e3o antiga e escreva a nova. Quantas unidades tem o fardo de Skol lata?", "tipo": "Guia", "titulo": "Mem\u00f3ria da IA: ensinar o assistente", "url": "/ajuda/memoria-ia"}, {"texto": "Como o sistema guarda uma c\u00f3pia de tudo todo dia, como salvar uma c\u00f3pia fora e o que \u00e9 preciso para restaurar. O sistema faz o backup  sozinho, todo dia \u00e0s 03:00 , e guarda os \u00faltimos  14 dias . Se o computador estava desligado nesse hor\u00e1rio, o backup \u00e9 feito  assim que ele for ligado  (quando o \u00faltimo tiver mais de 24 horas). No servidor (VPS), que fica ligado o tempo todo, ele roda sempre no hor\u00e1rio. O backup leva  todos os dados do sistema : produtos, estoque, lotes, entradas, vendas, pagamentos, caixas e retiradas, clientes e Confian\u00e7a, fornecedores, contas, invent\u00e1rios, patrim\u00f4nio, usu\u00e1rios, registros de auditoria, chamados de suporte e as conversas do assistente. Na c\u00f3pia do R2 v\u00e3o tamb\u00e9m os  comprovantes das contas  (fotos e PDFs) e as  fotos de perfil . CPF, telefone, e-mail e endere\u00e7o dos clientes v\u00e3o  cifrados  no arquivo: quem pegar o arquivo sozinho n\u00e3o consegue ler esses dados.  Uma vez por semana , salve uma c\u00f3pia fora do servidor:  Configura\u00e7\u00f5es \u203a Sistema \u203a Sa\u00fade  \u2192  \u2b07 Baixar \u00faltimo backup  (pede sua senha) \u2192 guarde o arquivo num pendrive ou numa pasta de nuvem s\u00f3 sua \u2192 clique em  J\u00e1 salvei uma c\u00f3pia fora do computador . O sistema lembra a cada 7 dias. Com a  c\u00f3pia autom\u00e1tica no Cloudflare R2  ligada, cada backup tamb\u00e9m vai,  cifrado , para a nuvem (guarda 30 dias) e baixar \u00e0 m\u00e3o vira opcional. A tela  Sa\u00fade  mostra se a c\u00f3pia deu certo; se falhar, aparece um aviso com \u26a0 no sino. Para conferir se o backup est\u00e1 em dia: a tela  Sa\u00fade  mostra a data do \u00faltimo backup. Se ele atrasar ou falhar, aparece um aviso com \u26a0 no sino.  Restaurar  (s\u00f3 em caso de perda dos dados) \u00e9 feito pelo suporte: ele precisa do  arquivo de backup  e da  chave de criptografia  do sistema. Sem a chave, os dados cifrados dos clientes n\u00e3o voltam. A  chave de criptografia  \u00e9 entregue na instala\u00e7\u00e3o: guarde-a num cofre de senhas,  separada  dos arquivos de backup. Nunca mande a chave junto com o backup. A c\u00f3pia no R2 \u00e9 trancada com uma  chave p\u00fablica ; s\u00f3 a  chave privada do backup , guardada no seu cofre de senhas (nunca no servidor), abre os arquivos. Sem ela, os backups da nuvem n\u00e3o podem ser restaurados. O arquivo de backup tem dados da loja e dos clientes: n\u00e3o compartilhe e n\u00e3o deixe em computador de uso p\u00fablico. No servidor (VPS), o backup fica numa m\u00e1quina  separada  da do banco e vai cifrado para o R2; o passo a passo de montar, conferir e recuperar os servidores est\u00e1 no guia de opera\u00e7\u00e3o do suporte. O assistente n\u00e3o consulta nem faz backup: use a tela  Sa\u00fade . Super admin: o assistente consulta os  logs  (ex.: \"quem abriu o caixa hoje?\", \"quem excluiu a conta de luz?\"). Quantos produtos e clientes eu tenho cadastrados?", "tipo": "Guia", "titulo": "Backup: c\u00f3pia de seguran\u00e7a dos dados", "url": "/ajuda/backup"}, {"texto": "Registre um chamado e acompanhe a situa\u00e7\u00e3o. Menu  Configura\u00e7\u00f5es \u203a Suporte . Em  Novo chamado  escolha  \u00c9 sobre  (Algo deu errado, Tenho uma d\u00favida ou Sugest\u00e3o) e  Em qual tela?  (j\u00e1 vem a tela de onde voc\u00ea veio), conte o que fez, o que esperava e o que apareceu \u2192  Enviar chamado . O sistema mostra o n\u00famero do chamado (ex.:  Chamado #12 ) e ele aparece ao lado, em  Meus chamados ; use os bot\u00f5es  Todos ,  Abertos  e  Resolvidos  para filtrar. Situa\u00e7\u00e3o:  Aguardando envio  (o sistema tenta enviar de novo sozinho),  Enviado  (a equipe de suporte recebeu) ou  Resolvido . Voc\u00ea n\u00e3o precisa registrar de novo se aparecer \"Aguardando envio\": o reenvio \u00e9 autom\u00e1tico. Como fa\u00e7o para registrar a validade do estoque antigo?", "tipo": "Guia", "titulo": "Suporte: relatar um problema", "url": "/ajuda/suporte"}, {"texto": "Pergunte em qualquer l\u00edngua, pe\u00e7a cadastros e lan\u00e7amentos, anexe notas. Nada \u00e9 gravado sem voc\u00ea confirmar. Menu  Assistente IA . Escreva o pedido em qualquer l\u00edngua (ou use o microfone para falar); a resposta vem no mesmo idioma. Abaixo do campo h\u00e1 sugest\u00f5es em duas colunas,  Perguntar  (responde na hora) e  Pedir  (prepara para voc\u00ea confirmar): clicar numa delas s\u00f3 preenche o campo, voc\u00ea decide se envia. No topo ficam  Conversas anteriores  e o contador  Hoje: X de Y perguntas . Consultas voltam em texto na hora (estoque, vendas, Confian\u00e7a, contas, caixa, lotes, invent\u00e1rio, reposi\u00e7\u00e3o). Pedidos de altera\u00e7\u00e3o voltam como um  cart\u00e3o : confira o que muda (de \u2192 para), desmarque itens se quiser e clique em  Confirmar . A caixa de confirma\u00e7\u00e3o do sistema pede o \"sim\" final. Para lan\u00e7ar uma nota: o clipe anexa XML, PDF ou foto (a c\u00e2mera no celular) e diga \"lan\u00e7a essa nota\". A \u00d3ptima IA pode gerar dados incorretos. Revise sempre o conte\u00fado fornecido. Resposta errada? Clique em \ud83d\udc4e e diga o que estava errado: o dono revisa e, se aprovar, o assistente passa a usar a corre\u00e7\u00e3o. Veja a p\u00e1gina completa:  O que o assistente sabe fazer . O que eu preciso repor com urg\u00eancia? Quais lotes vencem nos pr\u00f3ximos 30 dias?", "tipo": "Guia", "titulo": "Assistente de IA", "url": "/ajuda/assistente"}, {"texto": "Na tela de login, clique em  Esqueci minha senha  e informe o seu e-mail. O administrador recebe o pedido no sistema e gera uma  senha provis\u00f3ria  para voc\u00ea; no primeiro acesso com ela, voc\u00ea cria a sua pr\u00f3pria senha. Para trocar a senha quando quiser: clique no seu nome, no rodap\u00e9 do menu, e escolha  Minha conta .", "tipo": "Pergunta", "titulo": "Esqueci minha senha. E agora?", "url": "/ajuda/perguntas#p0"}, {"texto": "De prop\u00f3sito: em todo formul\u00e1rio que grava no sistema,  Enter  s\u00f3 passa para o pr\u00f3ximo campo, para nada ir ao banco sem querer. Para salvar, clique no bot\u00e3o (Salvar, Cadastrar\u2026). O leitor de c\u00f3digo de barras, o login, a pergunta ao assistente e o pagamento na frente de caixa continuam usando o Enter.", "tipo": "Pergunta", "titulo": "Apertei Enter no cadastro e nada foi salvo. Por qu\u00ea?", "url": "/ajuda/perguntas#p1"}, {"texto": "Antes de finalizar:  Ctrl + L  cancela a venda atual. Depois de finalizada, o cancelamento \u00e9 feito pelo administrador.", "tipo": "Pergunta", "titulo": "Vendi errado. E agora?", "url": "/ajuda/perguntas#p2"}, {"texto": "O alerta s\u00f3 enxerga estoque com validade informada. Cadastre a validade no produto novo, na entrada de mercadoria ou em  Registrar validade do estoque atual  na edi\u00e7\u00e3o do produto.", "tipo": "Pergunta", "titulo": "Por que o lote do produto n\u00e3o aparece no alerta de vencimento?", "url": "/ajuda/perguntas#p3"}, {"texto": "Sim. Exporte, altere ou acrescente linhas no Excel e importe o mesmo arquivo. O c\u00f3digo de barras liga a linha ao produto; linha sem c\u00f3digo vira produto novo. Nada \u00e9 gravado antes de confirmar a pr\u00e9via.", "tipo": "Pergunta", "titulo": "Posso usar a mesma planilha para exportar e importar os produtos?", "url": "/ajuda/perguntas#p4"}, {"texto": "Sem configura\u00e7\u00e3o, o navegador mostra a janela de impress\u00e3o e algu\u00e9m precisa clicar em Imprimir. Para sair direto na t\u00e9rmica, configure o computador do caixa uma vez: impressora padr\u00e3o, papel de 80 mm e o atalho do Chrome com impress\u00e3o direta. Passo a passo no guia da impressora.", "tipo": "Pergunta", "titulo": "O comprovante abre na tela, mas n\u00e3o sai sozinho na impressora.", "url": "/ajuda/perguntas#p5"}, {"texto": "A c\u00e2mera s\u00f3 funciona no endere\u00e7o seguro do sistema (com https) e precisa de permiss\u00e3o no navegador (cadeado ao lado do endere\u00e7o). Use a c\u00e2mera traseira a um palmo do c\u00f3digo, com boa luz.", "tipo": "Pergunta", "titulo": "A c\u00e2mera do celular n\u00e3o l\u00ea o c\u00f3digo de barras.", "url": "/ajuda/perguntas#p6"}, {"texto": "Fa\u00e7a um invent\u00e1rio: a contagem ajusta o estoque de uma vez e registra as diferen\u00e7as.", "tipo": "Pergunta", "titulo": "O estoque do sistema n\u00e3o bate com a prateleira.", "url": "/ajuda/perguntas#p7"}, {"texto": "Invent\u00e1rio fechado j\u00e1 mudou o estoque e \u00e9 o registro desse ajuste. Enquanto est\u00e1 aberto, d\u00e1 para descartar (com sua senha), sem mexer no estoque.", "tipo": "Pergunta", "titulo": "Por que n\u00e3o consigo excluir um invent\u00e1rio fechado?", "url": "/ajuda/perguntas#p8"}, {"texto": "O assistente nunca grava sozinho: ele mostra um cart\u00e3o e s\u00f3 grava quando voc\u00ea clica em  Confirmar  (e confirma de novo). Cart\u00f5es valem 15 minutos e uma vez s\u00f3.", "tipo": "Pergunta", "titulo": "O assistente disse que fez uma altera\u00e7\u00e3o, mas nada mudou.", "url": "/ajuda/perguntas#p9"}, {"texto": "N\u00e3o, de prop\u00f3sito: exclus\u00f5es, vendas, usu\u00e1rios, nota fiscal, ajuste direto de estoque e abrir/fechar/descartar invent\u00e1rio ficam s\u00f3 nas telas. O assistente consulta o invent\u00e1rio e a reposi\u00e7\u00e3o.", "tipo": "Pergunta", "titulo": "Posso excluir um produto, cancelar uma venda ou fechar o invent\u00e1rio pelo assistente?", "url": "/ajuda/perguntas#p10"}, {"texto": "H\u00e1 um limite de perguntas por minuto e um limite di\u00e1rio por usu\u00e1rio, que soma perguntas e a\u00e7\u00f5es confirmadas no cart\u00e3o (administrador: 50 por dia). Aguarde alguns segundos, ou at\u00e9 o dia seguinte se for o limite di\u00e1rio. Perto do limite, o assistente mostra quantas voc\u00ea j\u00e1 usou.", "tipo": "Pergunta", "titulo": "O assistente respondeu \"muitas perguntas em pouco tempo\".", "url": "/ajuda/perguntas#p11"}, {"texto": "O provedor de IA falhou ou est\u00e1 fora do ar. O suporte j\u00e1 foi avisado automaticamente; as telas do sistema continuam funcionando normalmente.", "tipo": "Pergunta", "titulo": "O assistente diz que est\u00e1 indispon\u00edvel.", "url": "/ajuda/perguntas#p12"}, {"texto": "PDF escaneado \u00e9 uma imagem sem texto. Tire uma foto da p\u00e1gina pela c\u00e2mera do chat, ou envie o XML da nota (o jeito mais confi\u00e1vel).", "tipo": "Pergunta", "titulo": "Enviei o PDF da nota e o assistente pediu uma foto.", "url": "/ajuda/perguntas#p13"}, {"texto": "Confira as  Retiradas deste turno  e se alguma venda em dinheiro foi registrada em outra forma. O esperado \u00e9 abertura + dinheiro \u2212 retiradas.", "tipo": "Pergunta", "titulo": "O valor da gaveta n\u00e3o bateu no fechamento.", "url": "/ajuda/perguntas#p14"}, {"texto": "Na lista de clientes,  \u22ee \u203a Exportar dados (LGPD)  gera o arquivo para entregar. Para apagar,  \u22ee \u203a Excluir / anonimizar  com sua senha: as vendas continuam (contabilidade), os dados pessoais somem. Com valor em aberto na Confian\u00e7a, quite antes.", "tipo": "Pergunta", "titulo": "Um cliente pediu para ver ou apagar os dados dele (LGPD). O que fa\u00e7o?", "url": "/ajuda/perguntas#p15"}, {"texto": "N\u00e3o. Antes de enviar qualquer coisa ao provedor de IA, o sistema troca CPF, telefone e e-mail por c\u00f3digos e destroca s\u00f3 aqui dentro, na hora de gravar. As ferramentas do assistente tamb\u00e9m n\u00e3o devolvem esses dados. Exce\u00e7\u00e3o: fotos e PDFs anexados v\u00e3o como imagem; prefira o XML da nota.", "tipo": "Pergunta", "titulo": "O CPF dos clientes vai para a IA?", "url": "/ajuda/perguntas#p16"}, {"texto": "Financeiro, fiscal, estoque e cadastros: 5 anos. Acessos e senha errada: 1 ano. Assistente de IA: 6 meses (conversa: 30 dias). Chamados de suporte e outros: 2 anos. O IP \u00e9 mascarado depois de 6 meses. A limpeza \u00e9 autom\u00e1tica, uma vez por dia.", "tipo": "Pergunta", "titulo": "Por quanto tempo os registros ficam guardados?", "url": "/ajuda/perguntas#p17"}, {"texto": "Sim: todos os dados do sistema (produtos, estoque, vendas, caixas, clientes, Confian\u00e7a, contas, invent\u00e1rios, patrim\u00f4nio, usu\u00e1rios e registros). Ele \u00e9 feito todo dia \u00e0s 03:00 (ou assim que o computador for ligado, se estava desligado nesse hor\u00e1rio) e guarda 14 dias. Com a c\u00f3pia autom\u00e1tica no Cloudflare R2 ligada, cada backup tamb\u00e9m vai cifrado para a nuvem; sem ela, baixe uma c\u00f3pia por semana em  Configura\u00e7\u00f5es \u203a Sistema \u203a Sa\u00fade  e guarde fora do servidor. Para restaurar, o suporte precisa do arquivo e da chave de criptografia, que voc\u00ea guarda separada.", "tipo": "Pergunta", "titulo": "O backup guarda tudo? Onde ele fica?", "url": "/ajuda/perguntas#p18"}, {"texto": "\u00c9 um alerta t\u00e9cnico: backup atrasado ou com falha, disco quase cheio, erro numa tela, IA falhando, chamado de suporte sem envio ou prote\u00e7\u00e3o do banco desligada. Abra  Configura\u00e7\u00f5es \u203a Sistema  para ver o detalhe. O  \u00d7  esconde o aviso do sino; ele volta se o problema acontecer de novo.", "tipo": "Pergunta", "titulo": "Apareceu um aviso com \u26a0 no sino. O que \u00e9?", "url": "/ajuda/perguntas#p19"}, {"texto": "Toda a\u00e7\u00e3o fica no registro de auditoria (menu  Configura\u00e7\u00f5es \u203a Sistema \u203a Logs , acesso do super admin). A\u00e7\u00f5es feitas pelo assistente aparecem com \"via assistente de IA\".", "tipo": "Pergunta", "titulo": "Como vejo quem fez uma altera\u00e7\u00e3o?", "url": "/ajuda/perguntas#p20"}, {"texto": "Menu  Configura\u00e7\u00f5es \u203a Tour guiado : ele come\u00e7a pelo  ?  de ajuda, passa pelas \u00e1reas e bot\u00f5es da tela em que voc\u00ea est\u00e1 e depois pode mostrar cada item do menu.", "tipo": "Pergunta", "titulo": "Onde vejo o tour do sistema de novo?", "url": "/ajuda/perguntas#p21"}, {"texto": "Abre o guia da tela em que voc\u00ea est\u00e1, com o passo a passo e exemplos de pedidos para o assistente.", "tipo": "Pergunta", "titulo": "Para que serve o \"?\" no canto da tela?", "url": "/ajuda/perguntas#p22"}, {"texto": "Menu  Configura\u00e7\u00f5es \u203a Suporte : descreva o que aconteceu e em qual tela. Voc\u00ea recebe o n\u00famero do chamado e acompanha a situa\u00e7\u00e3o ali mesmo.", "tipo": "Pergunta", "titulo": "Encontrei um problema ou a ajuda est\u00e1 desatualizada.", "url": "/ajuda/perguntas#p23"}, {"texto": "F1 Ir para a Frente de Caixa Enter (campo vazio) / F9 Ir para o pagamento \u2191 \u2193 + Enter Escolher produto na lista de sugest\u00f5es F2 Selecionar cliente cadastrado F3 Navegar no carrinho (\u2191/\u2193, + / \u2212 quantidade, Delete remove, Esc sai) F4 Repetir a \u00faltima venda F6 Abrir a tela do cliente (Vitrine do Balc\u00e3o) F7 Desconto na venda (antes de escolher o pagamento) F8 Abrir a tela de Caixa Ctrl + L Cancelar a venda atual ? Mostrar/ocultar a ajuda de atalhos Esc Voltar / focar no campo de c\u00f3digo 1 \u2013 3 CPF/CNPJ na nota: N\u00e3o, CPF, CNPJ 1 \u2013 5 Forma: Dinheiro, D\u00e9bito, Cr\u00e9dito, Pix, Confian\u00e7a 6 Combinar formas de pagamento 1 / 2 Maquininha: Cielo / Stone (d\u00e9bito e cr\u00e9dito)", "tipo": "Atalhos", "titulo": "Atalhos de teclado da frente de caixa", "url": "/ajuda/atalhos"}, {"texto": "Quantas Skol lata eu tenho em estoque? O que eu preciso repor com urg\u00eancia? O que preciso comprar para o fim de semana? Quanto vendi de 01/09 a hoje, por forma de pagamento? Quais lotes vencem nos pr\u00f3ximos 30 dias? Como est\u00e1 meu caixa agora? Quanto deveria ter na gaveta? Quanto o Bar do Z\u00e9 est\u00e1 devendo? Como foi o \u00faltimo invent\u00e1rio? Qual a diferen\u00e7a em reais? Cadastra Heineken Zero long neck 330ml, c\u00f3digo 7896045505296, custo 4,50, venda 8,00 Muda o estoque m\u00ednimo da Skol lata para 48 Aumenta 5% todas as cervejas da Heineken, arredondando pra 0,10 Chegaram 10 caixas com 12 de Brahma Duplo Malte, custo 3,10 a unidade, lote L0925, validade 30/11 Lan\u00e7a essa nota (anexe o XML, o PDF ou a foto) Lan\u00e7a a conta de \u00e1gua de 180 reais para o dia 15, \u00e9 mensal J\u00e1 paguei o aluguel, d\u00e1 baixa O Bar do Z\u00e9 pagou 150 da Confian\u00e7a no pix Tira 50 do caixa pra pagar o gelo Cadastra o cliente Mercearia Boa Vista, telefone (61) 99999-0000, limite de confian\u00e7a 800 Cadastra o fornecedor Distribuidora Planalto, telefone 61 3333-4444 confirma\u00e7\u00e3o cart\u00e3o anexo nota foto pdf limite", "tipo": "Assistente", "titulo": "O que o assistente de IA sabe fazer", "url": "/ajuda/assistente"}]</script>
+
+  <div id="ajuda-conteudo" class="aj-grupos">
+    
+    <section class="aj-grupo" data-tour-tela data-tour-titulo="Guias por tarefa" data-tour-text="Um guia curto para cada tela, agrupado por área, com o passo a passo e exemplos de pedidos para o assistente.">
+      <h2>NO BALCÃO</h2>
+      <div class="aj-cartoes">
+        
+        <a class="aj-cartao" href="./ajuda_caixa.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h20v12H2zM12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 1 0 0-5"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Caixa: abrir, retirar e fechar</strong><span>Abra o caixa no início do turno, registre retiradas (sangria) e feche conferindo a gaveta.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_venda.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Vender na frente de caixa</strong><span>Bipe os produtos, escolha o pagamento pelo teclado e finalize.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M8 14h8v7H8z"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Impressora do caixa: comprovante direto na térmica</strong><span>Configure uma vez o computador do caixa para o comprovante sair na impressora térmica sem a janela de impressão.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_atalhos.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18v12H3zM7 10h.01M11 10h.01M15 10h.01M7 14h10"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Atalhos de teclado</strong><span>Todos os atalhos da frente de caixa.</span></span>
+        </a>
+        
+      </div>
+    </section>
+    
+    <section class="aj-grupo" >
+      <h2>ESTOQUE</h2>
+      <div class="aj-cartoes">
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Produtos: cadastro, validade, lotes e planilha</strong><span>Cadastro com código de barras, preço e estoque; validade e lotes; exportar e importar a planilha.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Entrada de mercadoria (compras) e XML da nota</strong><span>Registre a compra: soma o estoque, atualiza o custo e guarda lote e validade.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4zM8 12l3 3 5-6"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Inventário (contagem do estoque)</strong><span>Conte o estoque físico sem ver o número do sistema, ajuste tudo de uma vez e exporte o resultado.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_reposicao.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Reposição e produtos parados</strong><span>O que comprar antes de acabar e o que está parado na prateleira.</span></span>
+        </a>
+        
+      </div>
+    </section>
+    
+    <section class="aj-grupo" >
+      <h2>CLIENTES, FORNECEDORES E CONTAS</h2>
+      <div class="aj-cartoes">
+        
+        <a class="aj-cartao" href="./ajuda_fiado.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4a4 4 0 1 0 0 8 4 4 0 1 0 0-8M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Clientes e Confiança: vender e receber</strong><span>Cadastro com CPF/CNPJ formatado, limite por cliente, venda na Confiança (o que muitos chamam de fiado) e registro do pagamento.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 6h14v10H1zM15 10h4l3 3v3h-7"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Fornecedores e dados de clientes (LGPD)</strong><span>Cadastro de fornecedor com CNPJ conferido, duplicar, editar e pedidos de dados pela LGPD.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18v16H3zM3 10h18M8 3v4M16 3v4"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Contas a pagar</strong><span>Lance contas (luz, aluguel, boletos), marque como pagas e use recorrência mensal.</span></span>
+        </a>
+        
+      </div>
+    </section>
+    
+    <section class="aj-grupo" >
+      <h2>GESTÃO</h2>
+      <div class="aj-cartoes">
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Painel do dia</strong><span>Vendas, faturamento, lucro do dia e do mês, retirada do dono, descontos e alertas.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Relatórios de vendas</strong><span>Faturamento por período, gráficos e exportação em PDF, Excel e CSV.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16v12H4zM9 8V5h6v3"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Patrimônio (bens da loja)</strong><span>Freezer, móveis e equipamentos com o valor atual depois da depreciação.</span></span>
+        </a>
+        
+      </div>
+    </section>
+    
+    <section class="aj-grupo" >
+      <h2>SISTEMA E SUPORTE</h2>
+      <div class="aj-cartoes">
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7a3 3 0 1 0 0 .01M3 20c1-3.5 3.5-5 6-5s5 1.5 6 5M17 11a3 3 0 1 0 0-6M21 20c-.5-2.5-2-4-4-4.6"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Usuários e permissões</strong><span>Crie funcionários, administradores e super admins, redefina senhas e desative quem saiu.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Sistema: saúde, logs e uso da IA</strong><span>Backup, alertas técnicos, registro de auditoria e consumo da IA.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18a5 5 0 1 1 1-9.9A6 6 0 0 1 19.5 10 4 4 0 0 1 18 18z"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Backup: cópia de segurança dos dados</strong><span>Como o sistema guarda uma cópia de tudo todo dia, como salvar uma cópia fora e o que é preciso para restaurar.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Assistente de IA</strong><span>Pergunte em qualquer língua, peça cadastros e lançamentos, anexe notas. Nada é gravado sem você confirmar.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 6 1V5a3 3 0 0 0-3-1zM15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-6 1"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Memória da IA: ensinar o assistente</strong><span>Lições curtas sobre a loja que o assistente passa a usar nas respostas, com exemplos de como escrever.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_assistente.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Suporte: relatar um problema</strong><span>Registre um chamado e acompanhe a situação.</span></span>
+        </a>
+        
+        <a class="aj-cartao" href="./ajuda_perguntas.html">
+          <span class="aj-icone"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14"/></svg></span>
+          <span class="aj-cartao-texto"><strong>Perguntas frequentes</strong><span>Vendi errado, o lote não aparece, a gaveta não bateu…</span></span>
+        </a>
+        
+      </div>
+    </section>
+    
+
+    <section class="aj-rodape">
+      <div class="aj-rodape-cartao">
+        <div><strong>Primeira vez no sistema?</strong><span>O tour guiado mostra cada área da tela.</span></div>
+        <button type="button" class="btn-secundario btn-baixo" id="btn-fazer-tour">Fazer o tour</button>
+      </div>
+      <div class="aj-rodape-cartao">
+        <div><strong>Não achou o que procurava?</strong><span>Pergunte ao assistente ou abra um chamado.</span></div>
+        <a class="btn-neutro btn-baixo" href="./assistente.html">Assistente</a>
+        <a class="btn-neutro btn-baixo" href="./suporte.html">Suporte</a>
+      </div>
+    </section>
+  </div>
+
+  
+</div>
+
+        </main>
+        
+        <footer class="rodape">
+          <a href="https://optimati.com.br" target="_blank" rel="noopener">Desenvolvido por Óptima Tecnologia</a>
+        </footer>
+        
+      </div>
+    </div>
+
+    
+    <!-- Caixa de confirmação do próprio sistema (substitui o confirm() do navegador) -->
+    <div id="modal-confirmar" class="modal" hidden>
+      <div class="modal-box">
+        <h2 id="modal-confirmar-titulo">Confirmação</h2>
+        <p id="modal-confirmar-msg" class="muted"></p>
+        <div class="modal-acoes">
+          <button type="button" class="btn" id="modal-confirmar-nao">Não</button>
+          <button type="button" class="btn danger" id="modal-confirmar-sim">Sim, confirmar</button>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <script>
+      // Destaca o item do menu correspondente à página atual.
+      (function () {
+        var path = location.pathname;
+        var links = document.querySelectorAll('.side-nav a');
+        var melhor = null;
+        var tamanhoMelhor = 0;
+        links.forEach(function (a) {
+          // data-ativo-em: o item também fica ativo nessas rotas (ex.: "Sistema" em /logs).
+          var rotas = [a.getAttribute('href')].concat((a.dataset.ativoEm || '').split(',').filter(Boolean));
+          rotas.forEach(function (href) {
+            if (path === href || (href !== '/' && path.indexOf(href) === 0)) {
+              if (!melhor || href.length > tamanhoMelhor) { melhor = a; tamanhoMelhor = href.length; }
+            }
+          });
+        });
+        if (melhor) {
+          melhor.classList.add('ativo');
+          // Sem isto, cada navegação recarrega a página e a barra lateral
+          // (que rola por dentro, .side-nav) volta pro topo sozinha — se o
+          // item ativo estiver mais embaixo, parece que "a barra subiu"
+          // mesmo sem ninguém ter mexido nela. Mantém sempre visível, na
+          // mesma posição relativa, sem animação (block:"nearest" só move
+          // se precisar).
+          if (!window.__menuRolagemRestaurada) melhor.scrollIntoView({ block: 'nearest' });
+        }
+      })();
+      (function () {
+        var t = document.getElementById('side-toggle');
+        if (!t) return;
+        // O ícone (‹ › ☰ ✕) é trocado pelo CSS conforme o estado; aqui só o title e o aria-label.
+        function ajusta() {
+          var rotulo;
+          if (window.innerWidth <= 900) {
+            rotulo = document.documentElement.classList.contains('sidebar-mobile-open') ? 'Fechar menu' : 'Abrir menu';
+          } else {
+            rotulo = document.documentElement.classList.contains('sidebar-collapsed') ? 'Expandir menu' : 'Recolher menu';
+          }
+          t.title = rotulo;
+          t.setAttribute('aria-label', rotulo);
+        }
+        t.addEventListener('click', function () {
+          if (window.innerWidth <= 900) {
+            document.documentElement.classList.toggle('sidebar-mobile-open');
+          } else {
+            var col = document.documentElement.classList.toggle('sidebar-collapsed');
+            try { localStorage.setItem('sidebarColapsado', col ? '1' : '0'); } catch (e) {}
+          }
+          ajusta();
+        });
+        window.addEventListener('resize', ajusta);
+        ajusta();
+        
+        // No celular, clica em um link do menu e a gaveta se fecha automaticamente.
+        var sideNav = document.querySelector('.side-nav');
+        if (sideNav) sideNav.addEventListener('click', function(e) {
+          if (e.target.closest('a') && window.innerWidth <= 900) {
+            document.documentElement.classList.remove('sidebar-mobile-open');
+            ajusta();
+          }
+        });
+      })();
+      // Balão de confirmação (ex.: "produto cadastrado"): some sozinho depois de um tempo.
+      (function () {
+        document.querySelectorAll('.toast').forEach(function (el) {
+          setTimeout(function () { el.classList.add('toast-saindo'); }, 3000);
+          setTimeout(function () { el.remove(); }, 3400);
+        });
+      })();
+      // Grupo "Estoque" no menu: lembra se o usuário deixou aberto ou fechado.
+      (function () {
+        var grupo = document.getElementById('grupo-estoque');
+        if (!grupo) return;
+        try { if (localStorage.getItem('menuEstoqueAberto') === '1') grupo.open = true; } catch (e) {}
+        grupo.addEventListener('toggle', function () {
+          try { localStorage.setItem('menuEstoqueAberto', grupo.open ? '1' : '0'); } catch (e) {}
+        });
+      })();
+      // Grupo "Configurações" no menu: mesmo esquema do grupo Estoque acima.
+      (function () {
+        var grupo = document.getElementById('grupo-configuracoes');
+        if (!grupo) return;
+        try { if (localStorage.getItem('menuConfiguracoesAberto') === '1') grupo.open = true; } catch (e) {}
+        // Último grupo do menu: ao abrir por clique, rola o menu até as opções aparecerem inteiras
+        // (no celular elas ficavam abaixo da tela). Só no clique: abrir pelo localStorage não rola.
+        var clicado = false;
+        grupo.querySelector('summary').addEventListener('click', function () { clicado = true; });
+        grupo.addEventListener('toggle', function () {
+          try { localStorage.setItem('menuConfiguracoesAberto', grupo.open ? '1' : '0'); } catch (e) {}
+          if (grupo.open && clicado) grupo.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          clicado = false;
+        });
+      })();
+      // Ctrl+F foca a busca da tela (Produtos, Clientes, Fornecedores, Logs) em vez
+      // do buscador nativo do navegador — só nas telas que têm esse campo; nas
+      // demais o Ctrl+F cai pro comportamento normal do navegador.
+      (function () {
+        document.addEventListener('keydown', function (e) {
+          if (!(e.ctrlKey && e.key.toLowerCase() === 'f')) return;
+          var campo = document.querySelector('input[name="q"]');
+          if (!campo) return;
+          e.preventDefault();
+          campo.focus();
+          campo.select();
+        });
+      })();
+      // F1: vai pra Frente de Caixa (Vendas) de qualquer tela do sistema —
+      // mesmo espírito do F8 já existente dentro da venda (que vai pro Caixa).
+      (function () {
+        document.addEventListener('keydown', function (e) {
+          if (e.key !== 'F1') return;
+          e.preventDefault();
+          if (location.pathname !== '/venda') location.href = '/venda';
+        });
+      })();
+      // Alternar tema claro/escuro
+      (function () {
+        var b = document.getElementById('btn-tema');
+        if (!b) return;
+        function atual() {
+          var a = document.documentElement.getAttribute('data-theme');
+          if (a) return a;
+          return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        b.addEventListener('click', function () {
+          var novo = atual() === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', novo);
+          try { localStorage.setItem('tema', novo); } catch (e) {}
+        });
+      })();
+      // Menu do usuário (rodapé do menu lateral): Minha conta, Tema e Sair.
+      // position:fixed como o painel do sino (a .sidebar tem overflow:hidden).
+      (function () {
+        var btn = document.getElementById('btn-usuario');
+        var menu = document.getElementById('usuario-menu');
+        if (!btn || !menu) return;
+        function itens() { return Array.prototype.slice.call(menu.querySelectorAll('[role="menuitem"]')); }
+        function posicionar() {
+          var r = btn.getBoundingClientRect();
+          menu.style.top = 'auto';
+          menu.style.right = 'auto';
+          if (window.innerWidth > 900 && document.documentElement.classList.contains('sidebar-collapsed')) {
+            // Recolhido: à direita do avatar, alinhado por baixo.
+            menu.style.left = (document.getElementById('sidebar').getBoundingClientRect().right + 8) + 'px';
+            menu.style.bottom = (window.innerHeight - r.bottom) + 'px';
+          } else {
+            // Expandido e gaveta do celular: para cima, acima do bloco do usuário.
+            menu.style.left = r.left + 'px';
+            menu.style.bottom = (window.innerHeight - r.top + 6) + 'px';
+          }
+        }
+        function abrir() {
+          posicionar();
+          menu.hidden = false;
+          btn.setAttribute('aria-expanded', 'true');
+          itens()[0].focus();
+        }
+        function fechar(devolverFoco) {
+          if (menu.hidden) return;
+          menu.hidden = true;
+          btn.setAttribute('aria-expanded', 'false');
+          if (devolverFoco) btn.focus();
+        }
+        btn.addEventListener('click', function () { if (menu.hidden) abrir(); else fechar(false); });
+        // Seta para cima/baixo no próprio botão também abre (padrão de botão de menu).
+        btn.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); abrir(); }
+        });
+        menu.addEventListener('keydown', function (e) {
+          var lista = itens();
+          var i = lista.indexOf(document.activeElement);
+          if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); fechar(true); }
+          else if (e.key === 'ArrowDown') { e.preventDefault(); lista[(i + 1) % lista.length].focus(); }
+          else if (e.key === 'ArrowUp') { e.preventDefault(); lista[(i - 1 + lista.length) % lista.length].focus(); }
+          else if (e.key === 'Home') { e.preventDefault(); lista[0].focus(); }
+          else if (e.key === 'End') { e.preventDefault(); lista[lista.length - 1].focus(); }
+          else if (e.key === 'Tab') fechar(false);
+        });
+        // Clique fora fecha. Na fase de captura: o sino para a propagação do clique dele.
+        document.addEventListener('click', function (e) {
+          if (!menu.hidden && !menu.contains(e.target) && !btn.contains(e.target)) fechar(false);
+        }, true);
+        // Ao navegar (Minha conta, Sair) e ao mudar o tamanho da janela/estado do menu.
+        menu.addEventListener('click', function (e) { if (e.target.closest('a')) fechar(false); });
+        window.addEventListener('pagehide', function () { fechar(false); });
+        // Só a largura conta: no celular a barra de endereço some/aparece e muda a altura.
+        var largura = window.innerWidth;
+        window.addEventListener('resize', function () {
+          if (window.innerWidth !== largura) { largura = window.innerWidth; fechar(false); }
+        });
+        document.getElementById('side-toggle').addEventListener('click', function () { fechar(false); });
+      })();
+      // Painel de notificações (sino) — position:fixed, posição calculada ao abrir
+      // (o painel absolute ficaria cortado pelo overflow:hidden da .sidebar).
+      (function () {
+        var btn = document.getElementById('btn-notificacoes');
+        var painel = document.getElementById('sino-painel');
+        if (!btn || !painel) return;
+        function posicionar() {
+          var r = btn.getBoundingClientRect();
+          if (window.innerWidth <= 900) {
+            // Menu em gaveta: alinhado à direita da tela; abaixo do sino na barra do topo,
+            // acima dele no rodapé da gaveta aberta.
+            painel.style.left = 'auto';
+            painel.style.right = '8px';
+            var emCima = r.top < window.innerHeight / 2;
+            painel.style.top = emCima ? (r.bottom + 8) + 'px' : 'auto';
+            painel.style.bottom = emCima ? 'auto' : (window.innerHeight - r.top + 8) + 'px';
+            return;
+          }
+          // Computador: ao lado da barra (não do botão — recolhido, o sino fica no meio dela).
+          var lado = document.getElementById('sidebar').getBoundingClientRect().right;
+          painel.style.right = '';
+          painel.style.top = '';
+          painel.style.left = (lado + 8) + 'px';
+          painel.style.bottom = (window.innerHeight - r.bottom) + 'px';
+        }
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (painel.hidden) posicionar();
+          painel.hidden = !painel.hidden;
+        });
+        document.addEventListener('click', function (e) {
+          // Alvo que já saiu da página (ex.: notificação recém-dispensada) não conta como
+          // "clique fora" — o balão continua aberto (spec 012, N1).
+          if (!e.target.isConnected) return;
+          if (!painel.hidden && !painel.contains(e.target) && e.target !== btn) painel.hidden = true;
+        });
+      })();
+      // Notificações dispensáveis: guarda no localStorage quais "chaves" (versão
+      // do conteúdo, ver notificacoes.py) já foram vistas — o item some pro
+      // usuário e volta a aparecer sozinho quando a chave mudar (ex.: um produto
+      // novo entra em estoque baixo, um caixa fecha e abre de novo, etc.).
+      (function () {
+        var painel = document.getElementById('sino-painel');
+        if (!painel) return;
+
+        function dispensados() {
+          try { return JSON.parse(localStorage.getItem('sinoDispensados') || '[]'); }
+          catch (e) { return []; }
+        }
+
+        function aplicarDispensados() {
+          var vistos = dispensados();
+          painel.querySelectorAll('.sino-item-dispensavel').forEach(function (el) {
+            if (vistos.indexOf(el.dataset.chave) !== -1) el.remove();
+          });
+          // Só os filhos diretos: o aviso dispensável é um <div class="sino-item"> com um
+          // <a class="sino-item"> dentro — contar os dois dava "2" no sino com 1 aviso.
+          var visiveis = painel.querySelectorAll(':scope > .sino-item').length;
+          // Busca de novo a cada vez (não guarda em variável no topo): o
+          // hx-swap-oob="true" do sino troca o elemento inteiro (outerHTML) a
+          // cada atualização de /notificacoes, então uma referência guardada
+          // antes vira um nó desconectado do DOM — escrever nela não muda mais
+          // nada na tela (era exatamente por isso que o número não descia ao
+          // dispensar um aviso).
+          var contador = document.getElementById('sino-contador');
+          if (contador) {
+            contador.textContent = visiveis;
+            contador.hidden = visiveis === 0;
+          }
+          if (!visiveis && !painel.querySelector('.sino-vazio')) {
+            painel.innerHTML = '<p class="sino-vazio muted small">Sem avisos por enquanto.</p>';
+          }
+        }
+
+        painel.addEventListener('click', function (e) {
+          var b = e.target.closest('[data-dispensar]');
+          if (!b) return;
+          e.stopPropagation();
+          var chave = b.dataset.dispensar;
+          var vistos = dispensados();
+          if (vistos.indexOf(chave) === -1) {
+            vistos.push(chave);
+            try { localStorage.setItem('sinoDispensados', JSON.stringify(vistos)); } catch (e) {}
+          }
+          var item = b.closest('.sino-item-dispensavel');
+          if (item) item.remove();
+          aplicarDispensados();
+        });
+
+        document.body.addEventListener('htmx:afterSwap', function (evt) {
+          if (evt.detail.target === painel) aplicarDispensados();
+        });
+        aplicarDispensados();
+      })();
+    </script>
+    <script src="./static/confirmar.js"></script>
+    <script src="./static/mascaras.js"></script>
+    <script src="./static/tabela-menu.js"></script>
+    <script src="./static/arquivo.js"></script>
+    <script src="./static/tabela-empilha.js"></script>
+    <script src="./static/menu-fora.js"></script>
+    <script src="./static/tour.js"></script>
+    <script src="./static/busca-sugestao.js"></script>
+    
+    
+<script src="./static/ajuda.js"></script>
+<script>
+  // "Fazer o tour" usa o mesmo botão do menu (Configurações › Tour guiado).
+  var btnTour = document.getElementById('btn-fazer-tour');
+  if (btnTour) btnTour.addEventListener('click', function () {
+    var original = document.getElementById('btn-tour');
+    if (original) original.click();
+  });
+  // No guia: marca no índice lateral o passo que está na tela.
+  (function () {
+    var links = document.querySelectorAll('.aj-indice-passos a');
+    if (!links.length || !('IntersectionObserver' in window)) return;
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        links.forEach(function (l) { l.classList.toggle('atual', l.getAttribute('href') === '#' + e.target.id); });
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    document.querySelectorAll('.aj-passo').forEach(function (p) { obs.observe(p); });
+  })();
+</script>
+
+</body>
+</html>

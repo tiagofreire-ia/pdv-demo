@@ -1,0 +1,1293 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <script>
+      try{localStorage.setItem('tourVisto_v1','1');}catch(e){}
+      document.addEventListener('submit', function(e){
+        var f = e.target;
+        if (f && f.action && String(f.action).indexOf('login.html') !== -1 && !f.classList.contains('login-card')) {
+          e.preventDefault();
+          window.location.href = './login.html';
+        }
+      }, true);
+    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+    <title>Reposição de estoque</title>
+    <link rel="icon" href="./static/img/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="./static/img/favicon-32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="./static/img/logo-marca.svg">
+    
+    <link rel="manifest" href="#">
+    <meta name="theme-color" content="#16130E" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#110f0b" media="(prefers-color-scheme: dark)">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="SUA MARCA">
+    <link rel="preload" href="./static/fonts/manrope-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="./static/style.css">
+    <script>try{var _t=localStorage.getItem('tema');if(_t==='dark'||_t==='light')document.documentElement.setAttribute('data-theme',_t);if(localStorage.getItem('sidebarColapsado')==='1')document.documentElement.classList.add('sidebar-collapsed');}catch(e){}</script>
+    <script src="./static/vendor/htmx-2.0.3.min.js"></script>
+    <script>
+      // Anexa o token CSRF em toda requisição do htmx (forms comuns usam campo oculto, ver forms).
+      document.addEventListener('htmx:configRequest', function (e) {
+        var meta = document.querySelector('meta[name="csrf-token"]');
+        if (meta) e.detail.headers['X-CSRF-Token'] = meta.content;
+      });
+    </script>
+</head>
+<body>
+    <div class="app-shell">
+      
+      <aside class="sidebar" id="sidebar">
+        <div class="side-top">
+          <img class="side-mark" src="./static/img/logo-marca.svg" alt="" aria-hidden="true">
+          <span class="side-name">SUA MARCA</span>
+          
+          <button type="button" class="side-toggle" id="side-toggle" title="Recolher menu" aria-label="Recolher menu">
+            <svg class="ic-recolher" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            <svg class="ic-expandir" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            <svg class="ic-abrir" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <svg class="ic-fechar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <nav class="side-nav">
+          
+          <div class="side-secao">Operação</div>
+          <a href="./venda.html" title="Frente de caixa (F1)" data-tour="venda" data-tour-titulo="Vender" data-tour-text="Frente de caixa: bipe os produtos e receba o pagamento por atalhos de teclado.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 2h3l2.5 12.4a2 2 0 0 0 2 1.6h9.6a2 2 0 0 0 2-1.6L22 6H5.2"/></svg>
+            <span class="label">Vender</span>
+            <kbd class="side-kbd">F1</kbd>
+          </a>
+          <a href="./caixa.html" title="Abrir e fechar o caixa" data-tour="caixa" data-tour-text="Abra o caixa no início do dia e feche no fim, conferindo o dinheiro da gaveta.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>
+            <span class="label">Abrir/fechar caixa</span>
+          </a>
+
+          <div class="side-secao">Cadastros</div>
+          <details class="side-grupo" id="grupo-estoque"
+                    open>
+            <summary title="Estoque">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5" rx="1"/><path d="M4 8v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8"/><path d="M10 13h4"/></svg>
+              <span class="label">Estoque</span>
+              <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="side-subnav">
+              <a href="./produtos.html" title="Produtos" data-tour="produtos" data-tour-text="Cadastre produtos, preços, código de barras e estoque mínimo.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg>
+                <span class="label">Produtos</span>
+              </a>
+              <a href="./entradas.html" title="Entradas" data-tour="entradas" data-tour-text="Registre a compra de mercadoria: aumenta o estoque automaticamente.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10"/><path d="M8 9l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+                <span class="label">Entradas</span>
+              </a>
+              
+              <a href="./inventarios.html" title="Inventário" data-tour="inventarios" data-tour-text="Contagem física do estoque (cega) e ajuste em massa ao fechar.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                <span class="label">Inventário</span>
+              </a>
+              <a href="./reposicao.html" title="Reposição" data-tour="reposicao" data-tour-text="Sugestão de compra com base na velocidade de venda dos últimos 30 dias.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"/><path d="M3 8h18l-1.5 11a2 2 0 0 1-2 1.7H6.5a2 2 0 0 1-2-1.7L3 8z"/><path d="M9 12h6"/></svg>
+                <span class="label">Reposição</span>
+              </a>
+              
+            </div>
+          </details>
+          <a href="./clientes.html" title="Clientes" data-tour="clientes" data-tour-text="Cadastre clientes (útil para vendas na Confiança e comprovantes).">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            <span class="label">Clientes</span>
+          </a>
+          <a href="./fornecedores.html" title="Fornecedores" data-tour="fornecedores" data-tour-text="Cadastre seus fornecedores de bebidas.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h13v10H1z"/><path d="M14 8h4l3 3v3h-7z"/><circle cx="5.5" cy="18" r="1.6"/><circle cx="17.5" cy="18" r="1.6"/></svg>
+            <span class="label">Fornecedores</span>
+          </a>
+
+          
+          <div class="side-secao">Gestão</div>
+          <a href="./painel.html" title="Painel" data-tour="admin" data-tour-text="Painel com cartões de faturamento, vendas, lucro e descontos do dia, e o que precisa de atenção.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+            <span class="label">Painel</span>
+          </a>
+          <a href="./contas_pagar.html" title="Contas" data-tour="contas_pagar" data-tour-titulo="Contas" data-tour-text="Contas a pagar: luz, água, energia, funcionário, aluguel e outros serviços.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/><path d="M8 2v4M16 2v4"/><path d="M8 14h4"/></svg>
+            <span class="label">Contas</span>
+          </a>
+          <a href="./relatorio.html" title="Relatórios" data-tour="relatorio" data-tour-text="Relatórios de vendas por período, com exportação em PDF e gráfico.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="10" width="3" height="8"/><rect x="12" y="6" width="3" height="12"/><rect x="17" y="13" width="3" height="5"/></svg>
+            <span class="label">Relatórios</span>
+          </a>
+          <a href="./patrimonio.html" title="Patrimônio" data-tour="patrimonio" data-tour-text="Bens da loja (freezer, móveis, equipamentos), separado do estoque de produtos.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            <span class="label">Patrimônio</span>
+          </a>
+          
+
+          <div class="side-secao">Apoio</div>
+          
+          <a href="./assistente.html" title="Assistente de IA" data-tour="assistente" data-tour-text="Pergunte em qualquer língua sobre vendas, estoque, contas e Confiança; peça cadastros e lançamentos para você confirmar.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
+            <span class="label">Assistente IA</span>
+          </a>
+          <a href="./ajuda.html" title="Ajuda" data-tour="ajuda" data-tour-text="Guias passo a passo, atalhos de teclado, perguntas frequentes e o que o assistente sabe fazer.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1 .9-1 1.6"/><path d="M12 17h.01"/></svg>
+            <span class="label">Ajuda</span>
+          </a>
+
+          <details class="side-grupo" id="grupo-configuracoes"
+                    >
+            <summary title="Configurações">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82 2 2 0 1 1-2.83 2.83 1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51 2 2 0 0 1-4 0 1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33 2 2 0 1 1-2.83-2.83A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1 2 2 0 0 1 0-4 1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82 2 2 0 1 1 2.83-2.83A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51 2 2 0 0 1 4 0 1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33 2 2 0 1 1 2.83 2.83A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1 2 2 0 0 1 0 4 1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span class="label">Configurações</span>
+              <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="side-subnav">
+              
+              <a href="./usuarios.html" title="Usuários" data-tour="usuarios" data-tour-text="Gerencie operadores e administradores do sistema.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0"/><path d="M16 5.6a3.5 3.5 0 0 1 0 4.8"/><path d="M18.5 21a6.5 6.5 0 0 0-3-5.4"/></svg>
+                <span class="label">Usuários</span>
+              </a>
+              
+              
+              <a href="./configuracoes.html" title="Loja" data-tour="loja" data-tour-text="Taxas das maquininhas e fechamento automático do caixa.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg>
+                <span class="label">Loja</span>
+              </a>
+              
+              
+              <a href="./saude.html" title="Sistema" data-tour="sistema" data-ativo-em="/admin/saude,/logs,/admin/uso-ia,/admin/conversas-ia,/admin/memoria-ia"
+                 data-tour-text="Saúde do sistema (backup, banco, alertas), logs de auditoria, uso, conversas e memória da IA.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <span class="label">Sistema</span>
+              </a>
+              
+              <a href="./suporte.html" title="Suporte" data-tour="suporte" data-tour-text="Relate um problema ou dúvida sobre o sistema.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24"/></svg>
+                <span class="label">Suporte</span>
+              </a>
+              <button type="button" id="btn-tour" class="side-link" title="Tour guiado">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>
+                <span class="label">Tour guiado</span>
+              </button>
+            </div>
+          </details>
+        </nav>
+
+        
+        
+        
+        
+        <div class="side-bottom">
+          <div class="usuario-wrap">
+            <button type="button" class="side-usuario" id="btn-usuario" aria-haspopup="menu" aria-expanded="false" aria-controls="usuario-menu" title="Carlos Eduardo (Proprietário) · Super admin">
+              <span class="side-avatar" aria-hidden="true">C(</span>
+              <span class="side-usuario-texto">
+                <span class="side-usuario-nome">Carlos Eduardo (Proprietário)</span>
+                <span class="side-usuario-papel">Super admin</span>
+              </span>
+            </button>
+            <div class="side-usuario-menu" id="usuario-menu" role="menu" aria-label="Conta" hidden>
+              <a href="./minha_conta.html" class="side-usuario-item" role="menuitem" title="Minha conta (trocar a senha)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+                <span>Minha conta</span>
+              </a>
+              
+              <button type="button" id="btn-tema" class="side-usuario-item" role="menuitem" title="Alternar tema claro/escuro">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="icone-tema-dark"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="icone-tema-light"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                <span class="icone-tema-dark">Tema escuro</span>
+                <span class="icone-tema-light">Tema claro</span>
+              </button>
+              <div class="side-usuario-sep" role="separator"></div>
+              <a href="./login.html" class="side-usuario-item side-sair" role="menuitem">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg>
+                <span>Sair</span>
+              </a>
+            </div>
+          </div>
+          <div class="sino-wrap">
+            <button type="button" id="btn-notificacoes" class="side-icone-btn" title="Notificações" aria-label="Notificações">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span id="sino-contador" class="sino-contador" hidden>0</span>
+            </button>
+            <div id="sino-painel" class="sino-painel" hidden
+                 hx-get="/notificacoes" hx-trigger="load, every 60s" hx-swap="innerHTML">
+              <p class="sino-vazio muted small">Carregando…</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+        <script>
+          // Menu lateral (spec 011 V1, spec 012 M1): restaura grupos abertos e a rolagem logo
+          // depois do menu COMPLETO (com o rodapé do usuário e o sino) — restaurar antes do
+          // rodapé existir limitava a rolagem, porque o menu ainda estava mais alto. Antes, o grupo Estoque reabria só no fim da página, depois
+          // do item ativo ser rolado para a vista, e empurrava o item para fora da tela.
+          (function () {
+            try {
+              var e = document.getElementById('grupo-estoque');
+              if (e && localStorage.getItem('menuEstoqueAberto') === '1') e.open = true;
+              var c = document.getElementById('grupo-configuracoes');
+              if (c && localStorage.getItem('menuConfiguracoesAberto') === '1') c.open = true;
+              var nav = document.querySelector('.side-nav');
+              var salvo = sessionStorage.getItem('menuRolagem');
+              if (nav && salvo !== null) { nav.scrollTop = parseInt(salvo, 10) || 0; window.__menuRolagemRestaurada = true; }
+              function guardar() { if (nav) sessionStorage.setItem('menuRolagem', String(nav.scrollTop)); }
+              if (nav) nav.addEventListener('click', function (ev) { if (ev.target.closest('a')) guardar(); });
+              window.addEventListener('pagehide', guardar);
+            } catch (err) {}
+          })();
+        </script>
+      
+
+      <div class="app-main">
+        <main>
+          
+          <a class="ajuda-contexto" href="./ajuda_reposicao.html"
+             title="Ajuda desta tela" aria-label="Ajuda desta tela">?</a>
+          
+          
+          
+
+
+<div class="page reposicao-tela">
+  <div class="rp-topo">
+    <div class="en-titulo">
+      <span class="muted small">Estoque</span>
+      <h1>Reposição <span class="dica" tabindex="0" role="note" aria-label="Baseado na velocidade de venda por dia da semana na janela escolhida, comparada ao estoque atual: um produto que só vende bem no fim de semana é avisado a tempo da sexta/sábado, não só na média geral. Mostra produtos com estoque no mínimo ou com menos de 14 dias de cobertura estimada." data-dica="Baseado na velocidade de venda por dia da semana na janela escolhida, comparada ao estoque atual: um produto que só vende bem no fim de semana é avisado a tempo da sexta/sábado, não só na média geral. Mostra produtos com estoque no mínimo ou com menos de 14 dias de cobertura estimada.">?</span></h1>
+    </div>
+    <div class="rp-controles">
+      <form method="get" action="/admin/reposicao" class="rp-janela" data-tour-tela data-tour-titulo="Calcular com"
+            data-tour-text="Escolha quantos dias de venda entram no cálculo (30, 60 ou 90). O PDF traz as duas listas completas.">
+        <label>Calcular com
+          <select name="dias" id="rp-dias">
+            <option value="30" selected>últimos 30 dias</option><option value="60" >últimos 60 dias</option><option value="90" >últimos 90 dias</option>
+          </select>
+        </label>
+        <noscript><button class="btn-neutro btn-baixo">Aplicar</button></noscript>
+      </form>
+      <a class="btn-neutro btn-alto-medio" href="/admin/reposicao/pdf?dias=30" target="_blank">Baixar PDF</a>
+    </div>
+  </div>
+
+  <div class="rp-cartoes">
+    <div class="cartao rl-kpi">
+      <span class="rotulo">Comprar agora</span>
+      <strong class="rl-neg">29 produtos</strong>
+      <span class="rl-apoio">
+        
+        
+        
+        1 zerado · 4 abaixo do mínimo · 24 acabando em breve</span>
+    </div>
+    <div class="cartao-destaque rl-kpi">
+      <span class="rotulo">Dinheiro parado na prateleira</span>
+      <strong class="valor-destaque">R$ 2.034,00</strong>
+      <span class="rl-apoio escuro">3 produtos sem venda nos últimos 30 dias</span>
+    </div>
+    <div class="cartao rl-kpi">
+      <span class="rotulo">Vendas usadas no cálculo</span>
+      <strong>788 vendas</strong>
+      <span class="rl-apoio">entre 08/10 e 06/11</span>
+    </div>
+  </div>
+
+  
+
+  <section class="cartao rl-vendas" aria-labelledby="titulo-comprar" data-tour-tela data-tour-titulo="O que comprar"
+           data-tour-text="Produtos que vão acabar logo. Confira ou mude a quantidade em Comprar e clique em Gerar lista de compras: o PDF sai agrupado por fornecedor.">
+    <form method="post" action="/admin/reposicao/lista" target="_blank" id="form-lista">
+      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+      <div class="rl-vendas-cabeca">
+        <h2 id="titulo-comprar">O que comprar</h2>
+        <button type="submit" class="btn-principal btn-alto-medio">Gerar lista de compras</button>
+      </div>
+      <div class="tabela-rolagem">
+        <table class="tabela rp-tabela" id="rp-comprar" data-paginar="50">
+          <thead><tr><th>Produto</th><th class="num">Estoque / mínimo</th><th class="num">Sai por dia</th><th>Acaba em</th><th class="num rp-col-comprar">Comprar</th></tr></thead>
+          <tbody>
+            
+            
+            <tr data-custo="4.95">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Heineken Long Neck 330ml">Heineken Long Neck 330ml</span></a>
+                <div class="small muted">Heineken Brasil Bebidas Ltda</div>
+              </td>
+              <td class="num"><span class="rp-estoque abaixo">14</span> <span class="muted">/ 48</span></td>
+              <td class="num ">13,7</td>
+              <td>
+                <span class="etiqueta etiqueta-warn">abaixo do mínimo</span>
+                
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="1">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Heineken Long Neck 330ml" value="178">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="7.10">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Red Bull Energy Drink Lata 250ml">Red Bull Energy Drink Lata 250ml</span></a>
+                <div class="small muted">Sul Distribuidora de Energéticos e Conveniência</div>
+              </td>
+              <td class="num"><span class="rp-estoque abaixo">9</span> <span class="muted">/ 36</span></td>
+              <td class="num ">9,9</td>
+              <td>
+                <span class="etiqueta etiqueta-warn">abaixo do mínimo</span>
+                
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="14">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Red Bull Energy Drink Lata 250ml" value="130">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="6.50">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Gelo Cubo Cristal Pacote 5kg">Gelo Cubo Cristal Pacote 5kg</span></a>
+                <div class="small muted">Gelo Cristal &amp; Brasa Atacado Ltda</div>
+              </td>
+              <td class="num"><span class="rp-estoque abaixo">4</span> <span class="muted">/ 30</span></td>
+              <td class="num ">3,5</td>
+              <td>
+                <span class="etiqueta etiqueta-warn">abaixo do mínimo</span>
+                
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="11">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Gelo Cubo Cristal Pacote 5kg" value="46">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="37.90">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Fardo Brahma Duplo Malte 350ml c/ 12 un">Fardo Brahma Duplo Malte 350ml c/ 12 un</span></a>
+                <div class="small muted">Ambev S.A. — CD Direto</div>
+              </td>
+              <td class="num"><span class="rp-estoque abaixo">3</span> <span class="muted">/ 15</span></td>
+              <td class="num ">3,2</td>
+              <td>
+                <span class="etiqueta etiqueta-warn">abaixo do mínimo</span>
+                
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="4">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Fardo Brahma Duplo Malte 350ml c/ 12 un" value="41">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="14.50">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Carvão Vegetal Eucalipto Saco 4kg">Carvão Vegetal Eucalipto Saco 4kg</span></a>
+                <div class="small muted">Gelo Cristal &amp; Brasa Atacado Ltda</div>
+              </td>
+              <td class="num"><span class="rp-estoque zerado">0</span> <span class="muted">/ 12</span></td>
+              <td class="num ">2,3</td>
+              <td>
+                <span class="etiqueta etiqueta-erro">acabou</span>
+                
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="13">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Carvão Vegetal Eucalipto Saco 4kg" value="32">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="41.40">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Fardo Spaten Lata 350ml c/ 12 un">Fardo Spaten Lata 350ml c/ 12 un</span></a>
+                <div class="small muted">Ambev S.A. — CD Direto</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">11</span> <span class="muted">/ 10</span></td>
+              <td class="num ">1,4</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 1 dia</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="6">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Fardo Spaten Lata 350ml c/ 12 un" value="9">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="51.60">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Fardo Heineken Lata 350ml c/ 12 un">Fardo Heineken Lata 350ml c/ 12 un</span></a>
+                <div class="small muted">Heineken Brasil Bebidas Ltda</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">18</span> <span class="muted">/ 12</span></td>
+              <td class="num ">3,8</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 1 dia</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="2">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Fardo Heineken Lata 350ml c/ 12 un" value="36">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="7.40">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Monster Energy Green Lata 473ml">Monster Energy Green Lata 473ml</span></a>
+                <div class="small muted">Sul Distribuidora de Energéticos e Conveniência</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">34</span> <span class="muted">/ 24</span></td>
+              <td class="num ">6,5</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 1 dia</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="15">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Monster Energy Green Lata 473ml" value="57">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="7.85">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Coca-Cola Sem Açúcar PET 2L">Coca-Cola Sem Açúcar PET 2L</span></a>
+                <div class="small muted">Coca-Cola FEMSA Brasil</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">28</span> <span class="muted">/ 18</span></td>
+              <td class="num ">9,0</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 1 dia</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="18">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Coca-Cola Sem Açúcar PET 2L" value="98">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="6.40">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Guaraná Antarctica PET 2L">Guaraná Antarctica PET 2L</span></a>
+                <div class="small muted">Ambev S.A. — CD Direto</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">32</span> <span class="muted">/ 18</span></td>
+              <td class="num ">8,2</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 1 dia</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="20">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Guaraná Antarctica PET 2L" value="82">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="5.60">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Corona Extra Long Neck 330ml">Corona Extra Long Neck 330ml</span></a>
+                <div class="small muted">Ambev S.A. — CD Direto</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">42</span> <span class="muted">/ 24</span></td>
+              <td class="num ">8,3</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 1 dia</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="7">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Corona Extra Long Neck 330ml" value="74">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="7.85">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Coca-Cola Original PET 2L">Coca-Cola Original PET 2L</span></a>
+                <div class="small muted">Coca-Cola FEMSA Brasil</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">45</span> <span class="muted">/ 24</span></td>
+              <td class="num ">10,4</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 2 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="17">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Coca-Cola Original PET 2L" value="101">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="3.45">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Spaten Puro Malte Lata 350ml">Spaten Puro Malte Lata 350ml</span></a>
+                <div class="small muted">Ambev S.A. — CD Direto</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">62</span> <span class="muted">/ 36</span></td>
+              <td class="num ">11,0</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 2 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="5">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Spaten Puro Malte Lata 350ml" value="92">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="2.89">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Brahma Duplo Malte Lata 350ml">Brahma Duplo Malte Lata 350ml</span></a>
+                <div class="small muted">Ambev S.A. — CD Direto</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">84</span> <span class="muted">/ 48</span></td>
+              <td class="num ">15,1</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 2 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="3">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Brahma Duplo Malte Lata 350ml" value="127">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="2.90">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Água Tônica Antarctica Lata 350ml">Água Tônica Antarctica Lata 350ml</span></a>
+                <div class="small muted">Ambev S.A. — CD Direto</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">40</span> <span class="muted">/ 24</span></td>
+              <td class="num ">4,0</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 3 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="21">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Água Tônica Antarctica Lata 350ml" value="16">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="7.80">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Cerveja Original 600ml">Cerveja Original 600ml</span></a>
+                <div class="small muted">Ambev S.A. — CD Direto</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">48</span> <span class="muted">/ 24</span></td>
+              <td class="num ">7,1</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 3 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="8">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Cerveja Original 600ml" value="51">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="1.40">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Água Mineral Cristal com Gás 500ml">Água Mineral Cristal com Gás 500ml</span></a>
+                <div class="small muted">Coca-Cola FEMSA Brasil</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">64</span> <span class="muted">/ 36</span></td>
+              <td class="num ">6,7</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 4 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="23">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Água Mineral Cristal com Gás 500ml" value="30">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="2.10">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Gelo de Água de Coco p/ Drink 200ml">Gelo de Água de Coco p/ Drink 200ml</span></a>
+                <div class="small muted">Gelo Cristal &amp; Brasa Atacado Ltda</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">55</span> <span class="muted">/ 24</span></td>
+              <td class="num ">9,9</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 4 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="12">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Gelo de Água de Coco p/ Drink 200ml" value="83">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="33.60">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Fardo Skol Pilsen Lata 350ml c/ 12 un">Fardo Skol Pilsen Lata 350ml c/ 12 un</span></a>
+                <div class="small muted">Ambev S.A. — CD Direto</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">20</span> <span class="muted">/ 12</span></td>
+              <td class="num ">2,1</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 5 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="10">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Fardo Skol Pilsen Lata 350ml c/ 12 un" value="9">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="3.65">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Amstel Lata 473ml (Latão)">Amstel Lata 473ml (Latão)</span></a>
+                <div class="small muted">Heineken Brasil Bebidas Ltda</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">96</span> <span class="muted">/ 48</span></td>
+              <td class="num ">12,7</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 5 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="9">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Amstel Lata 473ml (Latão)" value="82">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="1.15">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Água Mineral Cristal sem Gás 500ml">Água Mineral Cristal sem Gás 500ml</span></a>
+                <div class="small muted">Coca-Cola FEMSA Brasil</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">110</span> <span class="muted">/ 48</span></td>
+              <td class="num ">12,2</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 5 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="22">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Água Mineral Cristal sem Gás 500ml" value="61">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="36.00">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Cachaça Artesanal Salinas 670ml">Cachaça Artesanal Salinas 670ml</span></a>
+                <div class="small muted">Império dos Destilados &amp; Importados Ltda</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">8</span> <span class="muted">/ 6</span></td>
+              <td class="num ">0,5</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 6 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="29">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Cachaça Artesanal Salinas 670ml" value="0">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="65.00">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Whisky Ballantine&#39;s Finest 1L">Whisky Ballantine&#39;s Finest 1L</span></a>
+                <div class="small muted">Império dos Destilados &amp; Importados Ltda</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">10</span> <span class="muted">/ 6</span></td>
+              <td class="num ">0,9</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 6 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="25">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Whisky Ballantine&#39;s Finest 1L" value="2">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="2.75">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Coca-Cola Lata 350ml">Coca-Cola Lata 350ml</span></a>
+                <div class="small muted">Coca-Cola FEMSA Brasil</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">72</span> <span class="muted">/ 36</span></td>
+              <td class="num ">8,1</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 6 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="19">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Coca-Cola Lata 350ml" value="41">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="82.00">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Gin Tanqueray London Dry 750ml">Gin Tanqueray London Dry 750ml</span></a>
+                <div class="small muted">Império dos Destilados &amp; Importados Ltda</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">9</span> <span class="muted">/ 5</span></td>
+              <td class="num ">0,6</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 8 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="26">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Gin Tanqueray London Dry 750ml" value="0">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="61.50">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Vodka Absolut Original 1L">Vodka Absolut Original 1L</span></a>
+                <div class="small muted">Império dos Destilados &amp; Importados Ltda</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">12</span> <span class="muted">/ 6</span></td>
+              <td class="num ">0,8</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 8 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="27">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Vodka Absolut Original 1L" value="0">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="31.20">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Vodka Smirnoff Red 998ml">Vodka Smirnoff Red 998ml</span></a>
+                <div class="small muted">Império dos Destilados &amp; Importados Ltda</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">19</span> <span class="muted">/ 10</span></td>
+              <td class="num ">1,1</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 8 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="28">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Vodka Smirnoff Red 998ml" value="0">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="8.20">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Energético Bally Tropical 2L">Energético Bally Tropical 2L</span></a>
+                <div class="small muted">Sul Distribuidora de Energéticos e Conveniência</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">22</span> <span class="muted">/ 12</span></td>
+              <td class="num ">1,4</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 8 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="16">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Energético Bally Tropical 2L" value="0">
+              </td>
+            </tr>
+            
+            
+            <tr data-custo="23.50">
+              <td>
+                <a class="pr-nome" href="./produtos.html"><span class="truncar" tabindex="0" title="Vinho Chileno Reservado Cabernet 750ml">Vinho Chileno Reservado Cabernet 750ml</span></a>
+                <div class="small muted">Império dos Destilados &amp; Importados Ltda</div>
+              </td>
+              <td class="num"><span class="rp-estoque ">16</span> <span class="muted">/ 8</span></td>
+              <td class="num ">0,9</td>
+              <td>
+                <span class="etiqueta etiqueta-neutra">em 9 dias</span>
+              </td>
+              <td class="num rp-col-comprar">
+                <input type="hidden" name="produto_id" value="30">
+                <input type="text" name="quantidade" class="rp-qtd" inputmode="numeric" data-mascara-inteiro maxlength="6" aria-label="Quantidade a comprar de Vinho Chileno Reservado Cabernet 750ml" value="0">
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </div>
+      <nav class="paginacao" id="rp-comprar-paginas" aria-label="Páginas" hidden></nav>
+      
+      <div class="en-rodape rp-rodape">
+        <span class="muted"><span id="rp-unidades">0</span> unidades<span id="rp-sem-custo-txt" hidden> · <span id="rp-sem-custo">0</span> produto(s) sem custo cadastrado</span></span>
+        <span class="muted">custo estimado <strong class="en-total" id="rp-custo">R$ 0,00</strong></span>
+      </div>
+      
+    </form>
+  </section>
+
+  <section class="cartao rl-vendas" id="parados" aria-labelledby="titulo-parados" data-tour-tela data-tour-titulo="Produtos parados"
+           data-tour-text="Produtos com estoque que não vendem há tempo, com o dinheiro preso em cada um. Os que mais prendem dinheiro aparecem primeiro.">
+    <div class="rl-vendas-cabeca">
+      <div class="rp-parados-titulo"><h2 id="titulo-parados">Produtos parados</h2><span class="muted small">Os que mais prendem dinheiro aparecem primeiro.</span></div>
+      <div class="hc-chips" role="group" aria-label="Filtro">
+        <a class="filtro-chip ativo" href="/admin/reposicao#parados">Todos · 3</a>
+        <a class="filtro-chip " href="/admin/reposicao?parados=nunca#parados">Nunca venderam · 1</a>
+        <a class="filtro-chip " href="/admin/reposicao?parados=30#parados">Sem vender há 30+ dias · 2</a>
+        <a class="filtro-chip " href="/admin/reposicao?parados=60#parados">60+ dias · 0</a>
+      </div>
+    </div>
+    <div class="tabela-rolagem">
+      <table class="tabela rp-tabela">
+        <thead><tr><th>Produto</th><th class="num">Estoque</th><th>Sem vender há</th><th>Dinheiro parado</th><th class="rl-acao"><span class="so-leitor">Ações</span></th></tr></thead>
+        <tbody>
+          
+          <tr>
+            <td class="rl-forte"><span class="truncar" tabindex="0" title="Licor 43 Diego Zamora Espanhol 700ml">Licor 43 Diego Zamora Espanhol 700ml</span></td>
+            <td class="num">8</td>
+            <td class="muted">51 dias</td>
+            <td>
+              <div class="rp-parado">
+                <strong>R$ 912,00</strong>
+                <div class="barra fina"><span style="width: 100.0%"></span></div>
+              </div>
+            </td>
+            <td class="num rl-acao">
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Ações de Licor 43 Diego Zamora Espanhol 700ml">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <a href="./produtos.html">Ver produto</a>
+                  <a href="./produtos.html">Ajustar estoque mínimo</a>
+                </span>
+              </span>
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte"><span class="truncar" tabindex="0" title="Tequila José Cuervo Especial Gold 750ml">Tequila José Cuervo Especial Gold 750ml</span></td>
+            <td class="num">7</td>
+            <td class="muted">47 dias</td>
+            <td>
+              <div class="rp-parado">
+                <strong>R$ 672,00</strong>
+                <div class="barra fina"><span style="width: 73.7%"></span></div>
+              </div>
+            </td>
+            <td class="num rl-acao">
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Ações de Tequila José Cuervo Especial Gold 750ml">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <a href="./produtos.html">Ver produto</a>
+                  <a href="./produtos.html">Ajustar estoque mínimo</a>
+                </span>
+              </span>
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="rl-forte"><span class="truncar" tabindex="0" title="Aperitivo Campari Bitter 900ml">Aperitivo Campari Bitter 900ml</span></td>
+            <td class="num">10</td>
+            <td class="muted">nunca vendeu</td>
+            <td>
+              <div class="rp-parado">
+                <strong>R$ 450,00</strong>
+                <div class="barra fina"><span style="width: 49.3%"></span></div>
+              </div>
+            </td>
+            <td class="num rl-acao">
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Ações de Aperitivo Campari Bitter 900ml">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <a href="./produtos.html">Ver produto</a>
+                  <a href="./produtos.html">Ajustar estoque mínimo</a>
+                </span>
+              </span>
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+    
+    
+  </section>
+</div>
+
+        </main>
+        
+        <footer class="rodape">
+          <a href="https://optimati.com.br" target="_blank" rel="noopener">Desenvolvido por Óptima Tecnologia</a>
+        </footer>
+        
+      </div>
+    </div>
+
+    
+    <!-- Caixa de confirmação do próprio sistema (substitui o confirm() do navegador) -->
+    <div id="modal-confirmar" class="modal" hidden>
+      <div class="modal-box">
+        <h2 id="modal-confirmar-titulo">Confirmação</h2>
+        <p id="modal-confirmar-msg" class="muted"></p>
+        <div class="modal-acoes">
+          <button type="button" class="btn" id="modal-confirmar-nao">Não</button>
+          <button type="button" class="btn danger" id="modal-confirmar-sim">Sim, confirmar</button>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <script>
+      // Destaca o item do menu correspondente à página atual.
+      (function () {
+        var path = location.pathname;
+        var links = document.querySelectorAll('.side-nav a');
+        var melhor = null;
+        var tamanhoMelhor = 0;
+        links.forEach(function (a) {
+          // data-ativo-em: o item também fica ativo nessas rotas (ex.: "Sistema" em /logs).
+          var rotas = [a.getAttribute('href')].concat((a.dataset.ativoEm || '').split(',').filter(Boolean));
+          rotas.forEach(function (href) {
+            if (path === href || (href !== '/' && path.indexOf(href) === 0)) {
+              if (!melhor || href.length > tamanhoMelhor) { melhor = a; tamanhoMelhor = href.length; }
+            }
+          });
+        });
+        if (melhor) {
+          melhor.classList.add('ativo');
+          // Sem isto, cada navegação recarrega a página e a barra lateral
+          // (que rola por dentro, .side-nav) volta pro topo sozinha — se o
+          // item ativo estiver mais embaixo, parece que "a barra subiu"
+          // mesmo sem ninguém ter mexido nela. Mantém sempre visível, na
+          // mesma posição relativa, sem animação (block:"nearest" só move
+          // se precisar).
+          if (!window.__menuRolagemRestaurada) melhor.scrollIntoView({ block: 'nearest' });
+        }
+      })();
+      (function () {
+        var t = document.getElementById('side-toggle');
+        if (!t) return;
+        // O ícone (‹ › ☰ ✕) é trocado pelo CSS conforme o estado; aqui só o title e o aria-label.
+        function ajusta() {
+          var rotulo;
+          if (window.innerWidth <= 900) {
+            rotulo = document.documentElement.classList.contains('sidebar-mobile-open') ? 'Fechar menu' : 'Abrir menu';
+          } else {
+            rotulo = document.documentElement.classList.contains('sidebar-collapsed') ? 'Expandir menu' : 'Recolher menu';
+          }
+          t.title = rotulo;
+          t.setAttribute('aria-label', rotulo);
+        }
+        t.addEventListener('click', function () {
+          if (window.innerWidth <= 900) {
+            document.documentElement.classList.toggle('sidebar-mobile-open');
+          } else {
+            var col = document.documentElement.classList.toggle('sidebar-collapsed');
+            try { localStorage.setItem('sidebarColapsado', col ? '1' : '0'); } catch (e) {}
+          }
+          ajusta();
+        });
+        window.addEventListener('resize', ajusta);
+        ajusta();
+        
+        // No celular, clica em um link do menu e a gaveta se fecha automaticamente.
+        var sideNav = document.querySelector('.side-nav');
+        if (sideNav) sideNav.addEventListener('click', function(e) {
+          if (e.target.closest('a') && window.innerWidth <= 900) {
+            document.documentElement.classList.remove('sidebar-mobile-open');
+            ajusta();
+          }
+        });
+      })();
+      // Balão de confirmação (ex.: "produto cadastrado"): some sozinho depois de um tempo.
+      (function () {
+        document.querySelectorAll('.toast').forEach(function (el) {
+          setTimeout(function () { el.classList.add('toast-saindo'); }, 3000);
+          setTimeout(function () { el.remove(); }, 3400);
+        });
+      })();
+      // Grupo "Estoque" no menu: lembra se o usuário deixou aberto ou fechado.
+      (function () {
+        var grupo = document.getElementById('grupo-estoque');
+        if (!grupo) return;
+        try { if (localStorage.getItem('menuEstoqueAberto') === '1') grupo.open = true; } catch (e) {}
+        grupo.addEventListener('toggle', function () {
+          try { localStorage.setItem('menuEstoqueAberto', grupo.open ? '1' : '0'); } catch (e) {}
+        });
+      })();
+      // Grupo "Configurações" no menu: mesmo esquema do grupo Estoque acima.
+      (function () {
+        var grupo = document.getElementById('grupo-configuracoes');
+        if (!grupo) return;
+        try { if (localStorage.getItem('menuConfiguracoesAberto') === '1') grupo.open = true; } catch (e) {}
+        // Último grupo do menu: ao abrir por clique, rola o menu até as opções aparecerem inteiras
+        // (no celular elas ficavam abaixo da tela). Só no clique: abrir pelo localStorage não rola.
+        var clicado = false;
+        grupo.querySelector('summary').addEventListener('click', function () { clicado = true; });
+        grupo.addEventListener('toggle', function () {
+          try { localStorage.setItem('menuConfiguracoesAberto', grupo.open ? '1' : '0'); } catch (e) {}
+          if (grupo.open && clicado) grupo.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          clicado = false;
+        });
+      })();
+      // Ctrl+F foca a busca da tela (Produtos, Clientes, Fornecedores, Logs) em vez
+      // do buscador nativo do navegador — só nas telas que têm esse campo; nas
+      // demais o Ctrl+F cai pro comportamento normal do navegador.
+      (function () {
+        document.addEventListener('keydown', function (e) {
+          if (!(e.ctrlKey && e.key.toLowerCase() === 'f')) return;
+          var campo = document.querySelector('input[name="q"]');
+          if (!campo) return;
+          e.preventDefault();
+          campo.focus();
+          campo.select();
+        });
+      })();
+      // F1: vai pra Frente de Caixa (Vendas) de qualquer tela do sistema —
+      // mesmo espírito do F8 já existente dentro da venda (que vai pro Caixa).
+      (function () {
+        document.addEventListener('keydown', function (e) {
+          if (e.key !== 'F1') return;
+          e.preventDefault();
+          if (location.pathname !== '/venda') location.href = '/venda';
+        });
+      })();
+      // Alternar tema claro/escuro
+      (function () {
+        var b = document.getElementById('btn-tema');
+        if (!b) return;
+        function atual() {
+          var a = document.documentElement.getAttribute('data-theme');
+          if (a) return a;
+          return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        b.addEventListener('click', function () {
+          var novo = atual() === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', novo);
+          try { localStorage.setItem('tema', novo); } catch (e) {}
+        });
+      })();
+      // Menu do usuário (rodapé do menu lateral): Minha conta, Tema e Sair.
+      // position:fixed como o painel do sino (a .sidebar tem overflow:hidden).
+      (function () {
+        var btn = document.getElementById('btn-usuario');
+        var menu = document.getElementById('usuario-menu');
+        if (!btn || !menu) return;
+        function itens() { return Array.prototype.slice.call(menu.querySelectorAll('[role="menuitem"]')); }
+        function posicionar() {
+          var r = btn.getBoundingClientRect();
+          menu.style.top = 'auto';
+          menu.style.right = 'auto';
+          if (window.innerWidth > 900 && document.documentElement.classList.contains('sidebar-collapsed')) {
+            // Recolhido: à direita do avatar, alinhado por baixo.
+            menu.style.left = (document.getElementById('sidebar').getBoundingClientRect().right + 8) + 'px';
+            menu.style.bottom = (window.innerHeight - r.bottom) + 'px';
+          } else {
+            // Expandido e gaveta do celular: para cima, acima do bloco do usuário.
+            menu.style.left = r.left + 'px';
+            menu.style.bottom = (window.innerHeight - r.top + 6) + 'px';
+          }
+        }
+        function abrir() {
+          posicionar();
+          menu.hidden = false;
+          btn.setAttribute('aria-expanded', 'true');
+          itens()[0].focus();
+        }
+        function fechar(devolverFoco) {
+          if (menu.hidden) return;
+          menu.hidden = true;
+          btn.setAttribute('aria-expanded', 'false');
+          if (devolverFoco) btn.focus();
+        }
+        btn.addEventListener('click', function () { if (menu.hidden) abrir(); else fechar(false); });
+        // Seta para cima/baixo no próprio botão também abre (padrão de botão de menu).
+        btn.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); abrir(); }
+        });
+        menu.addEventListener('keydown', function (e) {
+          var lista = itens();
+          var i = lista.indexOf(document.activeElement);
+          if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); fechar(true); }
+          else if (e.key === 'ArrowDown') { e.preventDefault(); lista[(i + 1) % lista.length].focus(); }
+          else if (e.key === 'ArrowUp') { e.preventDefault(); lista[(i - 1 + lista.length) % lista.length].focus(); }
+          else if (e.key === 'Home') { e.preventDefault(); lista[0].focus(); }
+          else if (e.key === 'End') { e.preventDefault(); lista[lista.length - 1].focus(); }
+          else if (e.key === 'Tab') fechar(false);
+        });
+        // Clique fora fecha. Na fase de captura: o sino para a propagação do clique dele.
+        document.addEventListener('click', function (e) {
+          if (!menu.hidden && !menu.contains(e.target) && !btn.contains(e.target)) fechar(false);
+        }, true);
+        // Ao navegar (Minha conta, Sair) e ao mudar o tamanho da janela/estado do menu.
+        menu.addEventListener('click', function (e) { if (e.target.closest('a')) fechar(false); });
+        window.addEventListener('pagehide', function () { fechar(false); });
+        // Só a largura conta: no celular a barra de endereço some/aparece e muda a altura.
+        var largura = window.innerWidth;
+        window.addEventListener('resize', function () {
+          if (window.innerWidth !== largura) { largura = window.innerWidth; fechar(false); }
+        });
+        document.getElementById('side-toggle').addEventListener('click', function () { fechar(false); });
+      })();
+      // Painel de notificações (sino) — position:fixed, posição calculada ao abrir
+      // (o painel absolute ficaria cortado pelo overflow:hidden da .sidebar).
+      (function () {
+        var btn = document.getElementById('btn-notificacoes');
+        var painel = document.getElementById('sino-painel');
+        if (!btn || !painel) return;
+        function posicionar() {
+          var r = btn.getBoundingClientRect();
+          if (window.innerWidth <= 900) {
+            // Menu em gaveta: alinhado à direita da tela; abaixo do sino na barra do topo,
+            // acima dele no rodapé da gaveta aberta.
+            painel.style.left = 'auto';
+            painel.style.right = '8px';
+            var emCima = r.top < window.innerHeight / 2;
+            painel.style.top = emCima ? (r.bottom + 8) + 'px' : 'auto';
+            painel.style.bottom = emCima ? 'auto' : (window.innerHeight - r.top + 8) + 'px';
+            return;
+          }
+          // Computador: ao lado da barra (não do botão — recolhido, o sino fica no meio dela).
+          var lado = document.getElementById('sidebar').getBoundingClientRect().right;
+          painel.style.right = '';
+          painel.style.top = '';
+          painel.style.left = (lado + 8) + 'px';
+          painel.style.bottom = (window.innerHeight - r.bottom) + 'px';
+        }
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (painel.hidden) posicionar();
+          painel.hidden = !painel.hidden;
+        });
+        document.addEventListener('click', function (e) {
+          // Alvo que já saiu da página (ex.: notificação recém-dispensada) não conta como
+          // "clique fora" — o balão continua aberto (spec 012, N1).
+          if (!e.target.isConnected) return;
+          if (!painel.hidden && !painel.contains(e.target) && e.target !== btn) painel.hidden = true;
+        });
+      })();
+      // Notificações dispensáveis: guarda no localStorage quais "chaves" (versão
+      // do conteúdo, ver notificacoes.py) já foram vistas — o item some pro
+      // usuário e volta a aparecer sozinho quando a chave mudar (ex.: um produto
+      // novo entra em estoque baixo, um caixa fecha e abre de novo, etc.).
+      (function () {
+        var painel = document.getElementById('sino-painel');
+        if (!painel) return;
+
+        function dispensados() {
+          try { return JSON.parse(localStorage.getItem('sinoDispensados') || '[]'); }
+          catch (e) { return []; }
+        }
+
+        function aplicarDispensados() {
+          var vistos = dispensados();
+          painel.querySelectorAll('.sino-item-dispensavel').forEach(function (el) {
+            if (vistos.indexOf(el.dataset.chave) !== -1) el.remove();
+          });
+          // Só os filhos diretos: o aviso dispensável é um <div class="sino-item"> com um
+          // <a class="sino-item"> dentro — contar os dois dava "2" no sino com 1 aviso.
+          var visiveis = painel.querySelectorAll(':scope > .sino-item').length;
+          // Busca de novo a cada vez (não guarda em variável no topo): o
+          // hx-swap-oob="true" do sino troca o elemento inteiro (outerHTML) a
+          // cada atualização de /notificacoes, então uma referência guardada
+          // antes vira um nó desconectado do DOM — escrever nela não muda mais
+          // nada na tela (era exatamente por isso que o número não descia ao
+          // dispensar um aviso).
+          var contador = document.getElementById('sino-contador');
+          if (contador) {
+            contador.textContent = visiveis;
+            contador.hidden = visiveis === 0;
+          }
+          if (!visiveis && !painel.querySelector('.sino-vazio')) {
+            painel.innerHTML = '<p class="sino-vazio muted small">Sem avisos por enquanto.</p>';
+          }
+        }
+
+        painel.addEventListener('click', function (e) {
+          var b = e.target.closest('[data-dispensar]');
+          if (!b) return;
+          e.stopPropagation();
+          var chave = b.dataset.dispensar;
+          var vistos = dispensados();
+          if (vistos.indexOf(chave) === -1) {
+            vistos.push(chave);
+            try { localStorage.setItem('sinoDispensados', JSON.stringify(vistos)); } catch (e) {}
+          }
+          var item = b.closest('.sino-item-dispensavel');
+          if (item) item.remove();
+          aplicarDispensados();
+        });
+
+        document.body.addEventListener('htmx:afterSwap', function (evt) {
+          if (evt.detail.target === painel) aplicarDispensados();
+        });
+        aplicarDispensados();
+      })();
+    </script>
+    <script src="./static/confirmar.js"></script>
+    <script src="./static/mascaras.js"></script>
+    <script src="./static/tabela-menu.js"></script>
+    <script src="./static/arquivo.js"></script>
+    <script src="./static/tabela-empilha.js"></script>
+    <script src="./static/menu-fora.js"></script>
+    <script src="./static/tour.js"></script>
+    <script src="./static/busca-sugestao.js"></script>
+    
+    
+<script>
+  // Mudar "Calcular com" recarrega a tela com a nova janela.
+  var selDias = document.getElementById("rp-dias");
+  if (selDias) selDias.addEventListener("change", function () { selDias.form.submit(); });
+
+  // Totais ao vivo: unidades, produtos sem custo e custo estimado (quantidade × custo).
+  function numero(t) { var n = parseInt(String(t || "").replace(/\D/g, ""), 10); return isNaN(n) ? 0 : n; }
+  function reais(v) { return "R$ " + v.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+  function totais() {
+    var unidades = 0, custo = 0, semCusto = 0;
+    document.querySelectorAll("#form-lista tbody tr[data-custo]").forEach(function (tr) {
+      var q = numero(tr.querySelector(".rp-qtd").value), c = parseFloat(tr.dataset.custo) || 0;
+      unidades += q; custo += q * c;
+      if (q > 0 && c <= 0) semCusto += 1;
+    });
+    var u = document.getElementById("rp-unidades"); if (!u) return;
+    u.textContent = unidades;
+    document.getElementById("rp-custo").textContent = reais(custo);
+    document.getElementById("rp-sem-custo").textContent = semCusto;
+    document.getElementById("rp-sem-custo-txt").hidden = semCusto === 0;
+  }
+  document.addEventListener("input", function (e) { if (e.target.classList && e.target.classList.contains("rp-qtd")) totais(); });
+  totais();
+
+  // "O que comprar": todas as linhas ficam no formulário (a lista de compras leva tudo, com o que foi
+  // editado em qualquer página); a tela mostra 50 por vez, com a mesma navegação das outras listas.
+  (function () {
+    var tabela = document.getElementById("rp-comprar"), nav = document.getElementById("rp-comprar-paginas");
+    if (!tabela || !nav) return;
+    var linhas = Array.prototype.slice.call(tabela.querySelectorAll("tbody tr[data-custo]"));
+    var porPagina = parseInt(tabela.dataset.paginar, 10) || 50, total = linhas.length;
+    var paginas = Math.max(1, Math.ceil(total / porPagina));
+    if (paginas < 2) return;
+    function numeros(atual) {
+      var vistos = [], saida = [];
+      for (var n = 1; n <= paginas; n++) if (n === 1 || n === paginas || Math.abs(n - atual) <= 2) vistos.push(n);
+      vistos.forEach(function (n) { if (saida.length && n - saida[saida.length - 1] > 1) saida.push(null); saida.push(n); });
+      return saida;
+    }
+    function mostrar(atual, rolar) {
+      linhas.forEach(function (tr, i) { tr.hidden = Math.floor(i / porPagina) + 1 !== atual; });
+      var ini = (atual - 1) * porPagina + 1, fim = Math.min(total, atual * porPagina);
+      var html = '<span class="paginacao-total muted small">Mostrando ' + ini + '–' + fim + ' de ' + total + '</span><span class="paginacao-links">';
+      if (atual > 1) html += '<button type="button" class="btn mini" data-pg="' + (atual - 1) + '">‹ Anterior</button>';
+      numeros(atual).forEach(function (n) {
+        if (n === null) html += '<span class="paginacao-reticencias">…</span>';
+        else if (n === atual) html += '<span class="btn mini primary" aria-current="page">' + n + '</span>';
+        else html += '<button type="button" class="btn mini" data-pg="' + n + '">' + n + '</button>';
+      });
+      if (atual < paginas) html += '<button type="button" class="btn mini" data-pg="' + (atual + 1) + '">Próxima ›</button>';
+      nav.innerHTML = html + '</span>';
+      nav.hidden = false;
+      if (rolar) tabela.closest("section").scrollIntoView({ block: "start" });
+    }
+    nav.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-pg]");
+      if (b) mostrar(parseInt(b.dataset.pg, 10), true);
+    });
+    mostrar(1, false);
+  })();
+</script>
+
+</body>
+</html>

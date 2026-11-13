@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <script>
+      try{localStorage.setItem('tourVisto_v1','1');}catch(e){}
+      document.addEventListener('submit', function(e){
+        var f = e.target;
+        if (f && f.action && String(f.action).indexOf('login.html') !== -1 && !f.classList.contains('login-card')) {
+          e.preventDefault();
+          window.location.href = './login.html';
+        }
+      }, true);
+    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+    <title>Esqueci minha senha</title>
+    <link rel="icon" href="./static/img/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="./static/img/favicon-32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="./static/img/logo-marca.svg">
+    
+    <link rel="manifest" href="#">
+    <meta name="theme-color" content="#16130E" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#110f0b" media="(prefers-color-scheme: dark)">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="SUA MARCA">
+    <link rel="preload" href="./static/fonts/manrope-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="./static/style.css">
+    <script>try{var _t=localStorage.getItem('tema');if(_t==='dark'||_t==='light')document.documentElement.setAttribute('data-theme',_t);if(localStorage.getItem('sidebarColapsado')==='1')document.documentElement.classList.add('sidebar-collapsed');}catch(e){}</script>
+    <script src="./static/vendor/htmx-2.0.3.min.js"></script>
+    <script>
+      // Anexa o token CSRF em toda requisição do htmx (forms comuns usam campo oculto, ver forms).
+      document.addEventListener('htmx:configRequest', function (e) {
+        var meta = document.querySelector('meta[name="csrf-token"]');
+        if (meta) e.detail.headers['X-CSRF-Token'] = meta.content;
+      });
+    </script>
+</head>
+<body>
+    <div class="app-shell">
+      
+
+      <div class="app-main">
+        <main>
+          
+          
+          
+<div class="login-wrap">
+  <form class="card login-card" method="post" action="/esqueci-senha" data-enter-envia>
+    <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+    <img src="./static/img/logo-marca.svg" alt="SUA MARCA" class="login-logo">
+    
+    <h1>Esqueci minha senha</h1>
+    <p class="muted">Informe o e-mail que você usa para entrar. O administrador recebe o pedido no sistema.</p>
+    
+    <label>E-mail
+      <input type="email" name="email" required autofocus>
+    </label>
+    <button type="submit" class="btn primary big">Pedir nova senha</button>
+    <p class="muted small"><a href="./login.html" class="link-login">Voltar para o login</a></p>
+    
+  </form>
+</div>
+
+        </main>
+        
+      </div>
+    </div>
+
+    
+    
+</body>
+</html>

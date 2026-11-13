@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <script>
+      try{localStorage.setItem('tourVisto_v1','1');}catch(e){}
+      document.addEventListener('submit', function(e){
+        var f = e.target;
+        if (f && f.action && String(f.action).indexOf('login.html') !== -1 && !f.classList.contains('login-card')) {
+          e.preventDefault();
+          window.location.href = './login.html';
+        }
+      }, true);
+    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+    <title>Clientes</title>
+    <link rel="icon" href="./static/img/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="./static/img/favicon-32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="./static/img/logo-marca.svg">
+    
+    <link rel="manifest" href="#">
+    <meta name="theme-color" content="#16130E" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#110f0b" media="(prefers-color-scheme: dark)">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="SUA MARCA">
+    <link rel="preload" href="./static/fonts/manrope-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="./static/style.css">
+    <script>try{var _t=localStorage.getItem('tema');if(_t==='dark'||_t==='light')document.documentElement.setAttribute('data-theme',_t);if(localStorage.getItem('sidebarColapsado')==='1')document.documentElement.classList.add('sidebar-collapsed');}catch(e){}</script>
+    <script src="./static/vendor/htmx-2.0.3.min.js"></script>
+    <script>
+      // Anexa o token CSRF em toda requisição do htmx (forms comuns usam campo oculto, ver forms).
+      document.addEventListener('htmx:configRequest', function (e) {
+        var meta = document.querySelector('meta[name="csrf-token"]');
+        if (meta) e.detail.headers['X-CSRF-Token'] = meta.content;
+      });
+    </script>
+</head>
+<body>
+    <div class="app-shell">
+      
+      <aside class="sidebar" id="sidebar">
+        <div class="side-top">
+          <img class="side-mark" src="./static/img/logo-marca.svg" alt="" aria-hidden="true">
+          <span class="side-name">SUA MARCA</span>
+          
+          <button type="button" class="side-toggle" id="side-toggle" title="Recolher menu" aria-label="Recolher menu">
+            <svg class="ic-recolher" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            <svg class="ic-expandir" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            <svg class="ic-abrir" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <svg class="ic-fechar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <nav class="side-nav">
+          
+          <div class="side-secao">Operação</div>
+          <a href="./venda.html" title="Frente de caixa (F1)" data-tour="venda" data-tour-titulo="Vender" data-tour-text="Frente de caixa: bipe os produtos e receba o pagamento por atalhos de teclado.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 2h3l2.5 12.4a2 2 0 0 0 2 1.6h9.6a2 2 0 0 0 2-1.6L22 6H5.2"/></svg>
+            <span class="label">Vender</span>
+            <kbd class="side-kbd">F1</kbd>
+          </a>
+          <a href="./caixa.html" title="Abrir e fechar o caixa" data-tour="caixa" data-tour-text="Abra o caixa no início do dia e feche no fim, conferindo o dinheiro da gaveta.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>
+            <span class="label">Abrir/fechar caixa</span>
+          </a>
+
+          <div class="side-secao">Cadastros</div>
+          <details class="side-grupo" id="grupo-estoque"
+                    >
+            <summary title="Estoque">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5" rx="1"/><path d="M4 8v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8"/><path d="M10 13h4"/></svg>
+              <span class="label">Estoque</span>
+              <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="side-subnav">
+              <a href="./produtos.html" title="Produtos" data-tour="produtos" data-tour-text="Cadastre produtos, preços, código de barras e estoque mínimo.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg>
+                <span class="label">Produtos</span>
+              </a>
+              <a href="./entradas.html" title="Entradas" data-tour="entradas" data-tour-text="Registre a compra de mercadoria: aumenta o estoque automaticamente.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10"/><path d="M8 9l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+                <span class="label">Entradas</span>
+              </a>
+              
+              <a href="./inventarios.html" title="Inventário" data-tour="inventarios" data-tour-text="Contagem física do estoque (cega) e ajuste em massa ao fechar.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                <span class="label">Inventário</span>
+              </a>
+              <a href="./reposicao.html" title="Reposição" data-tour="reposicao" data-tour-text="Sugestão de compra com base na velocidade de venda dos últimos 30 dias.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"/><path d="M3 8h18l-1.5 11a2 2 0 0 1-2 1.7H6.5a2 2 0 0 1-2-1.7L3 8z"/><path d="M9 12h6"/></svg>
+                <span class="label">Reposição</span>
+              </a>
+              
+            </div>
+          </details>
+          <a href="./clientes.html" title="Clientes" data-tour="clientes" data-tour-text="Cadastre clientes (útil para vendas na Confiança e comprovantes).">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            <span class="label">Clientes</span>
+          </a>
+          <a href="./fornecedores.html" title="Fornecedores" data-tour="fornecedores" data-tour-text="Cadastre seus fornecedores de bebidas.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h13v10H1z"/><path d="M14 8h4l3 3v3h-7z"/><circle cx="5.5" cy="18" r="1.6"/><circle cx="17.5" cy="18" r="1.6"/></svg>
+            <span class="label">Fornecedores</span>
+          </a>
+
+          
+          <div class="side-secao">Gestão</div>
+          <a href="./painel.html" title="Painel" data-tour="admin" data-tour-text="Painel com cartões de faturamento, vendas, lucro e descontos do dia, e o que precisa de atenção.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+            <span class="label">Painel</span>
+          </a>
+          <a href="./contas_pagar.html" title="Contas" data-tour="contas_pagar" data-tour-titulo="Contas" data-tour-text="Contas a pagar: luz, água, energia, funcionário, aluguel e outros serviços.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/><path d="M8 2v4M16 2v4"/><path d="M8 14h4"/></svg>
+            <span class="label">Contas</span>
+          </a>
+          <a href="./relatorio.html" title="Relatórios" data-tour="relatorio" data-tour-text="Relatórios de vendas por período, com exportação em PDF e gráfico.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="10" width="3" height="8"/><rect x="12" y="6" width="3" height="12"/><rect x="17" y="13" width="3" height="5"/></svg>
+            <span class="label">Relatórios</span>
+          </a>
+          <a href="./patrimonio.html" title="Patrimônio" data-tour="patrimonio" data-tour-text="Bens da loja (freezer, móveis, equipamentos), separado do estoque de produtos.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            <span class="label">Patrimônio</span>
+          </a>
+          
+
+          <div class="side-secao">Apoio</div>
+          
+          <a href="./assistente.html" title="Assistente de IA" data-tour="assistente" data-tour-text="Pergunte em qualquer língua sobre vendas, estoque, contas e Confiança; peça cadastros e lançamentos para você confirmar.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
+            <span class="label">Assistente IA</span>
+          </a>
+          <a href="./ajuda.html" title="Ajuda" data-tour="ajuda" data-tour-text="Guias passo a passo, atalhos de teclado, perguntas frequentes e o que o assistente sabe fazer.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1 .9-1 1.6"/><path d="M12 17h.01"/></svg>
+            <span class="label">Ajuda</span>
+          </a>
+
+          <details class="side-grupo" id="grupo-configuracoes"
+                    >
+            <summary title="Configurações">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82 2 2 0 1 1-2.83 2.83 1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51 2 2 0 0 1-4 0 1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33 2 2 0 1 1-2.83-2.83A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1 2 2 0 0 1 0-4 1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82 2 2 0 1 1 2.83-2.83A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51 2 2 0 0 1 4 0 1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33 2 2 0 1 1 2.83 2.83A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1 2 2 0 0 1 0 4 1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span class="label">Configurações</span>
+              <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="side-subnav">
+              
+              <a href="./usuarios.html" title="Usuários" data-tour="usuarios" data-tour-text="Gerencie operadores e administradores do sistema.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0"/><path d="M16 5.6a3.5 3.5 0 0 1 0 4.8"/><path d="M18.5 21a6.5 6.5 0 0 0-3-5.4"/></svg>
+                <span class="label">Usuários</span>
+              </a>
+              
+              
+              <a href="./configuracoes.html" title="Loja" data-tour="loja" data-tour-text="Taxas das maquininhas e fechamento automático do caixa.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg>
+                <span class="label">Loja</span>
+              </a>
+              
+              
+              <a href="./saude.html" title="Sistema" data-tour="sistema" data-ativo-em="/admin/saude,/logs,/admin/uso-ia,/admin/conversas-ia,/admin/memoria-ia"
+                 data-tour-text="Saúde do sistema (backup, banco, alertas), logs de auditoria, uso, conversas e memória da IA.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <span class="label">Sistema</span>
+              </a>
+              
+              <a href="./suporte.html" title="Suporte" data-tour="suporte" data-tour-text="Relate um problema ou dúvida sobre o sistema.">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24"/></svg>
+                <span class="label">Suporte</span>
+              </a>
+              <button type="button" id="btn-tour" class="side-link" title="Tour guiado">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>
+                <span class="label">Tour guiado</span>
+              </button>
+            </div>
+          </details>
+        </nav>
+
+        
+        
+        
+        
+        <div class="side-bottom">
+          <div class="usuario-wrap">
+            <button type="button" class="side-usuario" id="btn-usuario" aria-haspopup="menu" aria-expanded="false" aria-controls="usuario-menu" title="Carlos Eduardo (Proprietário) · Super admin">
+              <span class="side-avatar" aria-hidden="true">C(</span>
+              <span class="side-usuario-texto">
+                <span class="side-usuario-nome">Carlos Eduardo (Proprietário)</span>
+                <span class="side-usuario-papel">Super admin</span>
+              </span>
+            </button>
+            <div class="side-usuario-menu" id="usuario-menu" role="menu" aria-label="Conta" hidden>
+              <a href="./minha_conta.html" class="side-usuario-item" role="menuitem" title="Minha conta (trocar a senha)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+                <span>Minha conta</span>
+              </a>
+              
+              <button type="button" id="btn-tema" class="side-usuario-item" role="menuitem" title="Alternar tema claro/escuro">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="icone-tema-dark"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="icone-tema-light"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                <span class="icone-tema-dark">Tema escuro</span>
+                <span class="icone-tema-light">Tema claro</span>
+              </button>
+              <div class="side-usuario-sep" role="separator"></div>
+              <a href="./login.html" class="side-usuario-item side-sair" role="menuitem">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg>
+                <span>Sair</span>
+              </a>
+            </div>
+          </div>
+          <div class="sino-wrap">
+            <button type="button" id="btn-notificacoes" class="side-icone-btn" title="Notificações" aria-label="Notificações">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span id="sino-contador" class="sino-contador" hidden>0</span>
+            </button>
+            <div id="sino-painel" class="sino-painel" hidden
+                 hx-get="/notificacoes" hx-trigger="load, every 60s" hx-swap="innerHTML">
+              <p class="sino-vazio muted small">Carregando…</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+        <script>
+          // Menu lateral (spec 011 V1, spec 012 M1): restaura grupos abertos e a rolagem logo
+          // depois do menu COMPLETO (com o rodapé do usuário e o sino) — restaurar antes do
+          // rodapé existir limitava a rolagem, porque o menu ainda estava mais alto. Antes, o grupo Estoque reabria só no fim da página, depois
+          // do item ativo ser rolado para a vista, e empurrava o item para fora da tela.
+          (function () {
+            try {
+              var e = document.getElementById('grupo-estoque');
+              if (e && localStorage.getItem('menuEstoqueAberto') === '1') e.open = true;
+              var c = document.getElementById('grupo-configuracoes');
+              if (c && localStorage.getItem('menuConfiguracoesAberto') === '1') c.open = true;
+              var nav = document.querySelector('.side-nav');
+              var salvo = sessionStorage.getItem('menuRolagem');
+              if (nav && salvo !== null) { nav.scrollTop = parseInt(salvo, 10) || 0; window.__menuRolagemRestaurada = true; }
+              function guardar() { if (nav) sessionStorage.setItem('menuRolagem', String(nav.scrollTop)); }
+              if (nav) nav.addEventListener('click', function (ev) { if (ev.target.closest('a')) guardar(); });
+              window.addEventListener('pagehide', guardar);
+            } catch (err) {}
+          })();
+        </script>
+      
+
+      <div class="app-main">
+        <main>
+          
+          <a class="ajuda-contexto" href="./ajuda_fiado.html"
+             title="Ajuda desta tela" aria-label="Ajuda desta tela">?</a>
+          
+          
+          
+
+
+<div class="page produtos-tela clientes-tela">
+  
+
+  <div class="pr-topo">
+    <h1>Clientes <span class="pr-total pr-total-linha">8 cadastrados</span></h1>
+    <div class="pr-acoes" data-tour-tela data-tour-titulo="Cadastro de cliente" data-tour-text="Cadastre um cliente: nome, CPF ou CNPJ (formatado enquanto digita), telefone e o limite para vender na Confiança.">
+      <button type="button" class="btn-principal btn-alto" data-abre-painel>+ Cadastrar cliente</button>
+    </div>
+  </div>
+
+  <div class="rp-cartoes" data-tour-tela data-tour-titulo="Confiança" data-tour-text="Quanto os clientes devem na Confiança, quem passou do limite e quantos clientes estão ativos.">
+    <div class="cartao-destaque rl-kpi">
+      <span class="rotulo">A receber na Confiança</span>
+      <strong class="valor-destaque">R$ 2.120,00</strong>
+      <span class="rl-apoio escuro">5 clientes devendo</span>
+    </div>
+    <div class="cartao rl-kpi">
+      <span class="rotulo">Acima do limite</span>
+      <strong class="">0</strong>
+      <span class="rl-apoio">ninguém passou do limite da Confiança</span>
+    </div>
+    <div class="cartao rl-kpi">
+      <span class="rotulo">Clientes ativos</span>
+      <strong>8</strong>
+      <span class="rl-apoio">0 inativos</span>
+    </div>
+  </div>
+
+  
+
+  <div class="pr-filtros" data-tour-tela data-tour-titulo="Busca" data-tour-text="Procure por nome, apelido, telefone ou pelo CPF/CNPJ completo. Os botões filtram quem está devendo ou inativo.">
+    <form method="get" action="/clientes" class="pr-busca">
+      <input type="search" name="q" value="" placeholder="Buscar por nome, apelido, CPF/CNPJ ou telefone" aria-label="Buscar cliente">
+      <input type="hidden" name="filtro" value="devendo">
+    </form>
+    <a class="filtro-chip " href="./clientes.html">Todos · 8</a>
+    <a class="filtro-chip ativo" href="./clientes_devendo.html">Devendo · 5</a>
+    <a class="filtro-chip " href="./clientes_inativos.html">Inativos · 0</a>
+  </div>
+
+  <section class="cartao pr-lista" aria-label="Lista de clientes" data-tour-tela data-tour-titulo="Lista de clientes"
+           data-tour-text="No ⋯ de cada cliente: Receber pagamento da Confiança, Ver compras (extrato), Editar e, para o administrador, Exportar dados (LGPD) e Excluir/anonimizar.">
+    <div class="tabela-rolagem">
+      <table class="tabela pr-tabela">
+        <thead><tr><th>Cliente</th><th>Documento</th><th>Confiança (deve / limite)</th><th>Última compra</th><th class="pr-acao"><span class="so-leitor">Ações</span></th></tr></thead>
+        <tbody>
+          
+          
+          <tr>
+            <td>
+              <div class="cl-nome"><a class="pr-nome" href="./clientes.html"><span class="truncar" tabindex="0" title="Bar &amp; Petiscaria Recanto">Bar &amp; Petiscaria Recanto</span></a>
+                
+                </div>
+              <div class="small muted">(11) 98412-3309</div>
+            </td>
+            <td class="mono cl-doc">22.610.884/0001-30</td>
+            <td>
+              <div class="cl-caderneta">
+                <strong class="rl-neg">R$ 440,00</strong>
+                <div class="barra fina"><span class="media" style="width: 29.333333333333332%"></span></div>
+                <span class="small muted">de R$ 1.500,00</span>
+              </div>
+            </td>
+            <td class="muted">05/11 · R$ 99,80</td>
+            <td class="num acoes pr-acao">
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Ações de Bar &amp; Petiscaria Recanto">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <a href="./clientes.html">Receber pagamento da Confiança</a>
+                  <a href="./clientes.html">Ver compras / extrato</a>
+                  <a href="./clientes.html">Editar</a>
+                  
+                  <a href="./clientes.html">Exportar dados (LGPD)</a>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Excluir / anonimizar</summary>
+                    <form method="post" action="/clientes/2/excluir"
+                          data-confirm="Excluir ou anonimizar &quot;Bar &amp; Petiscaria Recanto&quot;? Sem histórico: o cadastro é excluído. Com compras: nome, CPF, telefone, e-mail e endereço são apagados e as vendas ficam. Não dá para desfazer."
+                          data-confirm-titulo="Excluir / anonimizar cliente">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar</button>
+                    </form>
+                  </details>
+                  
+                </span>
+              </span>
+            </td>
+          </tr>
+          
+          
+          <tr>
+            <td>
+              <div class="cl-nome"><a class="pr-nome" href="./clientes.html"><span class="truncar" tabindex="0" title="Espetinho do Alemão">Espetinho do Alemão</span></a>
+                
+                </div>
+              <div class="small muted">(11) 99123-4501</div>
+            </td>
+            <td class="mono cl-doc">18.421.099/0001-71</td>
+            <td>
+              <div class="cl-caderneta">
+                <strong class="rl-neg">R$ 490,00</strong>
+                <div class="barra fina"><span class="media" style="width: 40.833333333333336%"></span></div>
+                <span class="small muted">de R$ 1.200,00</span>
+              </div>
+            </td>
+            <td class="muted">05/11 · R$ 78,90</td>
+            <td class="num acoes pr-acao">
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Ações de Espetinho do Alemão">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <a href="./clientes.html">Receber pagamento da Confiança</a>
+                  <a href="./clientes.html">Ver compras / extrato</a>
+                  <a href="./clientes.html">Editar</a>
+                  
+                  <a href="./clientes.html">Exportar dados (LGPD)</a>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Excluir / anonimizar</summary>
+                    <form method="post" action="/clientes/1/excluir"
+                          data-confirm="Excluir ou anonimizar &quot;Espetinho do Alemão&quot;? Sem histórico: o cadastro é excluído. Com compras: nome, CPF, telefone, e-mail e endereço são apagados e as vendas ficam. Não dá para desfazer."
+                          data-confirm-titulo="Excluir / anonimizar cliente">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar</button>
+                    </form>
+                  </details>
+                  
+                </span>
+              </span>
+            </td>
+          </tr>
+          
+          
+          <tr>
+            <td>
+              <div class="cl-nome"><a class="pr-nome" href="./clientes.html"><span class="truncar" tabindex="0" title="Henrique Moraes (Morador Qd. 12)">Henrique Moraes (Morador Qd. 12)</span></a>
+                
+                </div>
+              <div class="small muted">(11) 99654-1120</div>
+            </td>
+            <td class="mono cl-doc">402.118.998-05</td>
+            <td>
+              <div class="cl-caderneta">
+                <strong class="rl-neg">R$ 210,00</strong>
+                <div class="barra fina"><span class="media" style="width: 52.5%"></span></div>
+                <span class="small muted">de R$ 400,00</span>
+              </div>
+            </td>
+            <td class="muted">05/11 · R$ 87,90</td>
+            <td class="num acoes pr-acao">
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Ações de Henrique Moraes (Morador Qd. 12)">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <a href="./clientes.html">Receber pagamento da Confiança</a>
+                  <a href="./clientes.html">Ver compras / extrato</a>
+                  <a href="./clientes.html">Editar</a>
+                  
+                  <a href="./clientes.html">Exportar dados (LGPD)</a>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Excluir / anonimizar</summary>
+                    <form method="post" action="/clientes/5/excluir"
+                          data-confirm="Excluir ou anonimizar &quot;Henrique Moraes (Morador Qd. 12)&quot;? Sem histórico: o cadastro é excluído. Com compras: nome, CPF, telefone, e-mail e endereço são apagados e as vendas ficam. Não dá para desfazer."
+                          data-confirm-titulo="Excluir / anonimizar cliente">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar</button>
+                    </form>
+                  </details>
+                  
+                </span>
+              </span>
+            </td>
+          </tr>
+          
+          
+          <tr>
+            <td>
+              <div class="cl-nome"><a class="pr-nome" href="./clientes.html"><span class="truncar" tabindex="0" title="Quadra Society Arena Gol">Quadra Society Arena Gol</span></a>
+                
+                </div>
+              <div class="small muted">(11) 99301-5566</div>
+            </td>
+            <td class="mono cl-doc">41.802.119/0001-16</td>
+            <td>
+              <div class="cl-caderneta">
+                <strong class="rl-neg">R$ 460,00</strong>
+                <div class="barra fina"><span class="media" style="width: 46.0%"></span></div>
+                <span class="small muted">de R$ 1.000,00</span>
+              </div>
+            </td>
+            <td class="muted">06/11 · R$ 90,50</td>
+            <td class="num acoes pr-acao">
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Ações de Quadra Society Arena Gol">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <a href="./clientes.html">Receber pagamento da Confiança</a>
+                  <a href="./clientes.html">Ver compras / extrato</a>
+                  <a href="./clientes.html">Editar</a>
+                  
+                  <a href="./clientes.html">Exportar dados (LGPD)</a>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Excluir / anonimizar</summary>
+                    <form method="post" action="/clientes/7/excluir"
+                          data-confirm="Excluir ou anonimizar &quot;Quadra Society Arena Gol&quot;? Sem histórico: o cadastro é excluído. Com compras: nome, CPF, telefone, e-mail e endereço são apagados e as vendas ficam. Não dá para desfazer."
+                          data-confirm-titulo="Excluir / anonimizar cliente">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar</button>
+                    </form>
+                  </details>
+                  
+                </span>
+              </span>
+            </td>
+          </tr>
+          
+          
+          <tr>
+            <td>
+              <div class="cl-nome"><a class="pr-nome" href="./clientes.html"><span class="truncar" tabindex="0" title="Rodrigo Eventos &amp; Churrascos">Rodrigo Eventos &amp; Churrascos</span></a>
+                
+                </div>
+              <div class="small muted">(11) 97211-9088</div>
+            </td>
+            <td class="mono cl-doc">319.442.818-20</td>
+            <td>
+              <div class="cl-caderneta">
+                <strong class="rl-neg">R$ 520,00</strong>
+                <div class="barra fina"><span class="media" style="width: 65.0%"></span></div>
+                <span class="small muted">de R$ 800,00</span>
+              </div>
+            </td>
+            <td class="muted">05/11 · R$ 41,80</td>
+            <td class="num acoes pr-acao">
+              <span class="tabela-menu-wrap">
+                <button type="button" class="tabela-menu-btn" data-tabela-menu-btn aria-label="Ações de Rodrigo Eventos &amp; Churrascos">⋯</button>
+                <span class="tabela-menu-lista" hidden>
+                  <a href="./clientes.html">Receber pagamento da Confiança</a>
+                  <a href="./clientes.html">Ver compras / extrato</a>
+                  <a href="./clientes.html">Editar</a>
+                  
+                  <a href="./clientes.html">Exportar dados (LGPD)</a>
+                  <details class="menu-senha">
+                    <summary class="acao-perigo">Excluir / anonimizar</summary>
+                    <form method="post" action="/clientes/3/excluir"
+                          data-confirm="Excluir ou anonimizar &quot;Rodrigo Eventos &amp; Churrascos&quot;? Sem histórico: o cadastro é excluído. Com compras: nome, CPF, telefone, e-mail e endereço são apagados e as vendas ficam. Não dá para desfazer."
+                          data-confirm-titulo="Excluir / anonimizar cliente">
+                      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+                      <input type="password" name="senha_admin" placeholder="Sua senha" required autocomplete="current-password">
+                      <button type="submit" class="acao-perigo">Confirmar</button>
+                    </form>
+                  </details>
+                  
+                </span>
+              </span>
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+    
+
+<nav class="paginacao" aria-label="Páginas">
+  <span class="paginacao-total muted small">Mostrando 1–5 de 5</span>
+  
+</nav>
+
+  </section>
+</div>
+
+
+<div class="painel-fundo" id="painel-fundo" hidden></div>
+<aside class="painel-dialogo" id="painel-cliente" data-painel role="dialog" aria-modal="true" aria-labelledby="titulo-painel" hidden
+       data-abrir="" data-editando="" data-voltar="/clientes">
+  <header class="painel-cabeca">
+    <h2 id="titulo-painel">Novo cliente</h2>
+    <button type="button" class="btn-fechar" id="btn-fechar-painel" aria-label="Fechar">✕</button>
+  </header>
+  <div class="painel-corpo">
+    
+    <form method="post" action="/clientes" id="form-painel" class="painel-form" data-enter-avanca >
+      <input type="hidden" name="csrf_token" value="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
+      <input type="hidden" name="id" value="">
+      <fieldset class="pf-bloco">
+        <legend>1 · Dados do cliente</legend>
+        <label>Nome <b class="obrigatorio" title="Obrigatório">*</b>
+          <input type="text" name="nome" required maxlength="100" class="pf-nome" value="">
+        </label>
+        <div class="pf-grade pf-grade-2">
+          <label>Tipo
+            <select name="tipo">
+              
+              <option value="PF" >
+                Pessoa Física
+              </option>
+              
+              <option value="PJ" >
+                Pessoa Jurídica
+              </option>
+              
+            </select>
+          </label>
+          <label>CPF / CNPJ
+            <input type="text" name="cpf_cnpj" class="mono" data-mascara-documento placeholder="000.000.000-00" value="">
+          </label>
+          <label>Telefone
+            <input type="text" name="telefone" data-mascara-telefone placeholder="(11) 91234-5678" maxlength="15"
+                   value="">
+          </label>
+          <label>E-mail
+            <input type="email" name="email" maxlength="100" value="">
+          </label>
+        </div>
+        <label>Endereço
+          <input type="text" name="endereco" maxlength="150" value="">
+        </label>
+      </fieldset>
+      <fieldset class="pf-bloco">
+        <legend>2 · Confiança</legend>
+        <label>Limite de crédito
+          <input type="text" name="limite_credito" data-mascara-real data-max="99999.99"
+                 value="0">
+        </label>
+        <p class="muted small pf-dica">Zero = Confiança não liberada. A venda na confiança é recusada acima do limite.</p>
+      </fieldset>
+      <fieldset class="pf-bloco">
+        <legend>3 · Observação <span class="pf-opcional">· opcional</span></legend>
+        <label>Apelido, ponto de referência etc.
+          <input type="text" name="observacao" maxlength="200" data-contador value="">
+        </label>
+        <label class="campo-checkbox pf-ativo">
+          <input type="checkbox" name="ativo" checked> Ativo
+        </label>
+      </fieldset>
+    </form>
+  </div>
+  <footer class="painel-rodape">
+    <button type="button" class="pf-cancelar" id="btn-cancelar-painel">Cancelar</button>
+    <button type="submit" form="form-painel" class="btn-principal">Cadastrar cliente</button>
+  </footer>
+</aside>
+
+        </main>
+        
+        <footer class="rodape">
+          <a href="https://optimati.com.br" target="_blank" rel="noopener">Desenvolvido por Óptima Tecnologia</a>
+        </footer>
+        
+      </div>
+    </div>
+
+    
+    <!-- Caixa de confirmação do próprio sistema (substitui o confirm() do navegador) -->
+    <div id="modal-confirmar" class="modal" hidden>
+      <div class="modal-box">
+        <h2 id="modal-confirmar-titulo">Confirmação</h2>
+        <p id="modal-confirmar-msg" class="muted"></p>
+        <div class="modal-acoes">
+          <button type="button" class="btn" id="modal-confirmar-nao">Não</button>
+          <button type="button" class="btn danger" id="modal-confirmar-sim">Sim, confirmar</button>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <script>
+      // Destaca o item do menu correspondente à página atual.
+      (function () {
+        var path = location.pathname;
+        var links = document.querySelectorAll('.side-nav a');
+        var melhor = null;
+        var tamanhoMelhor = 0;
+        links.forEach(function (a) {
+          // data-ativo-em: o item também fica ativo nessas rotas (ex.: "Sistema" em /logs).
+          var rotas = [a.getAttribute('href')].concat((a.dataset.ativoEm || '').split(',').filter(Boolean));
+          rotas.forEach(function (href) {
+            if (path === href || (href !== '/' && path.indexOf(href) === 0)) {
+              if (!melhor || href.length > tamanhoMelhor) { melhor = a; tamanhoMelhor = href.length; }
+            }
+          });
+        });
+        if (melhor) {
+          melhor.classList.add('ativo');
+          // Sem isto, cada navegação recarrega a página e a barra lateral
+          // (que rola por dentro, .side-nav) volta pro topo sozinha — se o
+          // item ativo estiver mais embaixo, parece que "a barra subiu"
+          // mesmo sem ninguém ter mexido nela. Mantém sempre visível, na
+          // mesma posição relativa, sem animação (block:"nearest" só move
+          // se precisar).
+          if (!window.__menuRolagemRestaurada) melhor.scrollIntoView({ block: 'nearest' });
+        }
+      })();
+      (function () {
+        var t = document.getElementById('side-toggle');
+        if (!t) return;
+        // O ícone (‹ › ☰ ✕) é trocado pelo CSS conforme o estado; aqui só o title e o aria-label.
+        function ajusta() {
+          var rotulo;
+          if (window.innerWidth <= 900) {
+            rotulo = document.documentElement.classList.contains('sidebar-mobile-open') ? 'Fechar menu' : 'Abrir menu';
+          } else {
+            rotulo = document.documentElement.classList.contains('sidebar-collapsed') ? 'Expandir menu' : 'Recolher menu';
+          }
+          t.title = rotulo;
+          t.setAttribute('aria-label', rotulo);
+        }
+        t.addEventListener('click', function () {
+          if (window.innerWidth <= 900) {
+            document.documentElement.classList.toggle('sidebar-mobile-open');
+          } else {
+            var col = document.documentElement.classList.toggle('sidebar-collapsed');
+            try { localStorage.setItem('sidebarColapsado', col ? '1' : '0'); } catch (e) {}
+          }
+          ajusta();
+        });
+        window.addEventListener('resize', ajusta);
+        ajusta();
+        
+        // No celular, clica em um link do menu e a gaveta se fecha automaticamente.
+        var sideNav = document.querySelector('.side-nav');
+        if (sideNav) sideNav.addEventListener('click', function(e) {
+          if (e.target.closest('a') && window.innerWidth <= 900) {
+            document.documentElement.classList.remove('sidebar-mobile-open');
+            ajusta();
+          }
+        });
+      })();
+      // Balão de confirmação (ex.: "produto cadastrado"): some sozinho depois de um tempo.
+      (function () {
+        document.querySelectorAll('.toast').forEach(function (el) {
+          setTimeout(function () { el.classList.add('toast-saindo'); }, 3000);
+          setTimeout(function () { el.remove(); }, 3400);
+        });
+      })();
+      // Grupo "Estoque" no menu: lembra se o usuário deixou aberto ou fechado.
+      (function () {
+        var grupo = document.getElementById('grupo-estoque');
+        if (!grupo) return;
+        try { if (localStorage.getItem('menuEstoqueAberto') === '1') grupo.open = true; } catch (e) {}
+        grupo.addEventListener('toggle', function () {
+          try { localStorage.setItem('menuEstoqueAberto', grupo.open ? '1' : '0'); } catch (e) {}
+        });
+      })();
+      // Grupo "Configurações" no menu: mesmo esquema do grupo Estoque acima.
+      (function () {
+        var grupo = document.getElementById('grupo-configuracoes');
+        if (!grupo) return;
+        try { if (localStorage.getItem('menuConfiguracoesAberto') === '1') grupo.open = true; } catch (e) {}
+        // Último grupo do menu: ao abrir por clique, rola o menu até as opções aparecerem inteiras
+        // (no celular elas ficavam abaixo da tela). Só no clique: abrir pelo localStorage não rola.
+        var clicado = false;
+        grupo.querySelector('summary').addEventListener('click', function () { clicado = true; });
+        grupo.addEventListener('toggle', function () {
+          try { localStorage.setItem('menuConfiguracoesAberto', grupo.open ? '1' : '0'); } catch (e) {}
+          if (grupo.open && clicado) grupo.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          clicado = false;
+        });
+      })();
+      // Ctrl+F foca a busca da tela (Produtos, Clientes, Fornecedores, Logs) em vez
+      // do buscador nativo do navegador — só nas telas que têm esse campo; nas
+      // demais o Ctrl+F cai pro comportamento normal do navegador.
+      (function () {
+        document.addEventListener('keydown', function (e) {
+          if (!(e.ctrlKey && e.key.toLowerCase() === 'f')) return;
+          var campo = document.querySelector('input[name="q"]');
+          if (!campo) return;
+          e.preventDefault();
+          campo.focus();
+          campo.select();
+        });
+      })();
+      // F1: vai pra Frente de Caixa (Vendas) de qualquer tela do sistema —
+      // mesmo espírito do F8 já existente dentro da venda (que vai pro Caixa).
+      (function () {
+        document.addEventListener('keydown', function (e) {
+          if (e.key !== 'F1') return;
+          e.preventDefault();
+          if (location.pathname !== '/venda') location.href = '/venda';
+        });
+      })();
+      // Alternar tema claro/escuro
+      (function () {
+        var b = document.getElementById('btn-tema');
+        if (!b) return;
+        function atual() {
+          var a = document.documentElement.getAttribute('data-theme');
+          if (a) return a;
+          return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        b.addEventListener('click', function () {
+          var novo = atual() === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', novo);
+          try { localStorage.setItem('tema', novo); } catch (e) {}
+        });
+      })();
+      // Menu do usuário (rodapé do menu lateral): Minha conta, Tema e Sair.
+      // position:fixed como o painel do sino (a .sidebar tem overflow:hidden).
+      (function () {
+        var btn = document.getElementById('btn-usuario');
+        var menu = document.getElementById('usuario-menu');
+        if (!btn || !menu) return;
+        function itens() { return Array.prototype.slice.call(menu.querySelectorAll('[role="menuitem"]')); }
+        function posicionar() {
+          var r = btn.getBoundingClientRect();
+          menu.style.top = 'auto';
+          menu.style.right = 'auto';
+          if (window.innerWidth > 900 && document.documentElement.classList.contains('sidebar-collapsed')) {
+            // Recolhido: à direita do avatar, alinhado por baixo.
+            menu.style.left = (document.getElementById('sidebar').getBoundingClientRect().right + 8) + 'px';
+            menu.style.bottom = (window.innerHeight - r.bottom) + 'px';
+          } else {
+            // Expandido e gaveta do celular: para cima, acima do bloco do usuário.
+            menu.style.left = r.left + 'px';
+            menu.style.bottom = (window.innerHeight - r.top + 6) + 'px';
+          }
+        }
+        function abrir() {
+          posicionar();
+          menu.hidden = false;
+          btn.setAttribute('aria-expanded', 'true');
+          itens()[0].focus();
+        }
+        function fechar(devolverFoco) {
+          if (menu.hidden) return;
+          menu.hidden = true;
+          btn.setAttribute('aria-expanded', 'false');
+          if (devolverFoco) btn.focus();
+        }
+        btn.addEventListener('click', function () { if (menu.hidden) abrir(); else fechar(false); });
+        // Seta para cima/baixo no próprio botão também abre (padrão de botão de menu).
+        btn.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); abrir(); }
+        });
+        menu.addEventListener('keydown', function (e) {
+          var lista = itens();
+          var i = lista.indexOf(document.activeElement);
+          if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); fechar(true); }
+          else if (e.key === 'ArrowDown') { e.preventDefault(); lista[(i + 1) % lista.length].focus(); }
+          else if (e.key === 'ArrowUp') { e.preventDefault(); lista[(i - 1 + lista.length) % lista.length].focus(); }
+          else if (e.key === 'Home') { e.preventDefault(); lista[0].focus(); }
+          else if (e.key === 'End') { e.preventDefault(); lista[lista.length - 1].focus(); }
+          else if (e.key === 'Tab') fechar(false);
+        });
+        // Clique fora fecha. Na fase de captura: o sino para a propagação do clique dele.
+        document.addEventListener('click', function (e) {
+          if (!menu.hidden && !menu.contains(e.target) && !btn.contains(e.target)) fechar(false);
+        }, true);
+        // Ao navegar (Minha conta, Sair) e ao mudar o tamanho da janela/estado do menu.
+        menu.addEventListener('click', function (e) { if (e.target.closest('a')) fechar(false); });
+        window.addEventListener('pagehide', function () { fechar(false); });
+        // Só a largura conta: no celular a barra de endereço some/aparece e muda a altura.
+        var largura = window.innerWidth;
+        window.addEventListener('resize', function () {
+          if (window.innerWidth !== largura) { largura = window.innerWidth; fechar(false); }
+        });
+        document.getElementById('side-toggle').addEventListener('click', function () { fechar(false); });
+      })();
+      // Painel de notificações (sino) — position:fixed, posição calculada ao abrir
+      // (o painel absolute ficaria cortado pelo overflow:hidden da .sidebar).
+      (function () {
+        var btn = document.getElementById('btn-notificacoes');
+        var painel = document.getElementById('sino-painel');
+        if (!btn || !painel) return;
+        function posicionar() {
+          var r = btn.getBoundingClientRect();
+          if (window.innerWidth <= 900) {
+            // Menu em gaveta: alinhado à direita da tela; abaixo do sino na barra do topo,
+            // acima dele no rodapé da gaveta aberta.
+            painel.style.left = 'auto';
+            painel.style.right = '8px';
+            var emCima = r.top < window.innerHeight / 2;
+            painel.style.top = emCima ? (r.bottom + 8) + 'px' : 'auto';
+            painel.style.bottom = emCima ? 'auto' : (window.innerHeight - r.top + 8) + 'px';
+            return;
+          }
+          // Computador: ao lado da barra (não do botão — recolhido, o sino fica no meio dela).
+          var lado = document.getElementById('sidebar').getBoundingClientRect().right;
+          painel.style.right = '';
+          painel.style.top = '';
+          painel.style.left = (lado + 8) + 'px';
+          painel.style.bottom = (window.innerHeight - r.bottom) + 'px';
+        }
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (painel.hidden) posicionar();
+          painel.hidden = !painel.hidden;
+        });
+        document.addEventListener('click', function (e) {
+          // Alvo que já saiu da página (ex.: notificação recém-dispensada) não conta como
+          // "clique fora" — o balão continua aberto (spec 012, N1).
+          if (!e.target.isConnected) return;
+          if (!painel.hidden && !painel.contains(e.target) && e.target !== btn) painel.hidden = true;
+        });
+      })();
+      // Notificações dispensáveis: guarda no localStorage quais "chaves" (versão
+      // do conteúdo, ver notificacoes.py) já foram vistas — o item some pro
+      // usuário e volta a aparecer sozinho quando a chave mudar (ex.: um produto
+      // novo entra em estoque baixo, um caixa fecha e abre de novo, etc.).
+      (function () {
+        var painel = document.getElementById('sino-painel');
+        if (!painel) return;
+
+        function dispensados() {
+          try { return JSON.parse(localStorage.getItem('sinoDispensados') || '[]'); }
+          catch (e) { return []; }
+        }
+
+        function aplicarDispensados() {
+          var vistos = dispensados();
+          painel.querySelectorAll('.sino-item-dispensavel').forEach(function (el) {
+            if (vistos.indexOf(el.dataset.chave) !== -1) el.remove();
+          });
+          // Só os filhos diretos: o aviso dispensável é um <div class="sino-item"> com um
+          // <a class="sino-item"> dentro — contar os dois dava "2" no sino com 1 aviso.
+          var visiveis = painel.querySelectorAll(':scope > .sino-item').length;
+          // Busca de novo a cada vez (não guarda em variável no topo): o
+          // hx-swap-oob="true" do sino troca o elemento inteiro (outerHTML) a
+          // cada atualização de /notificacoes, então uma referência guardada
+          // antes vira um nó desconectado do DOM — escrever nela não muda mais
+          // nada na tela (era exatamente por isso que o número não descia ao
+          // dispensar um aviso).
+          var contador = document.getElementById('sino-contador');
+          if (contador) {
+            contador.textContent = visiveis;
+            contador.hidden = visiveis === 0;
+          }
+          if (!visiveis && !painel.querySelector('.sino-vazio')) {
+            painel.innerHTML = '<p class="sino-vazio muted small">Sem avisos por enquanto.</p>';
+          }
+        }
+
+        painel.addEventListener('click', function (e) {
+          var b = e.target.closest('[data-dispensar]');
+          if (!b) return;
+          e.stopPropagation();
+          var chave = b.dataset.dispensar;
+          var vistos = dispensados();
+          if (vistos.indexOf(chave) === -1) {
+            vistos.push(chave);
+            try { localStorage.setItem('sinoDispensados', JSON.stringify(vistos)); } catch (e) {}
+          }
+          var item = b.closest('.sino-item-dispensavel');
+          if (item) item.remove();
+          aplicarDispensados();
+        });
+
+        document.body.addEventListener('htmx:afterSwap', function (evt) {
+          if (evt.detail.target === painel) aplicarDispensados();
+        });
+        aplicarDispensados();
+      })();
+    </script>
+    <script src="./static/confirmar.js"></script>
+    <script src="./static/mascaras.js"></script>
+    <script src="./static/tabela-menu.js"></script>
+    <script src="./static/arquivo.js"></script>
+    <script src="./static/tabela-empilha.js"></script>
+    <script src="./static/menu-fora.js"></script>
+    <script src="./static/tour.js"></script>
+    <script src="./static/busca-sugestao.js"></script>
+    
+    
+<script src="./static/painel-lateral.js"></script>
+
+
+</body>
+</html>
