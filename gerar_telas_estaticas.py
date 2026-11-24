@@ -201,6 +201,15 @@ def _reescrever_links_html(html: str) -> str:
     return html
 
 
+def _ligar_simulador_pdv(html: str) -> str:
+    """Frente de caixa e Vitrine do Balcão sem servidor: carrega o simulador local
+    (`demo_static/demo-pdv.js`) antes do pdv.js/balcao.js e faz o botão "Tela do cliente"
+    abrir a vitrine estática."""
+    for alvo in ('<script src="./static/pdv.js"></script>', '<script src="./static/balcao.js"></script>'):
+        html = html.replace(alvo, '<script src="./static/demo-pdv.js"></script>\n' + alvo)
+    return html.replace('window.open("/venda/balcao"', 'window.open("./venda_balcao.html"')
+
+
 def _customizar_tela_login(html: str) -> str:
     """Deixa a tela de login pronta para funcionar ao vivo em qualquer PC sem servidor."""
     # Pré-preenche o e-mail e senha de demonstração (mas permite digitar por cima!)
@@ -694,6 +703,7 @@ def main() -> None:
     static_destino = SAIDA_DIR / "static"
     shutil.copytree(RAIZ / "app" / "static", static_destino)
     (static_destino / "img" / "logo-marca.svg").write_text(rodar_demo.LOGO_SVG_MARCA, encoding="utf-8")
+    shutil.copy2(DEMO_DIR / "demo_static" / "demo-pdv.js", static_destino / "demo-pdv.js")
 
     # 2. Pré-calcula as respostas e propostas da IA do banco de 2 meses
     banco_ia = _gerar_dicionario_respostas_js()
@@ -733,6 +743,8 @@ def main() -> None:
         html = _reescrever_links_html(resp.text)
         if arquivo.startswith("assistente"):
             html = html.replace("</body>", script_ia + "\n</body>")
+        if arquivo in ("venda.html", "venda_balcao.html"):
+            html = _ligar_simulador_pdv(html)
         caminho_arq = SAIDA_DIR / arquivo
         caminho_arq.write_text(html, encoding="utf-8")
         if arquivo == "conversas_ia_1.html":

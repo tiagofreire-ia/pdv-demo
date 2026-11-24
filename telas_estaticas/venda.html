@@ -958,6 +958,7 @@
 <script src="./static/vendor/zxing-0.23.0.min.js"></script>
 <script src="./static/camera-leitor.js"></script>
 <script src="./static/camera-venda.js"></script>
+<script src="./static/demo-pdv.js"></script>
 <script src="./static/pdv.js"></script>
 <script src="./static/offline.js"></script>
 <script>
@@ -975,7 +976,7 @@
     var btnTela = document.getElementById("btn-tela-cliente");
     if (!btnTela) return;
     btnTela.addEventListener("click", function () {
-      window.open("/venda/balcao", "pdv-balcao", "width=1280,height=800");
+      window.open("./venda_balcao.html", "pdv-balcao", "width=1280,height=800");
     });
   })();
 </script>
