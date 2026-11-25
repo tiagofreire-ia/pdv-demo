@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<title>Óptima PDV · Deck de investimento</title>
+<style>
+  @font-face { font-family: "Manrope"; font-weight: 200 800; src: url("../telas_estaticas/static/fonts/manrope-latin-wght.woff2") format("woff2"); }
+  @page { size: 1920px 1080px; margin: 0; }
+  :root {
+    --bg: #0B1120; --bg-2: #0E1628; --surface: #111A2E; --surface-2: #1E293B; --line: #26334D;
+    --text: #F8FAFC; --text-2: #CBD5E1; --muted: #94A3B8; --blue: #0D6EFD; --blue-claro: #60A5FA;
+    --acao: #F97316; --ok: #34D399;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); }
+  body { font-family: "Manrope", system-ui, sans-serif; color: var(--text); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .slide { width: 1920px; height: 1080px; position: relative; overflow: hidden; padding: 110px 140px 100px; display: flex; flex-direction: column;
+    page-break-after: always; break-after: page;
+    background: radial-gradient(55% 60% at 90% 0%, rgba(13,110,253,.16), transparent 70%), var(--bg); }
+  .slide:last-child { page-break-after: auto; break-after: auto; }
+  .alt { background: radial-gradient(50% 60% at 0% 100%, rgba(249,115,22,.10), transparent 70%), var(--bg-2); }
+
+  .rodape { position: absolute; left: 140px; right: 140px; bottom: 44px; display: flex; justify-content: space-between; font-size: 20px; color: var(--muted); }
+  .rodape b { color: var(--text-2); font-weight: 800; }
+  .marca { display: inline-flex; align-items: center; gap: 14px; font-weight: 800; font-size: 30px; }
+  .simbolo { width: 50px; height: 50px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(135deg, #0D6EFD, #3B82F6); font-size: 26px; color: #fff; }
+  .marca span b { color: var(--blue-claro); }
+
+  .rotulo { font-size: 22px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--acao); margin-bottom: 26px; }
+  h1 { font-size: 104px; line-height: 1.02; letter-spacing: -.035em; font-weight: 800; margin: 0; }
+  h2 { font-size: 72px; line-height: 1.06; letter-spacing: -.03em; font-weight: 800; margin: 0 0 28px; max-width: 1500px; }
+  h3 { font-size: 36px; line-height: 1.2; font-weight: 800; margin: 0 0 14px; letter-spacing: -.015em; }
+  em { font-style: normal; color: var(--blue-claro); }
+  .apoio { font-size: 32px; line-height: 1.45; color: var(--text-2); max-width: 1300px; margin: 0; }
+  p { margin: 0; }
+  .muted { color: var(--muted); }
+
+  .selo { display: inline-flex; align-items: center; gap: 12px; padding: 12px 24px; border-radius: 999px; font-size: 22px; font-weight: 700; color: var(--text-2);
+    border: 1px solid var(--line); background: var(--surface); align-self: flex-start; }
+  .selo i { width: 12px; height: 12px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 6px rgba(52,211,153,.18); }
+
+  .grade-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: auto; }
+  .grade-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: auto; }
+  .grade-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .cartao { background: var(--surface); border: 1px solid var(--line); border-radius: 26px; padding: 42px; }
+  .cartao p { font-size: 26px; line-height: 1.5; color: var(--text-2); }
+  .ico { font-size: 52px; display: block; margin-bottom: 22px; }
+
+  .duas { display: grid; grid-template-columns: 700px 1fr; gap: 80px; align-items: center; flex: 1; }
+  .lista { list-style: none; padding: 0; margin: 34px 0 0; display: grid; gap: 22px; }
+  .lista li { display: flex; gap: 18px; font-size: 27px; line-height: 1.45; color: var(--text-2); }
+  .lista li::before { content: "✓"; flex: none; width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center;
+    background: rgba(13,110,253,.2); color: var(--blue-claro); font-weight: 800; font-size: 22px; margin-top: 2px; }
+  .lista b { color: var(--text); }
+
+  .tela { border-radius: 20px; overflow: hidden; border: 1px solid #334155; box-shadow: 0 40px 100px rgba(0,0,0,.6); background: #0B1120; }
+  .tela-barra { height: 40px; display: flex; align-items: center; gap: 9px; padding: 0 18px; background: #1E293B; border-bottom: 1px solid #334155; }
+  .tela-barra i { width: 13px; height: 13px; border-radius: 50%; background: #475569; }
+  .tela-barra span { margin-left: 12px; font-size: 16px; color: var(--muted); font-family: ui-monospace, Consolas, monospace; }
+  .tela img { display: block; width: 100%; height: auto; }
+  .legenda { font-size: 20px; color: var(--muted); margin-top: 16px; }
+
+  .grande { font-size: 92px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+  .grande small { font-size: 30px; color: var(--muted); font-weight: 600; letter-spacing: 0; }
+
+  .nicho { border-radius: 26px; overflow: hidden; border: 1px solid #334155; background: #F4F6F9; color: #0F172A; }
+  .nicho-topo { padding: 26px 28px; color: #fff; display: flex; align-items: center; gap: 14px; font-weight: 800; font-size: 26px; }
+  .nicho-topo b { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: rgba(255,255,255,.22); }
+  .nicho-corpo { padding: 26px 28px; }
+  .nicho-corpo .ramo { font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: #64748B; margin-bottom: 14px; }
+  .chip { display: inline-block; font-size: 19px; font-weight: 700; padding: 7px 14px; border-radius: 999px; margin: 0 8px 10px 0; }
+
+  .linha { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: auto; }
+  .marco { padding: 42px; border-radius: 26px; border: 1px solid var(--line); background: var(--surface); }
+  .marco .quando { font-size: 20px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; display: block; margin-bottom: 14px; }
+  .marco p { font-size: 25px; line-height: 1.5; color: var(--text-2); }
+
+  .pessoa { display: flex; gap: 32px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 26px; padding: 44px; }
+  .avatar { width: 120px; height: 120px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 50px; color: #fff; flex: none; }
+
+  .contato { font-size: 34px; font-weight: 800; color: var(--blue-claro); }
+</style>
+</head>
+<body>
+
+<!-- 1. Capa -->
+<section class="slide">
+  <div class="marca"><span class="simbolo">Ó</span><span>Óptima <b>PDV</b></span></div>
+  <div style="margin-top:auto">
+    <span class="selo"><i></i>Rodada de investimento aberta</span>
+    <h1 style="margin-top:44px;max-width:1500px">O sistema que faz o pequeno comércio <em>vender, atender e decidir</em> sozinho.</h1>
+    <p class="apoio" style="margin-top:40px">Caixa, estoque, nota fiscal, WhatsApp com IA e delivery numa só plataforma, que cada loja usa com a própria marca.</p>
+  </div>
+  <div class="rodape"><span><b>Tiago e Lucas</b> · fundadores</span><span>demo.optimati.com.br</span></div>
+</section>
+
+<!-- 2. Problema -->
+<section class="slide alt">
+  <div class="rotulo">O problema</div>
+  <h2>O pequeno comércio roda em cinco ferramentas que não conversam entre si.</h2>
+  <p class="apoio">E o dono passa o dia apagando incêndio em vez de vender.</p>
+  <div class="grade-3">
+    <div class="cartao"><span class="ico">🧾</span><h3>Caixa de um lado, estoque do outro</h3><p>O sistema de caixa não sabe o que está acabando, e a nota fiscal sai num terceiro programa.</p></div>
+    <div class="cartao"><span class="ico">📱</span><h3>Pedidos no WhatsApp pessoal</h3><p>O dono responde cliente de madrugada, anota pedido no papel e perde venda quando não vê a mensagem.</p></div>
+    <div class="cartao"><span class="ico">📒</span><h3>Decisão no escuro</h3><p>Fiado no caderno, lucro “no olho” e compra por intuição, sem saber o que vende em cada dia e horário.</p></div>
+  </div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>02</span></div>
+</section>
+
+<!-- 3. Solução -->
+<section class="slide">
+  <div class="duas" style="grid-template-columns: 640px 1fr">
+    <div>
+      <div class="rotulo">A solução</div>
+      <h2 style="font-size:64px">Uma plataforma só, do balcão ao WhatsApp.</h2>
+      <p class="apoio" style="font-size:28px">Tudo o que a loja precisa num sistema, no endereço e com a marca dela.</p>
+      <ul class="lista">
+        <li><span><b>11 módulos</b> que a loja liga conforme o ramo</span></li>
+        <li><span><b>IA dentro do sistema:</b> atende, analisa e sugere</span></li>
+        <li><span><b>White Label:</b> nome, logo e cores de cada loja</span></li>
+      </ul>
+    </div>
+    <div><div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>adegabomgole.optimapdv.com.br/painel</span></div>
+      <img src="../telas_estaticas/static/img/landing/painel.jpg" alt=""></div></div>
+  </div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>03</span></div>
+</section>
+
+<!-- 4. Vende mais -->
+<section class="slide alt">
+  <div class="duas" style="grid-template-columns: 640px 1fr">
+    <div>
+      <div class="rotulo">Vende mais</div>
+      <h2 style="font-size:60px">Um atendente de IA no WhatsApp da loja, 24 horas.</h2>
+      <ul class="lista">
+        <li><span><b>Entende áudio,</b> monta o pedido com os preços do sistema e gera o Pix</span></li>
+        <li><span><b>Chama a loja</b> quando precisa de alguém</span></li>
+        <li><span><b>Cardápio digital,</b> campanhas, cashback e fidelidade</span></li>
+      </ul>
+    </div>
+    <div><div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>/whatsapp</span></div>
+      <img src="../telas_estaticas/static/img/landing/whatsapp.jpg" alt=""></div></div>
+  </div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>04</span></div>
+</section>
+
+<!-- 5. Opera sozinho -->
+<section class="slide">
+  <div class="duas" style="grid-template-columns: 640px 1fr">
+    <div>
+      <div class="rotulo">Opera sozinho</div>
+      <h2 style="font-size:60px">A rotina da loja num lugar só.</h2>
+      <ul class="lista">
+        <li><span><b>Frente de caixa:</b> leitor, atalhos, Pix, cartão, fiado e venda sem internet</span></li>
+        <li><span><b>Delivery, comandas e cozinha:</b> pedidos de todos os canais num quadro</span></li>
+        <li><span><b>Estoque, NFC-e e fluxo de caixa:</b> lotes, validade e nota automática</span></li>
+      </ul>
+    </div>
+    <div><div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>/delivery</span></div>
+      <img src="../telas_estaticas/static/img/landing/delivery.jpg" alt=""></div></div>
+  </div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>05</span></div>
+</section>
+
+<!-- 6. Decide melhor -->
+<section class="slide alt">
+  <div class="duas" style="grid-template-columns: 640px 1fr">
+    <div>
+      <div class="rotulo">Decide melhor</div>
+      <h2 style="font-size:60px">O sistema sugere o que fazer. O dono aprova.</h2>
+      <ul class="lista">
+        <li><span><b>Mapa de calor</b> dia × hora e previsão do tempo cruzada com as vendas</span></li>
+        <li><span><b>Sugestões:</b> reposição, combo, oferta programada e escala</span></li>
+        <li><span><b>Assistente de IA:</b> perguntas em português, respostas com os números da loja</span></li>
+      </ul>
+    </div>
+    <div><div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>/inteligencia</span></div>
+      <img src="../telas_estaticas/static/img/landing/inteligencia.jpg" alt=""></div></div>
+  </div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>06</span></div>
+</section>
+
+<!-- 7. Nichos -->
+<section class="slide">
+  <div class="rotulo">Um produto, muitos nichos</div>
+  <h2>Cada loja com a própria marca e os módulos do seu ramo.</h2>
+  <div class="grade-4">
+    <div class="nicho"><div class="nicho-topo" style="background:#9F1239"><b>A</b>Adega Bom Gole</div><div class="nicho-corpo"><div class="ramo">Adega e bebidas</div>
+      <span class="chip" style="background:#FDE7EC;color:#9F1239">WhatsApp com IA</span><span class="chip" style="background:#FDE7EC;color:#9F1239">Delivery</span><span class="chip" style="background:#FDE7EC;color:#9F1239">Copão e comandas</span><span class="chip" style="background:#FDE7EC;color:#9F1239">Fiado</span></div></div>
+    <div class="nicho"><div class="nicho-topo" style="background:#BE185D"><b>A</b>Ateliê Lume</div><div class="nicho-corpo"><div class="ramo">Moda</div>
+      <span class="chip" style="background:#FCE7F3;color:#BE185D">Grade tamanho × cor</span><span class="chip" style="background:#FCE7F3;color:#BE185D">Trocas</span><span class="chip" style="background:#FCE7F3;color:#BE185D">Etiquetas</span><span class="chip" style="background:#FCE7F3;color:#BE185D">Cashback</span></div></div>
+    <div class="nicho"><div class="nicho-topo" style="background:#C2410C"><b>C</b>Casa Forte Materiais</div><div class="nicho-corpo"><div class="ramo">Material de construção</div>
+      <span class="chip" style="background:#FFEDD5;color:#C2410C">Orçamentos</span><span class="chip" style="background:#FFEDD5;color:#C2410C">Entrega</span><span class="chip" style="background:#FFEDD5;color:#C2410C">Fiado de obra</span><span class="chip" style="background:#FFEDD5;color:#C2410C">Nota fiscal</span></div></div>
+    <div class="nicho"><div class="nicho-topo" style="background:#7E22CE"><b>A</b>Açaí da Praça</div><div class="nicho-corpo"><div class="ramo">Açaí e lanchonete</div>
+      <span class="chip" style="background:#F3E8FF;color:#7E22CE">Cardápio digital</span><span class="chip" style="background:#F3E8FF;color:#7E22CE">Cozinha (KDS)</span><span class="chip" style="background:#F3E8FF;color:#7E22CE">Delivery</span><span class="chip" style="background:#F3E8FF;color:#7E22CE">Fidelidade</span></div></div>
+  </div>
+  <p class="legenda" style="margin-top:28px">Lojas de demonstração da plataforma, uma por nicho. A plataforma tem páginas de venda para mais de 9 ramos do varejo.</p>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>07</span></div>
+</section>
+
+<!-- 8. Plataforma -->
+<section class="slide alt">
+  <div class="duas" style="grid-template-columns: 640px 1fr">
+    <div>
+      <div class="rotulo">A plataforma</div>
+      <h2 style="font-size:60px">Uma central para todas as lojas.</h2>
+      <ul class="lista">
+        <li><span><b>Dados isolados por loja,</b> com teste de vazamento em todas as tabelas</span></li>
+        <li><span><b>Cada loja no próprio endereço</b> nomedaloja.optimapdv.com.br</span></li>
+        <li><span><b>Cobrança automática</b> por cartão, Pix ou boleto</span></li>
+        <li><span><b>Teste grátis de 5 dias</b> direto do site de vendas</span></li>
+      </ul>
+    </div>
+    <div><div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>master.optimapdv.com.br</span></div>
+      <img src="../telas_estaticas/static/img/landing/master.jpg" alt=""></div>
+      <p class="legenda">Tela real do sistema, com dados de demonstração.</p></div>
+  </div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>08</span></div>
+</section>
+
+<!-- 9. Modelo de negócio -->
+<section class="slide">
+  <div class="rotulo">Como ganha dinheiro</div>
+  <h2>Assinatura mensal que cresce com o uso de cada loja.</h2>
+  <div class="grade-3">
+    <div class="cartao"><h3>Plano de entrada</h3><div class="grande" style="margin:18px 0 22px">R$ 59<small> /mês</small></div><p>Caixa, estoque e clientes. Barato para entrar, sem fidelidade.</p></div>
+    <div class="cartao"><h3>Módulos por ramo</h3><div class="grande" style="margin:18px 0 22px">+ módulos</div><p>Nota fiscal, WhatsApp com IA, delivery, inteligência… A loja liga o que precisa e o valor por loja sobe junto.</p></div>
+    <div class="cartao"><h3>Venda que escala</h3><div class="grande" style="margin:18px 0 22px">5 dias</div><p>de teste grátis pelo site, com páginas por ramo e cobrança automática. Pouca venda manual por loja.</p></div>
+  </div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>09</span></div>
+</section>
+
+<!-- 10. Por que agora -->
+<section class="slide alt">
+  <div class="rotulo">Por que agora</div>
+  <h2>Três mudanças empurram o pequeno comércio para trocar de sistema.</h2>
+  <div class="grade-3">
+    <div class="cartao"><span class="ico">⚖️</span><h3>Reforma tributária</h3><p>A nota fiscal ganha os campos do IBS e da CBS. Sistemas antigos precisam ser trocados ou atualizados, e o Óptima PDV já emite com eles.</p></div>
+    <div class="cartao"><span class="ico">💬</span><h3>O WhatsApp virou o balcão</h3><p>O cliente pede pelo WhatsApp. Quem atende rápido vende mais, e um agente de IA atende 24 horas sem contratar ninguém.</p></div>
+    <div class="cartao"><span class="ico">✨</span><h3>IA ficou barata</h3><p>O custo de uma conversa com IA caiu para centavos. Dá para colocar um atendente e um analista dentro de um sistema de R$ 59.</p></div>
+  </div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>10</span></div>
+</section>
+
+<!-- 11. Onde estamos -->
+<section class="slide">
+  <div class="rotulo">Onde estamos</div>
+  <h2>Já roda de verdade, todos os dias.</h2>
+  <p class="apoio">Uma distribuidora de bebidas usa o sistema no caixa há 3 meses: venda no balcão, estoque com lotes e validade, fiado, fechamento de caixa e o assistente de IA.</p>
+  <div class="linha">
+    <div class="marco" style="border-color:rgba(52,211,153,.5)"><span class="quando" style="color:var(--ok)">✓ Em produção</span><h3>1ª loja usando há 3 meses</h3><p>Sistema de uma loja rodando no dia a dia de uma distribuidora de bebidas.</p></div>
+    <div class="marco"><span class="quando" style="color:var(--blue-claro)">● Agora</span><h3>Plataforma multi-loja</h3><p>137 telas e 11 módulos prontos, na fase final de testes antes do lançamento.</p></div>
+    <div class="marco"><span class="quando" style="color:var(--acao)">→ Próximo passo</span><h3>Lançamento e primeiras lojas</h3><p>Abrir o teste grátis pelo site e converter as primeiras lojas pagantes por nicho.</p></div>
+  </div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>11</span></div>
+</section>
+
+<!-- 12. A rodada -->
+<section class="slide alt">
+  <div class="rotulo">A rodada</div>
+  <h2>O que o investimento acelera.</h2>
+  <p class="apoio">O produto está construído. O investimento leva a plataforma ao mercado. Valor e condições apresentados na conversa.</p>
+  <div class="grade-4">
+    <div class="cartao" style="padding:36px"><span class="ico">🚀</span><h3>Lançamento</h3><p>Ambiente de produção, domínio, segurança e suporte para receber as primeiras lojas.</p></div>
+    <div class="cartao" style="padding:36px"><span class="ico">🧾</span><h3>Nota fiscal real</h3><p>Emissão na SEFAZ com provedor homologado, pré-requisito para o varejo.</p></div>
+    <div class="cartao" style="padding:36px"><span class="ico">💬</span><h3>WhatsApp oficial</h3><p>Óptima como parceira de tecnologia da Meta, para ligar o WhatsApp de cada loja.</p></div>
+    <div class="cartao" style="padding:36px"><span class="ico">📈</span><h3>Primeiras lojas</h3><p>Aquisição e acompanhamento das primeiras lojas pagantes em cada nicho.</p></div>
+  </div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>12</span></div>
+</section>
+
+<!-- 13. Equipe -->
+<section class="slide">
+  <div class="rotulo">Equipe</div>
+  <h2>Quem constrói o Óptima PDV.</h2>
+  <div class="grade-2" style="margin-top:auto;max-width:1400px">
+    <div class="pessoa"><span class="avatar" style="background:linear-gradient(135deg,#0D6EFD,#60A5FA)">T</span>
+      <div><h3 style="font-size:48px;margin-bottom:6px">Tiago</h3><p class="muted" style="font-size:28px">Fundador · Desenvolvedor</p></div></div>
+    <div class="pessoa"><span class="avatar" style="background:linear-gradient(135deg,#EA580C,#F97316)">L</span>
+      <div><h3 style="font-size:48px;margin-bottom:6px">Lucas</h3><p class="muted" style="font-size:28px">Fundador · Desenvolvedor</p></div></div>
+  </div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>13</span></div>
+</section>
+
+<!-- 14. Contato -->
+<section class="slide alt" style="justify-content:center;align-items:center;text-align:center">
+  <div class="marca" style="font-size:40px"><span class="simbolo" style="width:68px;height:68px;font-size:34px">Ó</span><span>Óptima <b>PDV</b></span></div>
+  <h2 style="margin:56px 0 24px;font-size:88px">Vamos conversar?</h2>
+  <p class="apoio" style="margin:0 auto">20 minutos para mostrar o produto, os próximos passos e a rodada.</p>
+  <div class="grade-2" style="margin-top:64px;width:1200px">
+    <div class="cartao"><p class="muted" style="font-size:24px">Tiago · WhatsApp</p><p class="contato">(61) 99312-9262</p></div>
+    <div class="cartao"><p class="muted" style="font-size:24px">Lucas · WhatsApp</p><p class="contato">(61) 98103-4342</p></div>
+  </div>
+  <p style="margin-top:48px;font-size:28px;color:var(--text-2)">Demo ao vivo: <b style="color:var(--blue-claro)">demo.optimati.com.br</b></p>
+</section>
+
+</body>
+</html>
