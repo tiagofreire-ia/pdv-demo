@@ -406,3 +406,62 @@ label.nv-mod-extra { display: flex !important; flex-direction: row !important; a
 /* Logos menores nas listas de lojas do Master */
 .nv-celula-loja { gap: 10px; }
 .nv-celula-loja .nv-logo-loja, .nv-celula-loja .nv-loja-ini { width: 28px; height: 28px; font-size: 10px; }
+
+/* ---------- Gráficos (static/graficos.js) ----------
+ * --g-s1..5: paleta categórica validada (daltonismo e contraste) no claro e no escuro.
+ * Uma série só usa --accent, então acompanha a marca do cliente. */
+:root { --g-s1: #2a78d6; --g-s2: #eb6834; --g-s3: #1baf7a; --g-s4: #eda100; --g-s5: #e87ba4; }
+:root[data-theme="dark"] { --g-s1: #3987e5; --g-s2: #d95926; --g-s3: #199e70; --g-s4: #c98500; --g-s5: #d55181; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --g-s1: #3987e5; --g-s2: #d95926; --g-s3: #199e70; --g-s4: #c98500; --g-s5: #d55181; }
+}
+.nv-grafico { position: relative; width: 100%; min-width: 0; }
+.nv-grafico svg { display: block; overflow: visible; font-family: inherit; }
+.g-grade { stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 4; }
+.g-base { stroke: var(--line); stroke-width: 1.5; }
+.g-eixo { fill: var(--muted); font-size: 11.5px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.g-nota { fill: var(--muted); font-size: 12px; font-weight: 600; }
+.g-nota.forte { fill: var(--ink); font-weight: 800; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.g-rotulo { fill: var(--ink); font-size: 13px; font-weight: 600; }
+.g-valor { fill: var(--ink); font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.g-centro { fill: var(--ink); font-size: 17px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.g-limite { stroke-width: 1.5; stroke-dasharray: 6 5; }
+.g-faixa { fill: var(--muted); opacity: .12; }
+.g-mira { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; pointer-events: none; }
+.g-anel { stroke: var(--card); stroke-width: 2.5; pointer-events: none; }
+.g-pulso { pointer-events: none; transform-box: fill-box; transform-origin: center; animation: g-pulso 2s ease-out infinite; }
+@keyframes g-pulso { 0% { opacity: .55; transform: scale(1); } 80%, 100% { opacity: 0; transform: scale(3.2); } }
+.g-trilho { fill: var(--line); opacity: .45; }
+.g-trilho-r { stroke: var(--line); opacity: .5; }
+.g-barra, .g-fatia { transition: opacity .15s, stroke-width .15s; }
+.com-foco .g-barra { opacity: .35; }
+.com-foco .foco .g-barra { opacity: 1; }
+.com-foco .g-fatia { opacity: .35; }
+.com-foco .g-fatia.foco { opacity: 1; stroke-width: 28px; }
+.g-fatia { cursor: pointer; }
+.g-cresce { transform-box: fill-box; transform-origin: bottom; animation: g-cresce .7s cubic-bezier(.3,.7,.2,1) both; }
+@keyframes g-cresce { from { transform: scaleY(0); } }
+.g-estica { transform-box: fill-box; transform-origin: left; animation: g-estica .8s cubic-bezier(.3,.7,.2,1) both; }
+@keyframes g-estica { from { transform: scaleX(0); } }
+.g-surge { animation: g-surge 1s ease-out both .25s; }
+@keyframes g-surge { from { opacity: 0; } }
+.nv-dica { position: fixed; z-index: 9999; pointer-events: none; min-width: 170px; max-width: 280px; padding: 10px 12px; border-radius: 12px;
+  background: var(--card); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 12px 32px rgba(15,23,42,.18); font-size: 13px; }
+.nv-dica[hidden] { display: none; }
+.nv-dica .tt { font-weight: 800; margin-bottom: 6px; }
+.nv-dica .ln { display: flex; align-items: center; gap: 8px; margin-top: 3px; }
+.nv-dica .ln i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.nv-dica .ln span { flex: 1; color: var(--muted); }
+.nv-dica .ln b { font-variant-numeric: tabular-nums; }
+.nv-dica .nt { margin-top: 7px; padding-top: 7px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+.g-legenda { display: inline-flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--muted); font-weight: 500; }
+.g-legenda span { display: inline-flex; align-items: center; gap: 6px; }
+.g-legenda i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.g-legenda i.tracejada { width: 16px; height: 0; border-top: 2px dashed var(--muted); border-radius: 0; background: none; }
+.g-legenda i.linha { width: 16px; height: 3px; border-radius: 2px; }
+.nv-grafico-rosca { display: flex; justify-content: center; margin: 4px 0 14px; }
+.g-bolinha { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 8px; vertical-align: 0; }
+.formas-lista li { transition: opacity .15s; }
+.formas-lista li.g-apagado { opacity: .35; }
+.nv-kpi-spark { margin: 10px -4px -6px; height: 38px; }
+@media (prefers-reduced-motion: reduce) { .g-cresce, .g-estica, .g-surge, .g-pulso { animation: none; } }

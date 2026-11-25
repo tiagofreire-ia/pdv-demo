@@ -5,6 +5,8 @@ Cada tela é (título da aba, HTML do conteúdo). Os dados seguem a loja de bebi
 """
 from __future__ import annotations
 
+import html as _html
+import json
 import random
 
 
@@ -30,11 +32,27 @@ def kpis(itens) -> str:
     for i, it in enumerate(itens):
         rotulo, valor, apoio = it[0], it[1], it[2]
         destaque = " destaque" if (len(it) > 3 and it[3]) or i == 0 else ""
+        spark = grafico("spark", {"valores": it[4], "cor": "accent"}, "nv-kpi-spark") if len(it) > 4 and it[4] else ""
         blocos.append(
             f'<div class="nv-kpi{destaque}"><span class="rotulo">{rotulo}</span>'
-            f"<strong>{valor}</strong><span class=\"apoio\">{apoio}</span></div>"
+            f"<strong>{valor}</strong><span class=\"apoio\">{apoio}</span>{spark}</div>"
         )
     return '<div class="nv-kpis">' + "".join(blocos) + "</div>"
+
+
+def grafico(tipo: str, cfg: dict, classe: str = "") -> str:
+    """Gráfico desenhado por static/graficos.js (SVG, com dica ao passar o mouse)."""
+    dados = _html.escape(json.dumps(cfg, ensure_ascii=False), quote=True)
+    return f'<div class="nv-grafico {classe}" data-grafico="{tipo}" data-cfg="{dados}"></div>'
+
+
+def legenda(itens) -> str:
+    """itens: (cor CSS, nome, estilo '' | 'linha' | 'tracejada')."""
+    partes = []
+    for c, nome, estilo in itens:
+        st = "" if estilo == "tracejada" else f' style="background:{c}"'
+        partes.append(f'<span><i class="{estilo}"{st}></i>{nome}</span>')
+    return '<span class="g-legenda">' + "".join(partes) + "</span>"
 
 
 def card(titulo: str, corpo: str, direita: str = "", extra: str = "") -> str:
@@ -707,23 +725,42 @@ def tela_inteligencia() -> str:
         '<div class="nv-progresso" style="margin:10px 0 6px"><span style="width:66%"></span></div>'
         '<p class="muted small" style="margin:0">66% da meta às 14:27. Pelo ritmo das sextas, deve fechar em <b>R$ 2.690,00</b> (112%).</p>'
     )
-    margem = barras(
-        [("Destilados", 38), ("Copão", 61), ("Cervejas", 22), ("Energéticos", 34), ("Gelo/carvão", 45), ("Refri/água", 29)],
-        fmt=lambda v: f"{v}%", classe=lambda i, v: "" if v >= 30 else "suave",
-    )
+    cats = [("Copão", 61), ("Gelo/carvão", 45), ("Destilados", 38), ("Energéticos", 34), ("Refri/água", 29), ("Cervejas", 22)]
+    margem = grafico("barras-h", {
+        "titulo": "Margem por categoria", "nome": "Margem", "fmt": "pct", "max": 70, "cor": "accent", "colRotulo": 110,
+        "meta": {"valor": 30, "texto": "meta 30%"},
+        "itens": [{"rotulo": n, "valor": v} for n, v in cats],
+    })
+    horas = list(range(9, 23))
+    previsto = [40, 150, 360, 690, 1060, 1540, 1690, 1830, 1980, 2140, 2310, 2470, 2600, 2690]
+    real = [38, 142, 398, 742, 1105, 1588.30] + [None] * 8
+    hoje = grafico("linhas", {
+        "titulo": "Vendas de hoje, real e previsto", "fmt": "brl", "altura": 270, "zero": True, "folgaDireita": 24,
+        "rotulos": [f"{h}h" for h in horas],
+        "rotulosDica": [f"Sexta, até {h}h" if h != 14 else "Sexta, até 14:27 (agora)" for h in horas],
+        "faixa": {"min": [round(v * 0.9) for v in previsto], "max": [round(v * 1.1) for v in previsto]},
+        "limite": {"valor": 2400, "texto": "meta do dia R$ 2.400", "cor": "var(--ok)", "lado": "esq"},
+        "series": [
+            {"nome": "Previsto", "valores": previsto, "estilo": "tracejada", "cor": "muted"},
+            {"nome": "Real", "valores": real, "estilo": "area", "cor": "accent", "rotuloFim": "agora · R$ 1.588,30", "rotuloFimLado": "esq", "pulso": True},
+        ],
+        "notas": [None] * 5 + ["3% acima do previsto para o horário"] + [None] * 7 + ["fechamento previsto: 112% da meta"],
+    })
+    leg_hoje = legenda([("var(--accent)", "Real", "linha"), ("", "Previsto", "tracejada"), ("color-mix(in srgb, var(--muted) 25%, transparent)", "faixa provável", "")])
     corpo = (
         topo("Inteligência", "O sistema cruza vendas, horários, clima e clientes e sugere o que fazer. Você aprova com um clique.",
              btn("Perguntar ao assistente", "btn-secundario", "Abra o Assistente IA e pergunte: “o que eu faço para vender mais no sábado?”"))
         + kpis([
-            ("Previsão de hoje", "R$ 2.690,00", "112% da meta do dia"),
+            ("Previsão de hoje", "R$ 2.690,00", "112% da meta do dia", False, [2180, 2350, 2240, 2510, 2420, 2630, 2580, 2690]),
             ("Sugestões novas", "4", "reposição, combo, oferta e escala"),
-            ("Dinheiro parado em estoque", "R$ 2.872,50", "3 produtos sem giro há 18+ dias"),
+            ("Dinheiro parado em estoque", "R$ 2.872,50", "3 produtos sem giro há 18+ dias", False, [1920, 2050, 2240, 2380, 2510, 2700, 2872.5]),
             ("Clientes sumindo", "2", "compravam toda semana"),
         ])
         + '<div class="nv-grade-lado"><div class="nv-pilha">'
+        + card("Vendas de hoje: real × previsto", hoje, leg_hoje)
         + card("Quando sua loja vende (últimos 60 dias)", calor)
         + card("Clima dos próximos dias", clima)
-        + card("Margem por categoria", margem, '<span class="muted small">abaixo de 30% em tom mais claro</span>')
+        + card("Margem por categoria", margem, '<span class="muted small">abaixo da meta em tom mais claro</span>')
         + "</div><div class=\"nv-pilha\">"
         + card("Meta do dia", meta)
         + card("Sugestões para você aprovar", sugestoes, tag("ia", "4 novas"))
@@ -739,18 +776,35 @@ def tela_inteligencia() -> str:
 # ----------------------------------------------------------------------------------------------
 def tela_fluxo() -> str:
     semanas = [("06–12/11", 14820, 9640), ("13–19/11", 13950, 4210), ("20–26/11", 15480, 11380), ("27/11–03/12", 17200, 6120)]
-    grafico = '<div class="nv-barras" style="height:200px">'
-    mx = 18000
-    for rot, ent, sai in semanas:
-        grafico += (
-            f'<div class="col"><span class="v nv-ok">+{brl(ent - sai)}</span>'
-            f'<div style="display:flex;gap:4px;align-items:flex-end;height:100%;width:100%;justify-content:center">'
-            f'<div class="b" style="height:{ent / mx * 100:.0f}%;max-width:28px"></div>'
-            f'<div class="b neg" style="height:{sai / mx * 100:.0f}%;max-width:28px"></div></div><span class="r">{rot}</span></div>'
-        )
-    grafico += "</div>"
-    legenda = ('<span class="legenda-grafico"><span><i class="lg-fat"></i>Entradas</span>'
-               '<span><i style="background:var(--erro);display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px"></i>Saídas</span></span>')
+    ent = [e for _, e, _ in semanas]
+    sai = [x for _, _, x in semanas]
+    grafico_sem = grafico("colunas", {
+        "titulo": "Entradas e saídas por semana", "fmt": "brl", "altura": 250,
+        "rotulos": [r for r, _, _ in semanas],
+        "rotulosDica": [f"Semana {r}" for r, _, _ in semanas],
+        "topo": ["+" + brl(e - x).replace(",00", "") for _, e, x in semanas],
+        "series": [{"nome": "Entradas", "valores": ent, "cor": "s1"}, {"nome": "Saídas", "valores": sai, "cor": "s2"}],
+        "notas": [f"sobra na semana: {brl(e - x)}" for _, e, x in semanas],
+    })
+    legenda_sem = legenda([("var(--g-s1)", "Entradas", ""), ("var(--g-s2)", "Saídas", "")])
+    # Saldo projetado dia a dia (06/11 a 06/12), batendo com a tabela de movimentos e com o saldo final
+    dias = [f"{d:02d}/11" for d in range(6, 31)] + [f"{d:02d}/12" for d in range(1, 7)]
+    saldo = [21112.40, 16544.70, 16544.70, 16984.70, 12600.40, 12600.40, 7687.60, 7687.60, 7687.60, 2287.60]
+    passos = [3100, 2400, -1800, 2900, 3300, 2600, 4100, -2900, 2800, 3600, 2500, 3900, -1500, 3400, 2950, 3300, 4200, -2600, 3500, 2900, 0]
+    passos[-1] = round(48522.40 - saldo[-1] - sum(passos[:-1]), 2)
+    for d in passos:
+        saldo.append(round(saldo[-1] + d, 2))
+    notas_dia = {"06/11": "vendas do dia (previsão) + R$ 2.690,00", "07/11": "boleto Ambev − R$ 6.480,00 · cartão D+1 + R$ 1.912,30",
+                 "09/11": "Confiança Bar Recanto + R$ 440,00", "10/11": "aluguel − R$ 3.200,00 · energia − R$ 1.184,30",
+                 "12/11": "boleto Heineken − R$ 4.912,80", "15/11": "folha de pagamento − R$ 5.400,00", "06/12": "saldo final do período"}
+    saldo_dia = grafico("linhas", {
+        "titulo": "Saldo projetado dia a dia", "fmt": "brl", "altura": 290, "zero": True, "cada": 3,
+        "rotulos": dias, "rotulosDica": [f"Saldo em {d}" for d in dias],
+        "limite": {"valor": 3000, "texto": "reserva mínima R$ 3.000", "cor": "#F97316"},
+        "destaque": {"i": 9, "titulo": "15/11 · R$ 2.287,60", "texto": "menor saldo do mês (folha)", "cor": "var(--erro)", "sobe": 78},
+        "series": [{"nome": "Saldo previsto", "valores": saldo, "estilo": "area", "cor": "accent", "rotuloFim": "R$ 48,5 mil", "rotuloFimLado": "esq"}],
+        "notas": [notas_dia.get(d) for d in dias],
+    })
     movs = tabela(
         ["Dia", "Descrição", "Origem", "Entrada", "Saída", "Saldo"],
         [
@@ -773,11 +827,12 @@ def tela_fluxo() -> str:
             ("Saldo hoje", "R$ 18.422,40", "caixa + banco + Pix"),
             ("Entra nos próximos 30 dias", "R$ 61.450,00", "vendas previstas, cartões e Confiança"),
             ("Sai nos próximos 30 dias", "R$ 31.350,00", "14 contas, 3 fixas"),
-            ("Saldo previsto em 06/12", "R$ 48.522,40", "<b class=\"ok\">sem dia negativo</b>"),
+            ("Saldo previsto em 06/12", "R$ 48.522,40", "<b class=\"ok\">sem dia negativo</b>", False, saldo[::3] + [saldo[-1]]),
         ])
         + '<div class="nv-faixa aviso">⚠ Dia 15/11 o saldo fica apertado (<b>R$ 2.287,60</b>) por causa da folha. Sugestão: antecipar R$ 3.000 dos recebíveis do cartão ou adiar o boleto da Heineken para 16/11.</div>'
+        + card("Saldo projetado dia a dia", saldo_dia, legenda([("var(--accent)", "Saldo previsto", "linha"), ("#F97316", "Reserva mínima", "linha"), ("var(--erro)", "Dia crítico", "")]), ' style="margin-bottom:18px"')
         + '<div class="nv-grade-lado">'
-        + card("Próximos 30 dias, por semana", grafico, legenda)
+        + card("Próximos 30 dias, por semana", grafico_sem, legenda_sem)
         + card("Cartões a receber", '<ul class="nv-linhas">'
                '<li><div class="cresce"><b>Débito</b><span>cai em D+1</span></div><span class="valor">R$ 1.204,60</span></li>'
                '<li><div class="cresce"><b>Crédito à vista</b><span>cai em D+30</span></div><span class="valor">R$ 8.947,10</span></li>'

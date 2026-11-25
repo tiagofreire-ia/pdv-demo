@@ -7,7 +7,7 @@ identificado.
 """
 from __future__ import annotations
 
-from telas_novas_conteudo import SETA, btn, card, kpis, pagina, seletor_modulos, switch, tabela, tag, topo
+from telas_novas_conteudo import SETA, btn, card, grafico, kpis, pagina, seletor_modulos, switch, tabela, tag, topo
 
 LOGO = "./static/img/lojas/"
 
@@ -71,6 +71,16 @@ def tela_visao_geral() -> str:
         + '<div class="nv-grade-lado"><div class="nv-pilha">'
         + card("Lojas", tabela(["Loja", "Situação", "Cobrança"], [[l[0], l[2], l[3]] for l in linhas_lojas(com_modulos=False)]),
                '<a class="link-ouro" href="./master_lojas.html">ver todas</a>')
+        + card("Módulos ligados por loja", grafico("barras-h", {
+            "titulo": "Módulos ligados por loja", "nome": "Módulos ligados", "fmt": "num", "max": 13, "colRotulo": 190, "cor": "accent",
+            "itens": [
+                {"rotulo": "Adega Bom Gole", "valor": 12, "texto": "12 de 13", "nota": "adega e bebidas · demonstração"},
+                {"rotulo": "Padaria Pão Dourado", "valor": 10, "texto": "10 de 13", "nota": "padaria · demonstração"},
+                {"rotulo": "Ateliê Lume", "valor": 8, "texto": "8 de 13", "nota": "roupas e calçados · demonstração"},
+                {"rotulo": "Casa Forte Materiais", "valor": 8, "texto": "8 de 13", "nota": "material de construção · demonstração"},
+                {"rotulo": "Distribuidora de bebidas", "valor": 4, "texto": "4 de 13", "nota": "cliente piloto em produção: caixa, estoque, fiado e IA"},
+            ],
+        }), '<span class="muted small">cada ramo liga o que usa</span>')
         + card("Caminho até o lançamento", marcos)
         + '</div><div class="nv-pilha">'
         + card("Atalhos", '<div class="nv-pilha" style="gap:10px">'

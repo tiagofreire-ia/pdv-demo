@@ -338,7 +338,7 @@ def main() -> None:
         html = pagina.read_text(encoding="utf-8")
         novo = NAV_RE.sub(lambda _m: nav, html, count=1)
         novo = incluir_ativos(novo)
-        if novo != html:
+        if novo != pagina.read_text(encoding="utf-8"):
             pagina.write_text(novo, encoding="utf-8")
             alteradas += 1
     print(f"Telas novas: {len(PAGINAS)} · telas existentes atualizadas: {alteradas}")
@@ -354,9 +354,11 @@ def versionar_ativos() -> None:
     import hashlib
     hashes = {p.name: hashlib.md5(p.read_bytes()).hexdigest()[:8] for p in (TELAS / "static").glob("*.*") if p.suffix in (".css", ".js")}
     for pagina in TELAS.glob("*.html"):
-        html = pagina.read_text(encoding="utf-8")
+        original = html = pagina.read_text(encoding="utf-8")
+        if ("data-grafico" in html or "formas-lista" in html) and "static/graficos.js" not in html:
+            html = html.replace("</body>", '<script src="./static/graficos.js"></script>\n</body>', 1)
         novo = ATIVO_RE.sub(lambda m: f'{m.group(1)}?v={hashes[m.group(2)]}"' if m.group(2) in hashes else m.group(0), html)
-        if novo != html:
+        if novo != original:
             pagina.write_text(novo, encoding="utf-8")
 
 
