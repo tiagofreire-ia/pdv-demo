@@ -1180,7 +1180,7 @@ def tela_plano() -> str:
             ("Caixas", "2", "1 incluído + 1 extra (R$ 19)"),
         ])
         + f'<div class="card" style="margin-bottom:18px">{mods}</div>'
-        + '<div class="nv-grade-2">' + card("Faturas", faturas)
+        + '<div class="nv-grade-lado">' + card("Faturas", faturas)
         + card("Como funciona", '<ul class="nv-linhas">'
                '<li><span class="nv-ico">🧪</span><div class="cresce"><b>Teste grátis de 5 dias</b><span>com todos os módulos</span></div></li>'
                '<li><span class="nv-ico">💳</span><div class="cresce"><b>Cartão recorrente, Pix ou boleto</b><span>aviso 3 dias antes do vencimento</span></div></li>'

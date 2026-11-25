@@ -294,7 +294,7 @@ def incluir_ativos(html: str) -> str:
 
 def molde() -> tuple[str, str, str]:
     """Devolve (antes_do_titulo, depois_do_titulo_ate_o_conteudo, depois_do_conteudo)."""
-    html = MOLDE.read_text(encoding="utf-8")
+    html = re.sub(r'(\.(?:css|js))\?v=[0-9a-f]+"', r'\1"', MOLDE.read_text(encoding="utf-8"))  # tira a versão; é reposta no fim
     i_tit = html.index("<title>")
     f_tit = html.index("</title>") + len("</title>")
     i_pag = html.index('<div class="page')
@@ -342,6 +342,22 @@ def main() -> None:
             pagina.write_text(novo, encoding="utf-8")
             alteradas += 1
     print(f"Telas novas: {len(PAGINAS)} · telas existentes atualizadas: {alteradas}")
+
+    # 4) Versão nos CSS/JS (?v=hash do conteúdo): o navegador nunca usa um estilo velho do cache
+    versionar_ativos()
+
+
+ATIVO_RE = re.compile(r'(\./static/([\w.-]+\.(?:css|js)))(?:\?v=[0-9a-f]+)?"')
+
+
+def versionar_ativos() -> None:
+    import hashlib
+    hashes = {p.name: hashlib.md5(p.read_bytes()).hexdigest()[:8] for p in (TELAS / "static").glob("*.*") if p.suffix in (".css", ".js")}
+    for pagina in TELAS.glob("*.html"):
+        html = pagina.read_text(encoding="utf-8")
+        novo = ATIVO_RE.sub(lambda m: f'{m.group(1)}?v={hashes[m.group(2)]}"' if m.group(2) in hashes else m.group(0), html)
+        if novo != html:
+            pagina.write_text(novo, encoding="utf-8")
 
 
 if __name__ == "__main__":
