@@ -65,7 +65,7 @@ def tela_visao_geral() -> str:
         + kpis([
             ("Lojas na plataforma", "5", "1 cliente piloto + 4 demonstrações"),
             ("Cliente em produção", "3 meses", "distribuidora de bebidas, todos os dias"),
-            ("Módulos prontos", "11", "ligados e desligados por loja"),
+            ("Módulos prontos", "13", "3 no plano + 10 adicionais, por loja"),
             ("Fase do projeto", "14 de 15", "verificação antes do lançamento"),
         ])
         + '<div class="nv-grade-lado"><div class="nv-pilha">'
@@ -300,7 +300,8 @@ def tela_precos() -> str:
     mods = [
         ("Plano Inicial", "caixa, estoque, clientes e 1 caixa", "R$ 59,00/mês", True),
         ("Nota fiscal NFC-e", "", "a definir", False), ("WhatsApp com agente de IA", "", "a definir", False),
-        ("Comandas, cozinha e delivery", "", "a definir", False), ("Cardápio digital e Minha página", "", "a definir", False),
+        ("Comandas e cozinha", "", "a definir", False), ("Delivery", "", "a definir", False),
+        ("Produção e encomendas", "", "a definir", False), ("Cardápio digital e Minha página", "", "a definir", False),
         ("Fidelidade e campanhas", "", "a definir", False), ("Inteligência e assistente de IA", "", "a definir", False),
         ("Balança e etiquetas", "", "a definir", False), ("Grade e trocas", "", "a definir", False), ("Caixa extra", "", "a definir", False),
     ]
