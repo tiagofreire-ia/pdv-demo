@@ -349,3 +349,7 @@
 .side-top .nv-simbolo-optima { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex: none;
   background: linear-gradient(135deg, #0D6EFD, #3B82F6); color: #fff; font-weight: 800; font-size: 17px; }
 .nv-selo-master { font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #FDBA74; display: block; line-height: 1; margin-top: 2px; }
+
+/* Logos menores nas listas de lojas do Master */
+.nv-celula-loja { gap: 10px; }
+.nv-celula-loja .nv-logo-loja, .nv-celula-loja .nv-loja-ini { width: 28px; height: 28px; font-size: 10px; }
