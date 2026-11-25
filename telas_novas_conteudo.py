@@ -851,7 +851,7 @@ CONVERSAS = [
     ("henrique", "HM", "#10B981", "Henrique Moraes", "Pedido #2041 confirmado ✅", "14:31", 2, "ia", [
         ("in", "Boa tarde! Vocês têm Heineken lata gelada?", "14:22"),
         ("ia", "Boa tarde, Henrique! 😊 Temos sim, bem gelada:\n• Fardo Heineken Lata c/ 12 — R$ 69,90\n• Heineken Long Neck — R$ 7,50 a unidade\nVai querer qual?", "14:22"),
-        ("audio", "🎤 Áudio (0:09) — transcrição: “manda dois fardos e dois gelos de 5 quilos, é pra entregar aqui em casa”", "14:24"),
+        ("audio", "🎤 Áudio (0:09) — transcrição: “manda dois fardos de Heineken e dois gelos de 5 quilos, é pra entregar aqui em casa”", "14:24"),
         ("ia", "Fechado! Seu pedido:\n2× Fardo Heineken Lata c/ 12 — R$ 139,80\n2× Gelo Cubo Cristal 5kg — R$ 28,00\nEntrega na Qd. 12, Jardim Europa (o mesmo endereço da última vez) — R$ 5,00\nTotal: R$ 172,80\nPix ou cartão na entrega?", "14:24"),
         ("in", "pix", "14:25"),
         ("ia", "Aqui está o Pix copia e cola 👇\n(QR dinâmico de R$ 172,80)\nAssim que cair eu já mando separar 🍺", "14:25"),
