@@ -170,6 +170,26 @@
     toast(b.getAttribute('data-msg') || 'Exemplo simulado.');
   });
 
+  /* ---------- Seletor de módulos ---------- */
+  function contarModulos(raiz) {
+    $$('[data-seletor-modulos]', raiz).forEach(function (s) {
+      var n = $$('.nv-mod-base', s).length + $$('.nv-mod-extra input:checked', s).length;
+      $$('[data-contador-modulos]', s).forEach(function (el) { el.textContent = n; });
+    });
+  }
+  document.addEventListener('change', function (e) {
+    var s = e.target.closest('[data-seletor-modulos]');
+    if (s) contarModulos(s.parentNode);
+  });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-mods-todos],[data-mods-limpar]');
+    if (!b) return;
+    var s = b.closest('[data-seletor-modulos]');
+    var ligar = b.hasAttribute('data-mods-todos');
+    $$('.nv-mod-extra input', s).forEach(function (c) { c.checked = ligar; });
+    contarModulos(s.parentNode);
+  });
+
   /* ---------- Assistente em etapas (Nova loja) ---------- */
   $$('[data-assistente]').forEach(function (a) {
     var passos = $$('[data-passo]', a);
@@ -194,6 +214,7 @@
         var base = c.getAttribute('data-base') === 'sim';
         c.checked = base || liga.indexOf(c.getAttribute('data-modulo')) !== -1;
       });
+      contarModulos(a);
     });
     a.addEventListener('click', function (e) {
       if (e.target.closest('[data-avancar-passo]')) { e.preventDefault(); ir(atual + 1); }

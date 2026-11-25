@@ -339,27 +339,64 @@
 .nv-passos-barra span { flex: 1; min-width: 120px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); font-size: 13px; font-weight: 700; color: var(--muted); background: var(--card); }
 .nv-passos-barra span.ativo { border-color: var(--accent); color: var(--accent-text); box-shadow: inset 0 0 0 1px var(--accent); }
 .nv-passos-barra span.feito { color: var(--ok-ink); background: var(--ok-bg); border-color: transparent; }
-.nv-checks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.nv-checks label { display: flex !important; flex-direction: row !important; gap: 12px; align-items: center; justify-content: flex-start;
-  margin: 0; padding: 14px 16px; min-height: 64px; border: 1.5px solid var(--line); border-radius: 12px; font-size: 14px;
-  background: var(--card); cursor: pointer; text-align: left; transition: border-color .15s, background .15s, box-shadow .15s; }
-.nv-checks label:hover { border-color: var(--accent); }
-.nv-checks label > div { flex: 1; min-width: 0; text-align: left; line-height: 1.3; }
-.nv-checks label b { display: block; font-weight: 700; color: var(--ink); }
-.nv-checks label span { color: var(--muted); font-size: 12px; display: block; margin-top: 2px; font-weight: 500; }
-.nv-checks input[type="checkbox"] { appearance: none; -webkit-appearance: none; flex: none; width: 22px !important; height: 22px !important;
-  min-width: 0; margin: 0 !important; padding: 0 !important; border: 1.5px solid var(--line); border-radius: 7px; background: var(--card);
+/* Seletor de módulos (Nova loja, Plano e módulos, ficha da loja) */
+.nv-mods { display: flex; flex-direction: column; }
+.nv-mods-cabeca { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-bottom: 18px; margin-bottom: 6px; border-bottom: 1px solid var(--line); }
+.nv-mods-cabeca h2 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -.01em; color: var(--ink); }
+.nv-mods-cabeca p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+.nv-mods-contador { flex: none; display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 10px;
+  background: color-mix(in srgb, var(--muted) 10%, var(--card)); font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.nv-mods-contador i { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+.nv-mods-secao { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 20px 0 12px; }
+.nv-mods-rotulo { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.nv-mods-sempre { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; color: var(--ok-ink); background: var(--ok-bg);
+  border: 1px solid color-mix(in srgb, var(--ok) 35%, transparent); }
+.nv-mods-links { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; }
+.nv-mods-links i { color: var(--line); font-style: normal; }
+.nv-mods-links button { background: none; border: 0; padding: 0; font: inherit; font-weight: 600; cursor: pointer; color: var(--muted); }
+.nv-mods-links button:first-child { color: var(--accent); }
+.nv-mods-links button:hover { text-decoration: underline; }
+.nv-mods-grade { display: grid; gap: 12px; }
+.nv-mods-grade.base { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.nv-mods-grade.extra { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.nv-mod { position: relative; border: 1px solid var(--line); border-radius: 14px; background: var(--card); min-width: 0;
+  transition: border-color .15s, box-shadow .15s, background .15s; }
+.nv-mod-ico { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 9px;
+  background: color-mix(in srgb, var(--muted) 9%, var(--card)); border: 1px solid var(--line); color: var(--ink); transition: background .15s, color .15s; }
+.nv-mod-ico svg { width: 17px; height: 17px; }
+.nv-mod-nome { display: block; font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+.nv-mod-desc { display: block; margin-top: 4px; font-size: 12.5px; line-height: 1.45; color: var(--muted); font-weight: 400; }
+.nv-mod-ia { display: inline-block; margin-left: 6px; vertical-align: 1px; line-height: 1.3; font-style: normal; font-size: 10.5px; font-weight: 700; padding: 2px 6px; border-radius: 5px;
+  color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--card)); }
+.nv-mod-preco { display: block; margin-top: 6px; font-size: 12.5px; font-weight: 700; color: var(--ink); }
+/* incluídos */
+.nv-mod-base { display: flex; flex-direction: column; padding: 14px; background: color-mix(in srgb, var(--muted) 4%, var(--card)); }
+.nv-mod-base .nv-mod-ico { margin-bottom: 14px; background: var(--card); }
+.nv-mod-incluso { position: absolute; top: 12px; right: 12px; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px;
+  color: var(--ok-ink); background: var(--ok-bg); }
+/* adicionais (marcáveis) */
+label.nv-mod-extra { display: flex !important; flex-direction: row !important; align-items: flex-start; gap: 14px; margin: 0; padding: 14px 16px; cursor: pointer; text-align: left; }
+.nv-mod-extra:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.nv-mod-texto { flex: 1; min-width: 0; display: block; }
+.nv-mod-extra input[type="checkbox"] { appearance: none; -webkit-appearance: none; flex: none; width: 18px !important; height: 18px !important;
+  min-width: 0; margin: 2px 0 0 !important; padding: 0 !important; border: 1.5px solid var(--line); border-radius: 5px; background: var(--card);
   display: grid; place-items: center; cursor: pointer; box-shadow: none; transition: background .15s, border-color .15s; }
-.nv-checks input[type="checkbox"]::after { content: ""; width: 6px; height: 11px; border: solid #fff; border-width: 0 2.5px 2.5px 0;
-  transform: rotate(45deg) translate(-1px, -1px); opacity: 0; }
-.nv-checks input[type="checkbox"]:checked { background: var(--accent); border-color: var(--accent); }
-.nv-checks input[type="checkbox"]:checked::after { opacity: 1; }
-.nv-checks input[type="checkbox"]:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring, rgba(13,110,253,.28)); }
-.nv-checks label:has(input:checked) { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, var(--card)); }
-.nv-checks label:has(input:disabled) { cursor: default; }
-.nv-checks label:has(input:disabled):hover { border-color: var(--accent); }
-.nv-checks input[type="checkbox"]:disabled { opacity: .55; cursor: default; }
-@media (max-width: 760px) { .nv-checks { grid-template-columns: 1fr; } }
+.nv-mod-extra input[type="checkbox"]::after { content: ""; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0;
+  transform: rotate(45deg) translate(-.5px, -1px); opacity: 0; }
+.nv-mod-extra input[type="checkbox"]:checked { background: var(--accent); border-color: var(--accent); }
+.nv-mod-extra input[type="checkbox"]:checked::after { opacity: 1; }
+.nv-mod-extra input[type="checkbox"]:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring, rgba(13,110,253,.28)); }
+.nv-mod-extra:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 6px 18px color-mix(in srgb, var(--accent) 14%, transparent); }
+.nv-mod-extra:has(input:checked) .nv-mod-ico { background: var(--accent); border-color: var(--accent); color: #fff; }
+.nv-mods-rodape { display: flex; justify-content: space-between; align-items: center; gap: 12px 16px; flex-wrap: wrap;
+  margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+@media (max-width: 640px) {
+  .nv-mods-cabeca { flex-direction: column; }
+  .nv-mods-grade.base, .nv-mods-grade.extra { grid-template-columns: 1fr; }
+  .nv-mods-secao { flex-wrap: wrap; }
+  .nv-mods-rodape .nv-acoes-topo { width: 100%; }
+  .nv-mods-rodape .nv-acoes-topo > * { flex: 1; }
+}
 .nv-mfa { display: flex; gap: 10px; justify-content: center; }
 .nv-mfa input { width: 48px; height: 58px; text-align: center; font-size: 24px; font-weight: 800; border-radius: 12px; border: 1px solid var(--line); background: var(--input-bg); color: var(--ink); }
 .side-top .nv-simbolo-optima { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex: none;

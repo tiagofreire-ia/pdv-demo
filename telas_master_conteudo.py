@@ -7,17 +7,17 @@ identificado.
 """
 from __future__ import annotations
 
-from telas_novas_conteudo import btn, card, kpis, pagina, switch, tabela, tag, topo
+from telas_novas_conteudo import SETA, btn, card, kpis, pagina, seletor_modulos, switch, tabela, tag, topo
 
 LOGO = "./static/img/lojas/"
 
 LOJAS = [
     # (arquivo da logo ou None, nome, endereço, ramo, situação (cls, texto), módulos, cobrança (cls, texto))
     (None, "Distribuidora de bebidas", "sistema dedicado", "Bebidas", ("ok", "Em produção · 3 meses"), "Caixa, estoque, fiado, IA", ("info", "Cliente piloto")),
-    ("pao-dourado", "Padaria Pão Dourado", "loja-demo.optimapdv.com.br", "Padaria", ("info", "Demonstração"), "10 de 11", ("", "Isenta (demo)")),
-    ("atelie-lume", "Ateliê Lume", "demo-moda.optimapdv.com.br", "Roupas e calçados", ("info", "Demonstração"), "8 de 11", ("", "Isenta (demo)")),
-    ("casa-forte", "Casa Forte Materiais", "demo-obra.optimapdv.com.br", "Material de construção", ("info", "Demonstração"), "8 de 11", ("", "Isenta (demo)")),
-    ("bom-gole", "Adega Bom Gole", "adegabomgole.optimapdv.com.br", "Adega e bebidas", ("info", "Demonstração"), "11 de 11", ("", "Isenta (demo)")),
+    ("pao-dourado", "Padaria Pão Dourado", "loja-demo.optimapdv.com.br", "Padaria", ("info", "Demonstração"), "10 de 13", ("", "Isenta (demo)")),
+    ("atelie-lume", "Ateliê Lume", "demo-moda.optimapdv.com.br", "Roupas e calçados", ("info", "Demonstração"), "8 de 13", ("", "Isenta (demo)")),
+    ("casa-forte", "Casa Forte Materiais", "demo-obra.optimapdv.com.br", "Material de construção", ("info", "Demonstração"), "8 de 13", ("", "Isenta (demo)")),
+    ("bom-gole", "Adega Bom Gole", "adegabomgole.optimapdv.com.br", "Adega e bebidas", ("info", "Demonstração"), "12 de 13", ("", "Isenta (demo)")),
 ]
 
 
@@ -104,17 +104,14 @@ def tela_lojas() -> str:
 
 
 # ----------------------------------------------------------------------------------------------
-MODULOS_LOJA = [
-    ("Frente de caixa", True), ("Estoque, lotes e validade", True), ("Clientes e Confiança", True), ("Nota fiscal NFC-e", True),
-    ("Balança e etiquetas", True), ("Produção e encomendas", True), ("Cardápio digital e Minha página", True),
-    ("WhatsApp com agente de IA", True), ("Fidelidade e campanhas", True), ("Inteligência e assistente de IA", True),
-    ("Grade e trocas", False),
-]
+MODULOS_LOJA = {"fiscal", "balanca", "producao", "cardapio", "whatsapp", "fidelidade", "inteligencia"}
 
 
 def tela_ficha_loja() -> str:
-    mods = "".join(
-        f'<div class="nv-linha-config"><div class="meio"><b>{n}</b></div>{switch(n, on)}</div>' for n, on in MODULOS_LOJA
+    mods = seletor_modulos(
+        MODULOS_LOJA, "Módulos da loja", "Liga e desliga na hora; a mensalidade da loja acompanha.",
+        "Cada mudança fica registrada na auditoria da loja.",
+        btn("Salvar módulos" + SETA, "btn-principal", "Módulos da loja atualizados e registrados na auditoria."),
     )
     cabeca = (
         '<div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">'
@@ -139,16 +136,15 @@ def tela_ficha_loja() -> str:
                btn("Trocar endereço", "btn-secundario", "No sistema, o endereço muda sem perder dados e o antigo redireciona.")
                + btn("Abrir como suporte", "btn-principal", "Acesso de suporte registrado na auditoria da loja e na auditoria geral."))
         + f'<div class="card" style="margin-bottom:18px">{cabeca}</div>'
-        + '<div class="nv-grade-lado"><div class="nv-pilha">'
-        + card("Módulos da loja", mods, '<span class="muted small">liga e desliga na hora; a mensalidade acompanha</span>')
-        + "</div><div class=\"nv-pilha\">"
+        + f'<div class="card" style="margin-bottom:18px">{mods}</div>'
+        + '<div class="nv-grade-3">'
         + card("Cobrança", '<ul class="nv-linhas">'
                '<li><div class="cresce"><b>Situação</b><span>loja de demonstração</span></div>' + tag("", "isenta") + "</li>"
                '<li><div class="cresce"><b>Provedor</b><span>Mercado Pago (cartão, Pix e boleto)</span></div></li>'
                '<li><div class="cresce"><b>Caixas extras</b><span>além do incluído no plano</span></div><span class="valor">0</span></li></ul>')
         + card("Identidade", identidade)
         + card("Usuários", usuarios)
-        + "</div></div>"
+        + "</div>"
     )
     return pagina("nv-master", corpo)
 
@@ -162,20 +158,6 @@ def tela_nova_loja() -> str:
         ("Hortifruti", "balanca"), ("Açougue", "balanca,fiscal"), ("Perfumaria", "fidelidade,grade"), ("Papelaria", "fiscal"),
     ]
     opcoes = "".join(f'<option data-modulos="{m}">{n}</option>' for n, m in ramos)
-    mods = [
-        ("caixa", "Frente de caixa", "incluído no plano", True), ("estoque", "Estoque, lotes e validade", "incluído no plano", True),
-        ("clientes", "Clientes e Confiança", "incluído no plano", True), ("fiscal", "Nota fiscal NFC-e", "", False),
-        ("balanca", "Balança e etiquetas", "", False), ("producao", "Produção e encomendas", "", False),
-        ("cardapio", "Cardápio digital e Minha página", "", False), ("comandas", "Comandas e cozinha", "", False),
-        ("delivery", "Delivery", "", False), ("whatsapp", "WhatsApp com agente de IA", "", False),
-        ("fidelidade", "Fidelidade e campanhas", "", False), ("grade", "Grade e trocas", "", False),
-        ("inteligencia", "Inteligência e assistente de IA", "", False),
-    ]
-    checks = "".join(
-        f'<label><input type="checkbox" data-modulo="{k}" data-base="{"sim" if base else "nao"}"{" checked" if base else ""}{" disabled" if base else ""}>'
-        f'<div><b>{n}</b>{f"<span>{d}</span>" if d else ""}</div></label>'
-        for k, n, d, base in mods
-    )
     passos = (
         '<div class="nv-passos-barra"><span>1. Dados da loja</span><span>2. Módulos</span><span>3. Marca</span><span>4. Administrador</span><span>Pronto</span></div>'
         '<div data-passo="1"><div class="nv-form">'
@@ -184,10 +166,14 @@ def tela_nova_loja() -> str:
         '<label>CNPJ<input type="text" placeholder="00.000.000/0000-00"></label>'
         '<div class="muted small">Endereço da loja: <b class="nv-mono" data-slug>nome-da-loja.optimapdv.com.br</b></div></div>'
         '<div class="nv-acoes-topo" style="margin-top:18px"><button class="btn-principal" data-avancar-passo>Continuar</button></div></div>'
-        '<div data-passo="2" hidden><p class="muted" style="margin-top:0">O ramo já liga os módulos mais usados. Ajuste se precisar.</p>'
-        f'<div class="nv-checks">{checks}</div>'
-        '<div class="nv-acoes-topo" style="margin-top:18px"><button class="btn-secundario" data-voltar-passo>Voltar</button><button class="btn-principal" data-avancar-passo>Continuar</button></div></div>'
-        '<div data-passo="3" hidden><div class="nv-form">'
+        '<div data-passo="2" hidden>'
+        + seletor_modulos(set(), "Personalize seus módulos",
+                          "O ramo já liga os módulos mais usados. Ajuste conforme a necessidade da operação.",
+                          "Dá para mudar a qualquer momento nas configurações.",
+                          '<button class="btn-secundario" data-voltar-passo>Voltar</button>'
+                          f'<button class="btn-principal" data-avancar-passo>Continuar{SETA}</button>')
+        + "</div>"
+        + '<div data-passo="3" hidden><div class="nv-form">'
         '<label>Logo<input type="file" accept="image/*"></label>'
         '<div style="display:flex;gap:16px;flex-wrap:wrap"><label>Cor principal<input type="color" value="#0D6EFD"></label><label>Cor de destaque<input type="color" value="#F97316"></label></div>'
         '<p class="muted small" style="margin:0">A loja pode trocar depois em Identidade da marca. O contraste é conferido antes de salvar.</p></div>'

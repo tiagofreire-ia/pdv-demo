@@ -54,6 +54,84 @@ def switch(nome: str, ligado: bool = True) -> str:
     return f'<label class="nv-switch"><input type="checkbox" data-nome="{nome}"{chk} aria-label="{nome}"><span></span></label>'
 
 
+# ----------------------------------------------------------------------------------------------
+# Seletor de módulos (padrão único: Nova loja, Plano e módulos, ficha da loja no Master)
+# ----------------------------------------------------------------------------------------------
+_ICO_MOD = {
+    "caixa": '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
+    "estoque": '<rect x="3" y="4" width="18" height="5" rx="1"/><path d="M5 9v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9"/><path d="M10 13h4"/>',
+    "clientes": '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"/><path d="M18.5 20a6.5 6.5 0 0 0-2.5-5.2"/>',
+    "fiscal": '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/>',
+    "balanca": '<path d="M12 3v18M7 21h10M5 7h14"/><path d="M5 7l-3 6a3 3 0 0 0 6 0z"/><path d="M19 7l-3 6a3 3 0 0 0 6 0z"/>',
+    "producao": '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 11l2 2 4-4M9 17h6"/>',
+    "cardapio": '<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/>',
+    "comandas": '<path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/>',
+    "delivery": '<path d="M2 6h11v10H2z"/><path d="M13 9h4l4 4v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>',
+    "whatsapp": '<path d="M21 12a8 8 0 0 1-8 8H7l-4 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/>',
+    "fidelidade": '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/>',
+    "grade": '<path d="M17 3l4 4-4 4"/><path d="M3 7h18"/><path d="M7 21l-4-4 4-4"/><path d="M21 17H3"/>',
+    "inteligencia": '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>',
+}
+
+# (chave, nome, descrição, é IA?, incluído no plano?)
+CATALOGO_MODULOS = [
+    ("caixa", "Frente de caixa", "Vendas rápidas no balcão e fechamento de caixa.", False, True),
+    ("estoque", "Estoque, lotes e validade", "Controle de entradas, saídas e alertas de vencimento.", False, True),
+    ("clientes", "Clientes e Confiança", "Cadastro, histórico de compras e gestão de fiado.", False, True),
+    ("fiscal", "Nota fiscal NFC-e", "Emissão automática de cupom fiscal eletrônico.", False, False),
+    ("balanca", "Balança e etiquetas", "Integração com balanças e impressão de códigos.", False, False),
+    ("producao", "Produção e encomendas", "Ficha técnica, ordens de preparo e agendamentos.", False, False),
+    ("cardapio", "Cardápio digital e Minha página", "Vitrine online com link próprio e pedidos diretos.", False, False),
+    ("comandas", "Comandas e cozinha", "Gestão de mesas e envio de pedidos para preparo.", False, False),
+    ("delivery", "Delivery", "Taxas por bairro, motoboys e status de entrega.", False, False),
+    ("whatsapp", "WhatsApp com agente de IA", "Atendimento automático e pedidos direto no WhatsApp.", True, False),
+    ("fidelidade", "Fidelidade e campanhas", "Pontos, cashback e cupons para reter clientes.", False, False),
+    ("grade", "Grade e trocas", "Variações de cor/tamanho e devoluções ágeis.", False, False),
+    ("inteligencia", "Inteligência e assistente de IA", "Insights de vendas, alertas e copiloto gerencial.", True, False),
+]
+
+
+def _ico_mod(k: str) -> str:
+    return ('<span class="nv-mod-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+            f'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">{_ICO_MOD[k]}</svg></span>')
+
+
+def seletor_modulos(ligados, titulo: str, sub: str, nota: str, acoes: str, precos: dict | None = None) -> str:
+    """Bloco completo: cabeçalho com contador, módulos incluídos (fixos) e adicionais (marcáveis), rodapé."""
+    precos = precos or {}
+    base = [m for m in CATALOGO_MODULOS if m[4]]
+    extras = [m for m in CATALOGO_MODULOS if not m[4]]
+    total = len(base) + sum(1 for m in extras if m[0] in ligados)
+    cards_base = "".join(
+        f'<div class="nv-mod nv-mod-base">{_ico_mod(k)}<span class="nv-mod-incluso">✓ Incluso</span>'
+        f'<b class="nv-mod-nome">{n}</b><span class="nv-mod-desc">{d}</span></div>'
+        for k, n, d, ia, _ in base
+    )
+    cards_extra = "".join(
+        f'<label class="nv-mod nv-mod-extra">{_ico_mod(k)}<span class="nv-mod-texto">'
+        f'<b class="nv-mod-nome">{n}{" <em class=nv-mod-ia>IA</em>" if ia else ""}</b><span class="nv-mod-desc">{d}</span>'
+        + (f'<span class="nv-mod-preco">{precos[k]}</span>' if k in precos else "")
+        + f'</span><input type="checkbox" data-modulo="{k}" data-base="nao"{" checked" if k in ligados else ""} aria-label="{n}"></label>'
+        for k, n, d, ia, _ in extras
+    )
+    return (
+        '<div class="nv-mods" data-seletor-modulos>'
+        f'<div class="nv-mods-cabeca"><div><h2>{titulo}</h2><p>{sub}</p></div>'
+        f'<span class="nv-mods-contador"><i></i><span><span data-contador-modulos>{total}</span> módulos ativos</span></span></div>'
+        '<div class="nv-mods-secao"><span class="nv-mods-rotulo">Incluídos no seu plano</span><span class="nv-mods-sempre">Sempre ativos</span></div>'
+        f'<div class="nv-mods-grade base">{cards_base}</div>'
+        '<div class="nv-mods-secao"><span class="nv-mods-rotulo">Módulos adicionais</span>'
+        '<span class="nv-mods-links"><button type="button" data-mods-todos>Ativar todos</button><i>•</i>'
+        '<button type="button" data-mods-limpar>Limpar opcionais</button></span></div>'
+        f'<div class="nv-mods-grade extra">{cards_extra}</div>'
+        f'<div class="nv-mods-rodape"><span>{nota}</span><div class="nv-acoes-topo">{acoes}</div></div>'
+        "</div>"
+    )
+
+
+SETA = ' <span aria-hidden="true">→</span>'
+
+
 def qr(semente: int = 7) -> str:
     """QR Code ILUSTRATIVO (padrão visual, não codifica nada)."""
     rnd = random.Random(semente)
@@ -1063,26 +1141,23 @@ def tela_minha_pagina() -> str:
 # ----------------------------------------------------------------------------------------------
 # 16. Plano e módulos
 # ----------------------------------------------------------------------------------------------
-MODULOS = [
-    ("🛒", "Frente de caixa", "venda por teclado, leitor, Pix, cartão e venda sem internet", "incluído", True),
-    ("📦", "Estoque, lotes e validade", "entradas, inventário, reposição e perdas", "incluído", True),
-    ("👥", "Clientes e Confiança (fiado)", "limite, extrato e recebimento", "incluído", True),
-    ("🧾", "Nota fiscal NFC-e", "emissão automática, contingência e XML para o contador", "+ R$ 39/mês", True),
-    ("🍽️", "Comandas, cozinha e delivery", "mesas, KDS, entregadores e taxa por distância", "+ R$ 29/mês", True),
-    ("📱", "Cardápio digital e Minha página", "pedido pelo celular, QR na mesa e site da loja", "+ R$ 19/mês", True),
-    ("💬", "WhatsApp com agente de IA", "atendimento e pedidos 24h no número da loja", "+ R$ 79/mês", True),
-    ("❤️", "Fidelidade e campanhas", "cashback, cartão fidelidade e mensagens automáticas", "+ R$ 29/mês", True),
-    ("💡", "Inteligência e assistente de IA", "sugestões, clima, previsão e perguntas em português", "+ R$ 39/mês", True),
-    ("⚖️", "Balança e etiquetas", "produtos por peso, etiqueta de gôndola e código interno", "+ R$ 19/mês", True),
-    ("👕", "Grade e trocas", "tamanho × cor, vale-troca (moda e calçados)", "+ R$ 19/mês", True),
-]
+
+
+PRECOS_PLANO = {
+    "fiscal": "+ R$ 39/mês", "balanca": "+ R$ 19/mês", "producao": "+ R$ 19/mês", "cardapio": "+ R$ 19/mês",
+    "comandas": "+ R$ 19/mês", "delivery": "+ R$ 10/mês", "whatsapp": "+ R$ 79/mês", "fidelidade": "+ R$ 29/mês",
+    "grade": "+ R$ 19/mês", "inteligencia": "+ R$ 39/mês",
+}
+LIGADOS_PLANO = {"fiscal", "balanca", "cardapio", "comandas", "delivery", "whatsapp", "fidelidade", "grade", "inteligencia"}
 
 
 def tela_plano() -> str:
-    mods = "".join(
-        f'<div class="nv-modulo{" ligado" if on else ""}"><span class="nv-ico">{ic}</span><div class="meio"><b>{n}</b><span>{d}</span></div>'
-        f'<span class="preco">{p}</span>{switch(n, on)}</div>'
-        for ic, n, d, p, on in MODULOS
+    mods = seletor_modulos(
+        LIGADOS_PLANO, "Personalize seus módulos",
+        "O plano já inclui o essencial. Ligue só o que faz sentido para a sua operação; a mensalidade acompanha.",
+        "Você pode ativar ou desativar módulos a qualquer momento. A mudança vale na próxima fatura.",
+        btn("Salvar módulos" + SETA, "btn-principal", "Módulos salvos. A próxima fatura já considera a mudança."),
+        PRECOS_PLANO,
     )
     faturas = tabela(
         ["Mês", "Situação", "Valor"],
@@ -1100,17 +1175,17 @@ def tela_plano() -> str:
         + '<div class="nv-faixa aviso">Preços ilustrativos da demonstração.</div>'
         + kpis([
             ("Plano", "Inicial", "R$ 59/mês · 1 caixa"),
-            ("Módulos ligados", "11 de 11", "R$ 272/mês em módulos"),
+            ("Módulos ligados", "12 de 13", "R$ 272/mês em módulos"),
             ("Mensalidade", "R$ 350,00", "próxima cobrança em 10/11"),
             ("Caixas", "2", "1 incluído + 1 extra (R$ 19)"),
         ])
-        + '<div class="nv-grade-lado">' + card("Módulos", f'<div class="nv-pilha" style="gap:10px">{mods}</div>')
-        + '<div class="nv-pilha">' + card("Faturas", faturas)
+        + f'<div class="card" style="margin-bottom:18px">{mods}</div>'
+        + '<div class="nv-grade-2">' + card("Faturas", faturas)
         + card("Como funciona", '<ul class="nv-linhas">'
                '<li><span class="nv-ico">🧪</span><div class="cresce"><b>Teste grátis de 5 dias</b><span>com todos os módulos</span></div></li>'
                '<li><span class="nv-ico">💳</span><div class="cresce"><b>Cartão recorrente, Pix ou boleto</b><span>aviso 3 dias antes do vencimento</span></div></li>'
                '<li><span class="nv-ico">🔒</span><div class="cresce"><b>Sem bloqueio surpresa</b><span>5 dias de carência, depois só leitura: os dados nunca somem</span></div></li></ul>')
-        + "</div></div>"
+        + "</div>"
     )
     return pagina("nv-plano", corpo)
 
