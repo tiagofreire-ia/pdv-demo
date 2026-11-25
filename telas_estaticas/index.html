@@ -1,619 +1,513 @@
 <!doctype html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SUA MARCA · Sistema PDV e Gestão com Inteligência Artificial</title>
-  <link rel="icon" href="./static/img/logo-marca.svg">
-  <link rel="stylesheet" href="./static/style.css">
-    <link rel="stylesheet" href="./static/novos.css">
-    <script src="./static/marca.js"></script>
-  <style>
-    :root {
-      --lp-bg: #0B1120;
-      --lp-card: #1E293B;
-      --lp-card-hover: #243248;
-      --lp-border: rgba(255, 255, 255, 0.08);
-      --lp-border-focus: rgba(13, 110, 253, 0.4);
-      --lp-blue: #0D6EFD;
-      --lp-blue-light: #60A5FA;
-      --lp-orange: #F97316;
-      --lp-text: #F8FAFC;
-      --lp-muted: #94A3B8;
-    }
-    body.lp-body {
-      margin: 0;
-      background: 
-        radial-gradient(circle at 15% 15%, rgba(13, 110, 253, 0.18), transparent 35%),
-        radial-gradient(circle at 85% 25%, rgba(249, 115, 22, 0.12), transparent 30%),
-        var(--lp-bg);
-      color: var(--lp-text);
-      font-family: 'Manrope', system-ui, -apple-system, sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    .lp-nav-wrap {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(11, 17, 32, 0.8);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--lp-border);
-    }
-    .lp-nav {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-    .lp-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--lp-text);
-    }
-    .lp-brand img {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-    .lp-brand-title {
-      font-weight: 800;
-      font-size: 17px;
-      letter-spacing: 0.5px;
-      display: block;
-    }
-    .lp-brand-sub {
-      font-size: 11.5px;
-      color: var(--lp-blue-light);
-      display: block;
-    }
-    .lp-nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .lp-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 14px;
-      text-decoration: none;
-      transition: all 0.18s ease;
-      cursor: pointer;
-    }
-    .lp-btn-blue {
-      background: linear-gradient(135deg, #0D6EFD 0%, #0052CC 100%);
-      color: #FFFFFF;
-      box-shadow: 0 4px 16px rgba(13, 110, 253, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-    .lp-btn-blue:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 22px rgba(13, 110, 253, 0.5);
-    }
-    .lp-btn-orange {
-      background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
-      color: #FFFFFF;
-      box-shadow: 0 4px 16px rgba(249, 115, 22, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-    .lp-btn-orange:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 22px rgba(249, 115, 22, 0.5);
-    }
-    .lp-btn-outline {
-      border: 1px solid var(--lp-border);
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--lp-text);
-      backdrop-filter: blur(8px);
-    }
-    .lp-btn-outline:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.18);
-      transform: translateY(-1px);
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Óptima PDV · Plataforma de gestão para o pequeno comércio</title>
+<meta name="description" content="Caixa, estoque, nota fiscal, WhatsApp com IA e delivery numa plataforma que cada loja usa com a própria marca. Rodada de investimento aberta.">
+<link rel="icon" href="./static/img/favicon.ico" sizes="any">
+<link rel="preload" href="./static/fonts/manrope-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face { font-family: "Manrope"; font-style: normal; font-weight: 200 800; font-display: swap;
+    src: url("./static/fonts/manrope-latin-wght.woff2") format("woff2"); }
 
-    /* Hero */
-    .lp-hero-wrap {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 56px 24px 72px;
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 48px;
-      align-items: center;
-    }
-    .lp-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: rgba(13, 110, 253, 0.14);
-      border: 1px solid rgba(13, 110, 253, 0.35);
-      color: var(--lp-blue-light);
-      font-size: 12.5px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 10px rgba(13, 110, 253, 0.15);
-    }
-    .lp-hero h1 {
-      font-size: clamp(34px, 4.4vw, 54px);
-      line-height: 1.12;
-      margin: 0 0 20px;
-      font-weight: 800;
-      letter-spacing: -0.025em;
-    }
-    .lp-hero h1 span.highlight {
-      background: linear-gradient(135deg, #60A5FA 0%, #0D6EFD 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .lp-hero h1 span.orange {
-      background: linear-gradient(135deg, #FB923C 0%, #F97316 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .lp-hero p {
-      font-size: 17.5px;
-      line-height: 1.6;
-      color: var(--lp-muted);
-      margin: 0 0 32px;
-      max-width: 580px;
-    }
-    .lp-cta-row {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 36px;
-    }
-    .lp-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .lp-stat strong {
-      display: block;
-      font-size: 26px;
-      font-weight: 800;
-      color: #FFFFFF;
-      letter-spacing: -0.02em;
-    }
-    .lp-stat span {
-      font-size: 13px;
-      color: var(--lp-muted);
-    }
+  :root {
+    --bg: #0B1120;
+    --bg-2: #0E1628;
+    --surface: #111A2E;
+    --surface-2: #1E293B;
+    --line: #26334D;
+    --text: #F8FAFC;
+    --text-2: #CBD5E1;
+    --muted: #94A3B8;
+    --blue: #0D6EFD;
+    --blue-claro: #60A5FA;
+    --acao: #F97316;
+    --acao-escuro: #EA580C;
+    --ok: #34D399;
+    --raio: 18px;
+    --max: 1180px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: inherit; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+  @media (max-width: 640px) { .wrap { padding: 0 16px; } body { font-size: 16px; } }
 
-    /* Showcase card */
-    .lp-showcase {
-      background: linear-gradient(160deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
-      border: 1px solid var(--lp-border);
-      border-radius: 24px;
-      padding: 26px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
-      position: relative;
-    }
-    .lp-showcase-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .lp-showcase-pill {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--lp-blue-light);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .lp-showcase-pill::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #10B981;
-      display: inline-block;
-      box-shadow: 0 0 8px #10B981;
-    }
-    .lp-chat-demo {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .lp-msg-user {
-      align-self: flex-end;
-      background: #0D6EFD;
-      color: #FFFFFF;
-      padding: 12px 16px;
-      border-radius: 16px 16px 4px 16px;
-      font-size: 14px;
-      font-weight: 500;
-      max-width: 85%;
-      box-shadow: 0 4px 14px rgba(13, 110, 253, 0.3);
-    }
-    .lp-msg-ai {
-      align-self: flex-start;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 16px 18px;
-      border-radius: 16px 16px 16px 4px;
-      font-size: 13.5px;
-      line-height: 1.55;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .lp-card-approve {
-      margin-top: 12px;
-      padding: 14px;
-      border-radius: 12px;
-      background: rgba(13, 110, 253, 0.08);
-      border: 1px solid rgba(13, 110, 253, 0.28);
-    }
-    .lp-card-approve-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 10px;
-      padding: 6px 12px;
-      border-radius: 8px;
-      background: rgba(16, 185, 129, 0.16);
-      color: #34D399;
-      font-weight: 700;
-      font-size: 12.5px;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
+  /* ---------- Cabeçalho ---------- */
+  .topo { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+  .topo .wrap { display: flex; align-items: center; gap: 28px; height: 68px; }
+  .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 19px; letter-spacing: -.01em; }
+  .marca-simbolo { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+    background: linear-gradient(135deg, var(--blue), #3B82F6); color: #fff; font-weight: 800; font-size: 17px; }
+  .marca span b { color: var(--blue-claro); font-weight: 800; }
+  .nav { display: flex; gap: 22px; margin-left: auto; }
+  .nav a { text-decoration: none; color: var(--muted); font-weight: 600; font-size: 15px; }
+  .nav a:hover { color: var(--text); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; font-weight: 800;
+    border-radius: 12px; padding: 14px 24px; font-size: 16px; line-height: 1.2; transition: transform .15s, background .15s; border: 1px solid transparent; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-acao { background: var(--acao); color: #fff; box-shadow: 0 10px 30px rgba(249,115,22,.28); }
+  .btn-acao:hover { background: var(--acao-escuro); }
+  .btn-fantasma { border-color: var(--line); color: var(--text); background: var(--surface); }
+  .btn-fantasma:hover { border-color: var(--blue-claro); }
+  .btn-pequeno { padding: 10px 16px; font-size: 14px; border-radius: 10px; }
+  .link { color: var(--blue-claro); font-weight: 700; text-decoration: none; }
+  .link:hover { text-decoration: underline; }
+  @media (max-width: 900px) { .nav { display: none; } .topo .btn { margin-left: auto; } }
 
-    /* Grid de Módulos */
-    .lp-section-title {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 20px 24px 16px;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 16px;
-    }
-    .lp-section-title h2 {
-      font-size: 24px;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-      margin: 0;
-    }
-    .lp-section-title span {
-      color: var(--lp-muted);
-      font-size: 14px;
-    }
-    .lp-grid {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 8px 24px 64px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 20px;
-    }
-    .lp-feature {
-      background: var(--lp-card);
-      border: 1px solid var(--lp-border);
-      border-radius: 18px;
-      padding: 24px;
-      text-decoration: none;
-      color: inherit;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-    }
-    .lp-feature::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #0D6EFD, #60A5FA);
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-    .lp-feature:hover {
-      background: var(--lp-card-hover);
-      border-color: rgba(255, 255, 255, 0.16);
-      transform: translateY(-3px);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
-    }
-    .lp-feature:hover::before {
-      opacity: 1;
-    }
-    .lp-feature-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: rgba(13, 110, 253, 0.14);
-      display: grid;
-      place-items: center;
-      margin-bottom: 16px;
-      color: var(--lp-blue-light);
-    }
-    .lp-feature h3 {
-      margin: 0 0 8px;
-      font-size: 18px;
-      font-weight: 700;
-      color: #FFFFFF;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .lp-feature h3 .seta {
-      color: var(--lp-blue-light);
-      transition: transform 0.18s ease;
-    }
-    .lp-feature:hover h3 .seta {
-      transform: translateX(4px);
-    }
-    .lp-feature p {
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.55;
-      color: var(--lp-muted);
-    }
+  /* ---------- Tipografia ---------- */
+  .selo { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 700;
+    color: var(--text-2); border: 1px solid var(--line); background: var(--surface); }
+  .selo i { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 4px rgba(52,211,153,.18); }
+  h1 { font-size: clamp(38px, 4.6vw, 58px); line-height: 1.04; letter-spacing: -.03em; font-weight: 800; margin: 22px 0 20px; }
+  h1 em { font-style: normal; color: var(--blue-claro); }
+  h2 { font-size: clamp(28px, 3.6vw, 42px); line-height: 1.12; letter-spacing: -.02em; font-weight: 800; margin: 0 0 16px; }
+  h3 { font-size: 21px; line-height: 1.3; font-weight: 800; margin: 0 0 8px; letter-spacing: -.01em; }
+  .rotulo { display: block; font-size: 13px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--acao); margin-bottom: 14px; }
+  .apoio { font-size: clamp(17px, 1.6vw, 20px); color: var(--text-2); max-width: 600px; margin: 0; }
+  .muted { color: var(--muted); }
 
-    /* Footer */
-    .lp-footer {
-      border-top: 1px solid var(--lp-border);
-      padding: 32px 24px;
-      text-align: center;
-      color: var(--lp-muted);
-      font-size: 13.5px;
-      background: rgba(11, 17, 32, 0.6);
-    }
+  section { padding: 104px 0; }
+  @media (max-width: 640px) { section { padding: 72px 0; } }
+  .cabeca-secao { max-width: 760px; margin-bottom: 48px; }
 
-    @media (max-width: 900px) {
-      .lp-hero-wrap { grid-template-columns: 1fr; padding-top: 24px; }
-      .lp-stats { grid-template-columns: 1fr; }
-    }
-  </style>
+  /* ---------- Topo / hero ---------- */
+  .hero { padding: 72px 0 96px; background:
+    radial-gradient(60% 60% at 85% 10%, rgba(13,110,253,.20), transparent 70%),
+    radial-gradient(40% 40% at 0% 100%, rgba(249,115,22,.08), transparent 70%); }
+  .hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 56px; align-items: center; }
+  .acoes { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; margin: 34px 0 0; }
+  .numeros { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 24px 40px; margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .numeros strong { display: block; white-space: nowrap; font-size: 30px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+  .numeros span { font-size: 14px; color: var(--muted); }
+  @media (max-width: 980px) { .hero .wrap { grid-template-columns: 1fr; gap: 48px; } }
+  @media (max-width: 640px) { .hero { padding: 40px 0 72px; } .numeros { grid-template-columns: 1fr 1fr; gap: 20px 24px; } .acoes .btn { width: 100%; } }
+
+  /* Moldura de notebook / tela */
+  .tela { border-radius: 14px; overflow: hidden; border: 1px solid #334155; background: #0B1120;
+    box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 6px rgba(255,255,255,.03); }
+  .tela-barra { height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px; background: #1E293B; border-bottom: 1px solid #334155; }
+  .tela-barra i { width: 10px; height: 10px; border-radius: 50%; background: #475569; }
+  .tela-barra span { margin-left: 10px; font-size: 11px; color: var(--muted); font-family: ui-monospace, Consolas, monospace; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .vitrine { position: relative; }
+  .flutuante { position: absolute; left: -28px; bottom: -56px; width: min(290px, 52%); font-size: 13px; background: var(--surface-2); border: 1px solid #334155;
+    border-radius: 16px; padding: 14px 16px; box-shadow: 0 24px 60px rgba(0,0,0,.55); font-size: 14px; }
+  .flutuante .quem { font-size: 11px; font-weight: 800; color: #C4B5FD; text-transform: uppercase; letter-spacing: .08em; }
+  .bolha { background: #144D37; border: 1px solid #1C6B4C; color: #ECFDF5; border-radius: 12px; padding: 9px 12px; margin-top: 6px; line-height: 1.45; }
+  .bolha-in { background: #1E293B; border: 1px solid #334155; color: var(--text); border-radius: 12px; padding: 9px 12px; line-height: 1.45; }
+  @media (max-width: 640px) { .flutuante { position: static; width: 100%; margin-top: 14px; } }
+
+  /* ---------- Problema ---------- */
+  .problema { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .grade-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .cartao { background: var(--surface); border: 1px solid var(--line); border-radius: var(--raio); padding: 28px; }
+  .cartao .ico { font-size: 28px; margin-bottom: 14px; display: block; }
+  .cartao p { margin: 0; color: var(--text-2); font-size: 16px; }
+  @media (max-width: 900px) { .grade-3 { grid-template-columns: 1fr; } }
+
+  /* ---------- Produto (3 vantagens) ---------- */
+  .vantagem { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 56px; align-items: center; }
+  .vantagem + .vantagem { margin-top: 96px; }
+  .vantagem.inverte > :first-child { order: 2; }
+  .vantagem ul { list-style: none; padding: 0; margin: 22px 0 22px; display: grid; gap: 10px; }
+  .vantagem li { display: flex; gap: 12px; color: var(--text-2); }
+  .vantagem li::before { content: ""; flex: none; width: 20px; height: 20px; border-radius: 6px; margin-top: 3px;
+    background: rgba(13,110,253,.18) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2360A5FA' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center / 13px no-repeat; }
+  .vantagem li b { color: var(--text); }
+  @media (max-width: 900px) { .vantagem { grid-template-columns: 1fr; gap: 32px; } .vantagem.inverte > :first-child { order: 0; } .vantagem + .vantagem { margin-top: 72px; } }
+
+  /* ---------- Nichos ---------- */
+  .nichos { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .abas { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 26px; }
+  .aba { font: inherit; font-weight: 700; font-size: 15px; padding: 10px 18px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface);
+    color: var(--text-2); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+  .aba i { width: 10px; height: 10px; border-radius: 50%; }
+  .aba[aria-selected="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .loja { --p: #9F1239; --d: #D97706; --m: #2A0E16;
+    display: grid; grid-template-columns: 210px minmax(0, 1fr); border-radius: var(--raio); overflow: hidden; border: 1px solid #334155;
+    background: #F4F6F9; color: #0F172A; min-height: 420px; transition: box-shadow .3s; box-shadow: 0 30px 80px rgba(0,0,0,.45); }
+  .loja-menu { background: var(--m); color: #CBD5E1; padding: 18px 12px; display: flex; flex-direction: column; gap: 4px; font-size: 14px; transition: background .35s; }
+  .loja-marca { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 800; font-size: 15px; margin-bottom: 14px; padding: 0 6px; }
+  .loja-marca b { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: var(--p); color: #fff; font-size: 14px; transition: background .35s; flex: none; }
+  .loja-menu span { padding: 8px 10px; border-radius: 9px; }
+  .loja-menu span.ativo { background: var(--p); color: #fff; font-weight: 700; transition: background .35s; }
+  .loja-corpo { padding: 24px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .loja-corpo h4 { margin: 0; font-size: 22px; font-weight: 800; }
+  .loja-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .loja-kpi { background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px 14px; }
+  .loja-kpi.dest { border-color: var(--p); box-shadow: inset 0 0 0 1px var(--p); }
+  .loja-kpi small { display: block; color: #64748B; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+  .loja-kpi strong { font-size: 20px; font-weight: 800; }
+  .loja-lista { background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 6px 16px; }
+  .loja-lista div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #F1F5F9; font-size: 14px; }
+  .loja-lista div:last-child { border-bottom: none; }
+  .loja-lista b { white-space: nowrap; }
+  .loja-modulos { display: flex; flex-wrap: wrap; gap: 8px; }
+  .loja-modulos span { font-size: 13px; font-weight: 700; padding: 5px 12px; border-radius: 999px; background: color-mix(in srgb, var(--p) 12%, #fff);
+    color: var(--p); border: 1px solid color-mix(in srgb, var(--p) 30%, #fff); transition: all .35s; }
+  .loja-btn { align-self: flex-start; background: var(--d); color: #fff; border: none; border-radius: 10px; padding: 10px 16px; font: inherit; font-weight: 800; font-size: 14px; transition: background .35s; }
+  .nicho-rodape { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; margin-top: 18px; font-size: 14px; }
+  @media (max-width: 760px) {
+    .loja { grid-template-columns: 1fr; }
+    .loja-menu { flex-direction: row; flex-wrap: wrap; align-items: center; }
+    .loja-marca { width: 100%; margin-bottom: 6px; }
+    .loja-kpis { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ---------- Plataforma ---------- */
+  .plataforma .wrap { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 56px; align-items: center; }
+  .legenda { margin-top: 12px; font-size: 13px; color: var(--muted); }
+  @media (max-width: 980px) { .plataforma .wrap { grid-template-columns: 1fr; } }
+
+  /* ---------- Modelo / por que agora ---------- */
+  .modelo-preco { font-size: 44px; font-weight: 800; letter-spacing: -.02em; line-height: 1; margin: 6px 0 10px; }
+  .modelo-preco small { font-size: 17px; color: var(--muted); font-weight: 600; letter-spacing: 0; }
+  .agora { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+
+  /* ---------- Em produção (linha do tempo) ---------- */
+  .linha { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; position: relative; }
+  .marco { padding: 28px; border-radius: var(--raio); border: 1px solid var(--line); background: var(--surface); position: relative; }
+  .marco .quando { font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+  .marco.feito .quando { color: var(--ok); }
+  .marco.agora .quando { color: var(--blue-claro); }
+  .marco.proximo .quando { color: var(--acao); }
+  .marco.feito { border-color: rgba(52,211,153,.45); }
+  .marco p { margin: 0; color: var(--text-2); font-size: 16px; }
+  @media (max-width: 900px) { .linha { grid-template-columns: 1fr; } }
+
+  /* ---------- Equipe ---------- */
+  .equipe { display: grid; grid-template-columns: repeat(2, minmax(0, 360px)); gap: 20px; }
+  .pessoa { display: flex; gap: 18px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--raio); padding: 22px; }
+  .avatar { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 22px; color: #fff; flex: none; }
+  .pessoa h3 { margin: 0; }
+  .pessoa .muted { font-size: 15px; }
+  @media (max-width: 760px) { .equipe { grid-template-columns: 1fr; } }
+
+  /* ---------- Fechamento ---------- */
+  .final { text-align: center; background:
+    radial-gradient(50% 80% at 50% 100%, rgba(249,115,22,.16), transparent 70%),
+    radial-gradient(50% 80% at 50% 0%, rgba(13,110,253,.14), transparent 70%); border-top: 1px solid var(--line); }
+  .final h2 { font-size: clamp(32px, 4.4vw, 54px); }
+  .final .apoio { margin: 0 auto; }
+  .final .acoes { justify-content: center; }
+  .rodape { border-top: 1px solid var(--line); padding: 28px 0; font-size: 14px; color: var(--muted); }
+  .rodape .wrap { display: flex; gap: 16px; justify-content: space-between; flex-wrap: wrap; }
+
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+</style>
 </head>
-<body class="lp-body">
+<body>
 
-  <div class="lp-nav-wrap">
-    <header class="lp-nav">
-      <a href="./landing.html" class="lp-brand">
-        <img src="./static/img/logo-marca.svg" alt="SUA MARCA">
+<header class="topo">
+  <div class="wrap">
+    <a class="marca" href="#inicio" aria-label="Óptima PDV, início"><span class="marca-simbolo" aria-hidden="true">Ó</span><span>Óptima <b>PDV</b></span></a>
+    <nav class="nav" aria-label="Seções">
+      <a href="#produto">Produto</a>
+      <a href="#nichos">Nichos</a>
+      <a href="#plataforma">Plataforma</a>
+      <a href="#negocio">Negócio</a>
+      <a href="#equipe">Equipe</a>
+    </nav>
+    <a class="btn btn-acao btn-pequeno" href="https://wa.me/5561993129262?text=Ol%C3%A1%2C%20Tiago!%20Vi%20a%20demo%20do%20%C3%93ptima%20PDV%20e%20quero%20conversar." target="_blank" rel="noopener">Conversar</a>
+  </div>
+</header>
+
+<main id="inicio">
+
+  <!-- 1. Topo -->
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="selo"><i></i>Rodada de investimento aberta</span>
+        <h1>O sistema que faz o pequeno comércio <em>vender, atender e decidir</em> sozinho.</h1>
+        <p class="apoio">Caixa, estoque, nota fiscal, WhatsApp com IA e delivery numa só plataforma, que cada loja usa com a própria marca.</p>
+        <div class="acoes">
+          <a class="btn btn-acao" href="./painel.html">Ver a demo ao vivo →</a>
+          <a class="link" href="#conversar">Falar com os fundadores</a>
+        </div>
+        <div class="numeros">
+          <div><strong>3 meses</strong><span>em produção numa distribuidora</span></div>
+          <div><strong>11 módulos</strong><span>prontos, ligados por loja</span></div>
+          <div><strong>137 telas</strong><span>na plataforma multi-loja</span></div>
+        </div>
+      </div>
+      <div class="vitrine">
+        <div class="tela">
+          <div class="tela-barra"><i></i><i></i><i></i><span>adegabomgole.optimapdv.com.br/painel</span></div>
+          <img src="./static/img/landing/painel.jpg" width="1440" height="900" alt="Painel da loja no Óptima PDV, com faturamento do dia, lucro, gráfico dos últimos 7 dias e o menu com todos os módulos">
+        </div>
+        <div class="flutuante" aria-label="Exemplo de atendimento do agente de IA no WhatsApp">
+          <div class="bolha-in">🎤 “manda dois fardos e dois gelos de 5 quilos, é pra entregar aqui em casa”</div>
+          <div class="bolha"><span class="quem">Agente de IA</span><br>Fechado! 2 fardos Heineken + 2 gelos 5kg, entrega na Qd. 12. Total R$ 172,80. Segue o Pix 👇</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Problema -->
+  <section class="problema">
+    <div class="wrap">
+      <div class="cabeca-secao">
+        <span class="rotulo">O problema</span>
+        <h2>O pequeno comércio roda em cinco ferramentas que não conversam entre si.</h2>
+        <p class="apoio">E o dono passa o dia apagando incêndio em vez de vender.</p>
+      </div>
+      <div class="grade-3">
+        <div class="cartao"><span class="ico" aria-hidden="true">🧾</span><h3>Caixa de um lado, estoque do outro</h3><p>O sistema de caixa não sabe o que está acabando, e a nota fiscal sai num terceiro programa.</p></div>
+        <div class="cartao"><span class="ico" aria-hidden="true">📱</span><h3>Pedidos no WhatsApp pessoal</h3><p>O dono responde cliente de madrugada, anota pedido no papel e perde venda quando não vê a mensagem.</p></div>
+        <div class="cartao"><span class="ico" aria-hidden="true">📒</span><h3>Decisão no escuro</h3><p>Fiado no caderno, lucro “no olho” e compra feita por intuição, sem saber o que vende em cada dia e horário.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Produto -->
+  <section id="produto">
+    <div class="wrap">
+      <div class="cabeca-secao">
+        <span class="rotulo">O produto</span>
+        <h2>Uma plataforma só, do balcão ao WhatsApp.</h2>
+        <p class="apoio">Todas as telas abaixo são do sistema funcionando: clique e navegue pela demo.</p>
+      </div>
+
+      <div class="vantagem">
         <div>
-          <span class="lp-brand-title">SUA MARCA AQUI</span>
-          <span class="lp-brand-sub">Sistema de Gestão & PDV com Inteligência Artificial</span>
+          <h3 style="font-size:30px">Vende mais</h3>
+          <p class="muted" style="margin:0">Um agente de IA atende no WhatsApp da loja 24 horas, com os preços e o estoque do sistema.</p>
+          <ul>
+            <li><span><b>WhatsApp com agente de IA:</b> entende áudio, monta o pedido, gera o Pix e chama a loja quando precisa</span></li>
+            <li><span><b>Cardápio digital e página da loja:</b> pedido pelo celular, QR na mesa e link na bio</span></li>
+            <li><span><b>Campanhas e fidelidade:</b> cashback, cartão fidelidade e mensagem na hora certa</span></li>
+          </ul>
+          <a class="link" href="./whatsapp.html">Ver o WhatsApp na demo →</a>
         </div>
-      </a>
-      <div class="lp-nav-actions">
-        <a href="./login.html" class="lp-btn lp-btn-outline">Tela de Login</a>
-        <a href="./painel.html" class="lp-btn lp-btn-blue">Entrar no Sistema →</a>
-      </div>
-    </header>
-  </div>
-
-  <section class="lp-hero-wrap">
-    <div>
-      <div class="lp-badge">
-        ✦ Demonstração Comercial Online · 60 Dias de Dados
-      </div>
-      <h1>
-        O sistema com a <span class="highlight">sua marca</span> e uma IA que <span class="orange">trabalha pelo dono</span>.
-      </h1>
-      <p>
-        Frente de caixa rápida, controle de estoque inteligente, lucro líquido real diário e um Assistente de Inteligência Artificial que lê indicadores, responde dúvidas financeiras e prepara ações com dupla confirmação humana.
-      </p>
-
-      <div class="lp-cta-row">
-        <a href="./painel.html" class="lp-btn lp-btn-blue" style="font-size: 15px; padding: 12px 24px;">
-          Entrar no Sistema Demo →
-        </a>
-        <a href="./assistente.html" class="lp-btn lp-btn-orange" style="font-size: 15px; padding: 12px 24px;">
-          Testar Assistente de IA ✦
-        </a>
-        <a href="./venda.html" class="lp-btn lp-btn-outline">
-          Frente de Caixa (PDV)
-        </a>
+        <div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>/whatsapp</span></div>
+          <img src="./static/img/landing/whatsapp.jpg" width="1440" height="900" loading="lazy" alt="Tela de conversas do WhatsApp com o agente de IA montando um pedido"></div>
       </div>
 
-      <div class="lp-stats">
-        <div class="lp-stat">
-          <strong>60 dias</strong>
-          <span>de histórico e vendas simuladas</span>
+      <div class="vantagem inverte">
+        <div>
+          <h3 style="font-size:30px">Opera sozinho</h3>
+          <p class="muted" style="margin:0">A rotina da loja num lugar só, do caixa à entrega.</p>
+          <ul>
+            <li><span><b>Frente de caixa:</b> leitor, atalhos de teclado, Pix, cartão, fiado e venda sem internet</span></li>
+            <li><span><b>Delivery, comandas e cozinha:</b> pedidos de todos os canais num só quadro</span></li>
+            <li><span><b>Estoque, nota fiscal e fluxo de caixa:</b> lotes, validade, NFC-e automática e o dinheiro dos próximos 30 dias</span></li>
+          </ul>
+          <a class="link" href="./delivery.html">Ver o delivery na demo →</a>
         </div>
-        <div class="lp-stat">
-          <strong>32,8%</strong>
-          <span>margem líquida real calculada</span>
-        </div>
-        <div class="lp-stat">
-          <strong>100% White-Label</strong>
-          <span>personalizado com o nome do seu cliente</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card de Demonstração Interativo -->
-    <div class="lp-showcase">
-      <div class="lp-showcase-top">
-        <div class="lp-showcase-pill">Assistente IA Interativo</div>
-        <span style="font-size: 12px; color: var(--lp-muted);">Dupla aprovação do proprietário</span>
+        <div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>/delivery</span></div>
+          <img src="./static/img/landing/delivery.jpg" width="1440" height="900" loading="lazy" alt="Quadro de pedidos de delivery com colunas novos, separando, em rota e entregues"></div>
       </div>
 
-      <div class="lp-chat-demo">
-        <div class="lp-msg-user">
-          "Chegaram 15 fardos de Brahma Duplo Malte a R$ 37,90 e 30 pacotes de Gelo 5kg a R$ 6,50 da Ambev"
+      <div class="vantagem">
+        <div>
+          <h3 style="font-size:30px">Decide melhor</h3>
+          <p class="muted" style="margin:0">O sistema cruza vendas, horários, clima e clientes, e sugere o que fazer.</p>
+          <ul>
+            <li><span><b>Inteligência:</b> mapa de calor dia × hora e previsão do tempo cruzada com as vendas</span></li>
+            <li><span><b>Sugestões para aprovar:</b> reposição, combo, oferta programada e escala, com um clique</span></li>
+            <li><span><b>Assistente de IA:</b> o dono pergunta em português e recebe a resposta com os números da loja</span></li>
+          </ul>
+          <a class="link" href="./inteligencia.html">Ver a inteligência na demo →</a>
         </div>
-
-        <div class="lp-msg-ai">
-          <strong style="color: #60A5FA;">Proposta preparada para o estoque:</strong>
-          <div style="font-size: 12.5px; color: var(--lp-muted); margin-top: 4px;">
-            Fornecedor: Ambev S.A. · Nota Fiscal #51904 · Total R$ 763,50
-          </div>
-
-          <div class="lp-card-approve">
-            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px;">
-              <span>• Brahma Duplo Malte (15 cx / 180 un)</span>
-              <strong>R$ 568,50</strong>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 13px;">
-              <span>• Gelo Cubo Cristal 5kg (30 un)</span>
-              <strong>R$ 195,00</strong>
-            </div>
-            <div class="lp-card-approve-badge">
-              ✓ Confirmado e aprovado pelo proprietário
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 12.5px; color: var(--lp-muted);">Quer ver respondendo suas perguntas?</span>
-        <a href="./assistente.html" style="font-size: 13px; font-weight: 700; color: #60A5FA; text-decoration: none;">Abrir Chat Completo →</a>
+        <div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>/inteligencia</span></div>
+          <img src="./static/img/landing/inteligencia.jpg" width="1440" height="900" loading="lazy" alt="Tela de inteligência com mapa de calor de vendas, clima e sugestões"></div>
       </div>
     </div>
   </section>
 
-  <div class="lp-section-title">
-    <h2>Módulos do Sistema Prontos para Apresentar</h2>
-    <span>Clique em qualquer cartão para navegar</span>
-  </div>
-
-  <section class="lp-grid">
-    <a href="./painel.html" class="lp-feature">
-      <div class="lp-feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+  <!-- 4. Nichos -->
+  <section class="nichos" id="nichos">
+    <div class="wrap">
+      <div class="cabeca-secao">
+        <span class="rotulo">Um produto, muitos nichos</span>
+        <h2>Cada loja com a própria marca e os módulos do seu ramo.</h2>
+        <p class="apoio">A mesma plataforma vira adega, loja de roupa, material de construção ou açaí. Troque o nicho:</p>
       </div>
-      <h3>1. Painel & Lucro Real <span class="seta">→</span></h3>
-      <p>Faturamento de hoje, comparativo com a média, 7 dias, mês fechado e cálculo real de margem descontando custo e taxas de cartão.</p>
-    </a>
 
-    <a href="./assistente.html" class="lp-feature">
-      <div class="lp-feature-icon" style="background: rgba(249, 115, 22, 0.14); color: var(--lp-orange);">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+      <div class="abas" role="tablist" aria-label="Nichos">
+        <button class="aba" role="tab" aria-selected="true" data-nicho="adega"><i style="background:#9F1239"></i>Adega e bebidas</button>
+        <button class="aba" role="tab" aria-selected="false" data-nicho="moda"><i style="background:#BE185D"></i>Moda</button>
+        <button class="aba" role="tab" aria-selected="false" data-nicho="obra"><i style="background:#C2410C"></i>Material de construção</button>
+        <button class="aba" role="tab" aria-selected="false" data-nicho="acai"><i style="background:#7E22CE"></i>Açaí e lanchonete</button>
       </div>
-      <h3>2. Assistente IA ao Vivo <span class="seta">→</span></h3>
-      <p>Respostas imediatas sobre estoque crítico, faturamento da semana, destilados parados e propostas interativas de reposição e promoções.</p>
-    </a>
 
-    <a href="./venda.html" class="lp-feature">
-      <div class="lp-feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 2h3l2.5 12.4a2 2 0 0 0 2 1.6h9.6a2 2 0 0 0 2-1.6L22 6H5.2"/></svg>
+      <div class="loja" id="loja" role="tabpanel" aria-live="polite">
+        <div class="loja-menu">
+          <div class="loja-marca"><b data-n="inicial">A</b><span data-n="nome">Adega Bom Gole</span></div>
+          <span>Vender</span><span class="ativo">Painel</span><span data-n="m1">WhatsApp</span><span data-n="m2">Delivery</span><span data-n="m3">Comandas</span><span>Estoque</span><span>Nota fiscal</span>
+        </div>
+        <div class="loja-corpo">
+          <h4 data-n="titulo">Painel · sexta-feira</h4>
+          <div class="loja-kpis">
+            <div class="loja-kpi dest"><small data-n="k1r">Faturamento hoje</small><strong data-n="k1">R$ 2.690</strong></div>
+            <div class="loja-kpi"><small data-n="k2r">Pedidos no WhatsApp</small><strong data-n="k2">17</strong></div>
+            <div class="loja-kpi"><small data-n="k3r">Ticket médio</small><strong data-n="k3">R$ 99</strong></div>
+          </div>
+          <div class="loja-lista" data-n="lista"></div>
+          <div class="loja-modulos" data-n="modulos"></div>
+          <button type="button" class="loja-btn" tabindex="-1" data-n="cta">Finalizar venda</button>
+        </div>
       </div>
-      <h3>3. Frente de Caixa (PDV) <span class="seta">→</span></h3>
-      <p>Agilidade no balcão com leitor de código de barras, atalhos de teclado (F1 a F9), pagamento em Pix, dinheiro, cartão e fiado/confiança.</p>
-    </a>
-
-    <a href="./relatorio.html" class="lp-feature">
-      <div class="lp-feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+      <div class="nicho-rodape">
+        <span class="muted">Exemplo ilustrativo. As lojas de demonstração de cada nicho existem na plataforma.</span>
+        <a class="link" href="./identidade.html">Testar o White Label na demo →</a>
       </div>
-      <h3>4. Relatórios & Horários de Pico <span class="seta">→</span></h3>
-      <p>Gráficos interativos diários, divisão por forma de pagamento e mapa de calor dos dias e horários com maior movimento na loja.</p>
-    </a>
-
-    <a href="./caixa.html" class="lp-feature">
-      <div class="lp-feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>
-      </div>
-      <h3>5. Controle de Caixa & Gaveta <span class="seta">→</span></h3>
-      <p>Conferência cega no fechamento de turno, registro de sangrias e histórico detalhado sem quebra de caixa.</p>
-    </a>
-
-    <a href="./produtos.html" class="lp-feature">
-      <div class="lp-feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg>
-      </div>
-      <h3>6. Estoque & Lotes com Validade <span class="seta">→</span></h3>
-      <p>Acompanhamento de estoque mínimo, alerta de produtos vencendo em até 7 dias e giro médio de 30 dias.</p>
-    </a>
-
-    <a href="./identidade.html" class="lp-feature">
-      <div class="lp-feature-icon" style="background: rgba(249, 115, 22, 0.14); color: var(--lp-orange);">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2a10 10 0 0 0 0 20c1 0 1.7-.8 1.7-1.7 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.8-1.7 1.7-1.7h2A5.6 5.6 0 0 0 22 11 10 10 0 0 0 12 2z"/></svg>
-      </div>
-      <h3>7. White Label ao Vivo <span class="seta">→</span></h3>
-      <p>Nome, logo e cores do cliente em todo o sistema. Temas prontos em 1 clique, checagem de contraste e prévia ao vivo.</p>
-    </a>
-
-    <a href="./whatsapp.html" class="lp-feature">
-      <div class="lp-feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.5L3 21l1.9-5.6A8.4 8.4 0 1 1 21 11.5z"/></svg>
-      </div>
-      <h3>8. WhatsApp com Agente de IA <span class="seta">→</span></h3>
-      <p>O agente atende 24h no número da loja, entende áudio, monta o pedido com os preços do sistema, gera o Pix e passa para a loja quando precisa.</p>
-    </a>
-
-    <a href="./delivery.html" class="lp-feature">
-      <div class="lp-feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M8 17.5h7.5M15 6h3l3 5v6.5h-.5M3 17.5V8h10v9.5"/></svg>
-      </div>
-      <h3>9. Delivery, Comandas e Cozinha <span class="seta">→</span></h3>
-      <p>Pedidos do WhatsApp, do cardápio e do telefone num só quadro; mesas com comanda e tela da cozinha/bar com tempo de preparo.</p>
-    </a>
-
-    <a href="./cardapio.html" class="lp-feature">
-      <div class="lp-feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4M9 7h6M9 11h6"/></svg>
-      </div>
-      <h3>10. Cardápio Digital e Minha Página <span class="seta">→</span></h3>
-      <p>O cliente pede pelo celular sem aplicativo (link, QR na mesa, Instagram) e a loja ganha o próprio site com links de campanha.</p>
-    </a>
-
-    <a href="./inteligencia.html" class="lp-feature">
-      <div class="lp-feature-icon" style="background: rgba(249, 115, 22, 0.14); color: var(--lp-orange);">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2V17h6v-.3c0-.8.4-1.5 1-2A7 7 0 0 0 12 2z"/></svg>
-      </div>
-      <h3>11. Inteligência com Clima <span class="seta">→</span></h3>
-      <p>Mapa de calor dia × hora, previsão do tempo cruzada com as vendas e sugestões de reposição, combo, oferta e escala para aprovar com 1 clique.</p>
-    </a>
-
-    <a href="./relacionamento.html" class="lp-feature">
-      <div class="lp-feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
-      </div>
-      <h3>12. Campanhas, Fidelidade e Cashback <span class="seta">→</span></h3>
-      <p>Mensagens automáticas na hora certa (aniversário, cliente sumido, cashback), cartão fidelidade digital e consentimento LGPD.</p>
-    </a>
-
-    <a href="./fiscal.html" class="lp-feature">
-      <div class="lp-feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
-      </div>
-      <h3>13. Nota Fiscal NFC-e <span class="seta">→</span></h3>
-      <p>Emissão automática ao finalizar a venda, contingência sem internet, XML para o contador e campos da reforma tributária (IBS/CBS).</p>
-    </a>
-
-    <a href="./fluxo_caixa.html" class="lp-feature">
-      <div class="lp-feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
-      </div>
-      <h3>14. Fluxo de Caixa e Orçamentos <span class="seta">→</span></h3>
-      <p>O dinheiro dos próximos 30 dias com alerta de dia apertado, e orçamentos com preço travado enviados pelo WhatsApp.</p>
-    </a>
-
-    <a href="./master.html" class="lp-feature">
-      <div class="lp-feature-icon" style="background: rgba(249, 115, 22, 0.14); color: var(--lp-orange);">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
-      </div>
-      <h3>15. Plataforma: Painel Master e Planos <span class="seta">→</span></h3>
-      <p>Visão de todas as lojas, receita recorrente, cobrança e módulos por cliente: cada loja com sua marca e seus dados isolados.</p>
-    </a>
+    </div>
   </section>
 
-  <footer class="lp-footer">
-    Ambiente de Demonstração Comercial · Sistema White-Label Personalizado para o seu Cliente
-  </footer>
+  <!-- 5. Plataforma -->
+  <section class="plataforma" id="plataforma">
+    <div class="wrap">
+      <div>
+        <span class="rotulo">A plataforma</span>
+        <h2>Uma central para todas as lojas.</h2>
+        <p class="apoio">No Painel Master a equipe Óptima cria lojas, liga módulos, acompanha a cobrança e atende os pedidos de teste.</p>
+        <div class="vantagem" style="display:block"><ul>
+          <li><span><b>Dados isolados por loja,</b> com teste de vazamento em todas as tabelas</span></li>
+          <li><span><b>Cada loja no próprio endereço:</b> nomedaloja.optimapdv.com.br</span></li>
+          <li><span><b>Cobrança automática</b> por cartão, Pix ou boleto, com carência e só leitura em vez de bloqueio</span></li>
+          <li><span><b>Teste grátis de 5 dias</b> direto do site de vendas</span></li>
+        </ul></div>
+        <a class="link" href="./master.html">Ver o Painel Master na demo →</a>
+      </div>
+      <div>
+        <div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>master.optimapdv.com.br</span></div>
+          <img src="./static/img/landing/master.jpg" width="1440" height="900" loading="lazy" alt="Painel Master com a lista de lojas, cobrança e módulos contratados"></div>
+        <p class="legenda">Tela real do sistema, com dados de demonstração.</p>
+      </div>
+    </div>
+  </section>
 
+  <!-- 6. Negócio -->
+  <section class="agora" id="negocio">
+    <div class="wrap">
+      <div class="cabeca-secao">
+        <span class="rotulo">Como ganha dinheiro</span>
+        <h2>Assinatura mensal que cresce com o uso de cada loja.</h2>
+      </div>
+      <div class="grade-3">
+        <div class="cartao"><h3>Plano de entrada</h3><div class="modelo-preco">R$ 59<small> /mês</small></div><p>Caixa, estoque e clientes. Barato para entrar, sem fidelidade.</p></div>
+        <div class="cartao"><h3>Módulos por ramo</h3><div class="modelo-preco">+ módulos</div><p>Nota fiscal, WhatsApp com IA, delivery, inteligência… A loja liga o que precisa e o valor por loja sobe junto.</p></div>
+        <div class="cartao"><h3>Venda que escala</h3><div class="modelo-preco">5 dias</div><p>de teste grátis direto do site, com páginas por ramo e cobrança automática. Pouca venda manual por loja.</p></div>
+      </div>
+
+      <div class="cabeca-secao" style="margin:96px 0 48px">
+        <span class="rotulo">Por que agora</span>
+        <h2>Três mudanças empurram o pequeno comércio para trocar de sistema.</h2>
+      </div>
+      <div class="grade-3">
+        <div class="cartao"><span class="ico" aria-hidden="true">⚖️</span><h3>Reforma tributária</h3><p>A nota fiscal ganha os campos do IBS e da CBS. Sistemas antigos precisam ser trocados ou atualizados, e o Óptima PDV já emite com eles.</p></div>
+        <div class="cartao"><span class="ico" aria-hidden="true">💬</span><h3>O WhatsApp virou o balcão</h3><p>O cliente pede pelo WhatsApp. Quem atende rápido vende mais, e um agente de IA atende 24 horas sem contratar ninguém.</p></div>
+        <div class="cartao"><span class="ico" aria-hidden="true">✨</span><h3>IA ficou barata</h3><p>O custo de uma conversa com IA caiu para centavos. Agora dá para colocar um atendente e um analista dentro de um sistema de R$ 59.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Em produção -->
+  <section id="producao">
+    <div class="wrap">
+      <div class="cabeca-secao">
+        <span class="rotulo">Onde estamos</span>
+        <h2>Já roda de verdade, todos os dias.</h2>
+        <p class="apoio">Uma distribuidora de bebidas usa o sistema no caixa há 3 meses: venda no balcão, estoque com lotes e validade, fiado, fechamento de caixa e o assistente de IA.</p>
+      </div>
+      <div class="linha">
+        <div class="marco feito"><span class="quando">✓ Em produção</span><h3 style="margin-top:8px">1ª loja usando há 3 meses</h3><p>Sistema de uma loja rodando no dia a dia de uma distribuidora de bebidas.</p></div>
+        <div class="marco agora"><span class="quando">● Agora</span><h3 style="margin-top:8px">Plataforma multi-loja</h3><p>137 telas e 11 módulos prontos, na fase final de testes antes do lançamento.</p></div>
+        <div class="marco proximo"><span class="quando">→ Próximo passo</span><h3 style="margin-top:8px">Lançamento e primeiras lojas</h3><p>Abrir o teste grátis pelo site e converter as primeiras lojas pagantes por nicho.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Equipe -->
+  <section class="agora" id="equipe">
+    <div class="wrap">
+      <div class="cabeca-secao">
+        <span class="rotulo">Equipe</span>
+        <h2>Quem constrói o Óptima PDV.</h2>
+      </div>
+      <div class="equipe">
+        <div class="pessoa"><span class="avatar" style="background:linear-gradient(135deg,#0D6EFD,#60A5FA)">T</span>
+          <div><h3>Tiago</h3><div class="muted">Fundador · Desenvolvedor</div>
+            <a class="link" style="font-size:15px" href="https://wa.me/5561993129262?text=Ol%C3%A1%2C%20Tiago!%20Vi%20a%20demo%20do%20%C3%93ptima%20PDV%20e%20quero%20conversar." target="_blank" rel="noopener">WhatsApp (61) 99312-9262</a></div></div>
+        <div class="pessoa"><span class="avatar" style="background:linear-gradient(135deg,#EA580C,#F97316)">L</span>
+          <div><h3>Lucas</h3><div class="muted">Fundador · Desenvolvedor</div>
+            <a class="link" style="font-size:15px" href="https://wa.me/5561981034342?text=Ol%C3%A1%2C%20Lucas!%20Vi%20a%20demo%20do%20%C3%93ptima%20PDV%20e%20quero%20conversar." target="_blank" rel="noopener">WhatsApp (61) 98103-4342</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Fechamento -->
+  <section class="final" id="conversar">
+    <div class="wrap">
+      <span class="selo"><i></i>Rodada de investimento aberta</span>
+      <h2 style="margin-top:22px">Vamos conversar?</h2>
+      <p class="apoio">20 minutos para mostrar o produto, os próximos passos e a rodada.</p>
+      <div class="acoes">
+        <a class="btn btn-acao" href="https://wa.me/5561993129262?text=Ol%C3%A1%2C%20Tiago!%20Vi%20a%20demo%20do%20%C3%93ptima%20PDV%20e%20quero%20conversar." target="_blank" rel="noopener">Conversar com o Tiago</a>
+        <a class="btn btn-fantasma" href="https://wa.me/5561981034342?text=Ol%C3%A1%2C%20Lucas!%20Vi%20a%20demo%20do%20%C3%93ptima%20PDV%20e%20quero%20conversar." target="_blank" rel="noopener">Conversar com o Lucas</a>
+      </div>
+      <p style="margin-top:22px"><a class="link" href="https://wa.me/5561993129262?text=Ol%C3%A1%2C%20Tiago!%20Quero%20receber%20o%20deck%20do%20%C3%93ptima%20PDV." target="_blank" rel="noopener">Receber o deck de investimento →</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="wrap">
+    <span>Óptima PDV · <a href="https://optimati.com.br" target="_blank" rel="noopener">Óptima Tecnologia</a></span>
+    <span><a class="link" href="./painel.html">Entrar na demo</a> · <a class="link" href="./modulos.html">Todos os módulos</a></span>
+  </div>
+</footer>
+
+<script>
+  /* Troca de nicho na vitrine (exemplo ilustrativo). */
+  (function () {
+    var NICHOS = {
+      adega: { nome: "Adega Bom Gole", p: "#9F1239", d: "#D97706", m: "#2A0E16", titulo: "Painel · sexta-feira",
+        menu: ["WhatsApp", "Delivery", "Comandas"], kpis: [["Faturamento hoje", "R$ 2.690"], ["Pedidos no WhatsApp", "17"], ["Ticket médio", "R$ 99"]],
+        lista: [["Fardo Heineken Lata c/ 12", "R$ 69,90"], ["Gelo Cubo Cristal 5kg", "R$ 14,00"], ["Copão Gin Tônica 700ml", "R$ 21,80"]],
+        modulos: ["WhatsApp com IA", "Delivery", "Copão e comandas", "Fiado"], cta: "Finalizar venda" },
+      moda: { nome: "Ateliê Lume", p: "#BE185D", d: "#0EA5E9", m: "#241019", titulo: "Painel · sábado",
+        menu: ["Grade", "Trocas", "Etiquetas"], kpis: [["Vendas hoje", "R$ 3.418"], ["Peças vendidas", "46"], ["Trocas", "2"]],
+        lista: [["Vestido midi linho · P M G", "R$ 289,90"], ["Camisa oxford · 38 ao 46", "R$ 159,90"], ["Calça alfaiataria · 36 ao 46", "R$ 219,90"]],
+        modulos: ["Grade tamanho × cor", "Trocas e vale-troca", "Etiquetas", "Cashback"], cta: "Finalizar venda" },
+      obra: { nome: "Casa Forte Materiais", p: "#C2410C", d: "#CA8A04", m: "#1C1917", titulo: "Painel · segunda-feira",
+        menu: ["Orçamentos", "Entregas", "Fiado"], kpis: [["Orçamentos em aberto", "R$ 18.940"], ["Entregas hoje", "9"], ["Conversão", "61%"]],
+        lista: [["Cimento CP II 50kg", "R$ 38,90"], ["Areia média (m³)", "R$ 165,00"], ["Tijolo 8 furos (milheiro)", "R$ 890,00"]],
+        modulos: ["Orçamentos", "Entrega", "Fiado de obra", "Nota fiscal"], cta: "Enviar orçamento" },
+      acai: { nome: "Açaí da Praça", p: "#7E22CE", d: "#DB2777", m: "#1E1033", titulo: "Painel · domingo",
+        menu: ["Cardápio", "Cozinha", "Delivery"], kpis: [["Pedidos hoje", "112"], ["Tempo de preparo", "6 min"], ["Pelo cardápio", "58%"]],
+        lista: [["Açaí 500ml montado", "R$ 22,00"], ["Copo da casa 700ml", "R$ 29,90"], ["Adicional granola", "R$ 3,00"]],
+        modulos: ["Cardápio digital", "Cozinha (KDS)", "Delivery", "Fidelidade"], cta: "Enviar para a cozinha" }
+    };
+    var loja = document.getElementById("loja");
+    function el(n) { return loja.querySelector('[data-n="' + n + '"]'); }
+    function esc(t) { var d = document.createElement("div"); d.textContent = t; return d.innerHTML; }
+    function mostrar(chave) {
+      var n = NICHOS[chave];
+      loja.style.setProperty("--p", n.p); loja.style.setProperty("--d", n.d); loja.style.setProperty("--m", n.m);
+      el("nome").textContent = n.nome; el("inicial").textContent = n.nome.charAt(0); el("titulo").textContent = n.titulo;
+      ["m1", "m2", "m3"].forEach(function (k, i) { el(k).textContent = n.menu[i]; });
+      [1, 2, 3].forEach(function (i) { el("k" + i + "r").textContent = n.kpis[i - 1][0]; el("k" + i).textContent = n.kpis[i - 1][1]; });
+      el("lista").innerHTML = n.lista.map(function (l) { return "<div><span>" + esc(l[0]) + "</span><b>" + esc(l[1]) + "</b></div>"; }).join("");
+      el("modulos").innerHTML = n.modulos.map(function (m) { return "<span>" + esc(m) + "</span>"; }).join("");
+      el("cta").textContent = n.cta;
+    }
+    var abas = document.querySelectorAll(".aba");
+    abas.forEach(function (a) {
+      a.addEventListener("click", function () {
+        abas.forEach(function (x) { x.setAttribute("aria-selected", x === a ? "true" : "false"); });
+        mostrar(a.getAttribute("data-nicho"));
+      });
+    });
+    mostrar("adega");
+  })();
+</script>
 </body>
 </html>

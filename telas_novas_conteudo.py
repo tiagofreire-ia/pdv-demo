@@ -1073,8 +1073,8 @@ MODULOS = [
     ("💬", "WhatsApp com agente de IA", "atendimento e pedidos 24h no número da loja", "+ R$ 79/mês", True),
     ("❤️", "Fidelidade e campanhas", "cashback, cartão fidelidade e mensagens automáticas", "+ R$ 29/mês", True),
     ("💡", "Inteligência e assistente de IA", "sugestões, clima, previsão e perguntas em português", "+ R$ 39/mês", True),
-    ("⚖️", "Balança e etiquetas", "produtos por peso, etiqueta de gôndola e código interno", "+ R$ 19/mês", False),
-    ("👕", "Grade e trocas", "tamanho × cor, vale-troca (moda e calçados)", "+ R$ 19/mês", False),
+    ("⚖️", "Balança e etiquetas", "produtos por peso, etiqueta de gôndola e código interno", "+ R$ 19/mês", True),
+    ("👕", "Grade e trocas", "tamanho × cor, vale-troca (moda e calçados)", "+ R$ 19/mês", True),
 ]
 
 
@@ -1087,7 +1087,7 @@ def tela_plano() -> str:
     faturas = tabela(
         ["Mês", "Situação", "Valor"],
         [
-            ["Novembro/2026<div class=\"small muted\">vence 10/11 · cartão final 4421</div>", tag("aviso", "a vencer"), "<b>R$ 312,00</b>"],
+            ["Novembro/2026<div class=\"small muted\">vence 10/11 · cartão final 4421</div>", tag("aviso", "a vencer"), "<b>R$ 350,00</b>"],
             ["Outubro/2026<div class=\"small muted\">cartão final 4421</div>", tag("ok", "paga"), "<b>R$ 312,00</b>"],
             ["Setembro/2026<div class=\"small muted\">Pix</div>", tag("ok", "paga"), "<b>R$ 233,00</b>"],
             ["Agosto/2026<div class=\"small muted\">Pix</div>", tag("ok", "paga"), "<b>R$ 233,00</b>"],
@@ -1100,8 +1100,8 @@ def tela_plano() -> str:
         + '<div class="nv-faixa aviso">Preços ilustrativos da demonstração.</div>'
         + kpis([
             ("Plano", "Inicial", "R$ 59/mês · 1 caixa"),
-            ("Módulos ligados", "9 de 11", "R$ 234/mês em módulos"),
-            ("Mensalidade", "R$ 312,00", "próxima cobrança em 10/11"),
+            ("Módulos ligados", "11 de 11", "R$ 272/mês em módulos"),
+            ("Mensalidade", "R$ 350,00", "próxima cobrança em 10/11"),
             ("Caixas", "2", "1 incluído + 1 extra (R$ 19)"),
         ])
         + '<div class="nv-grade-lado">' + card("Módulos", f'<div class="nv-pilha" style="gap:10px">{mods}</div>')
