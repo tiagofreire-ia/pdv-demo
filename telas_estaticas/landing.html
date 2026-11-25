@@ -133,7 +133,10 @@
     background: #F4F6F9; color: #0F172A; min-height: 420px; transition: box-shadow .3s; box-shadow: 0 30px 80px rgba(0,0,0,.45); }
   .loja-menu { background: var(--m); color: #CBD5E1; padding: 18px 12px; display: flex; flex-direction: column; gap: 4px; font-size: 14px; transition: background .35s; }
   .loja-marca { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 800; font-size: 15px; margin-bottom: 14px; padding: 0 6px; }
-  .loja-marca b { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: var(--p); color: #fff; font-size: 14px; transition: background .35s; flex: none; }
+  .loja-marca img { width: 44px; height: 44px; border-radius: 50%; flex: none; box-shadow: 0 0 0 2px rgba(255,255,255,.12); }
+  .loja-cabeca { display: flex; align-items: center; gap: 18px; }
+  .loja-cabeca img { width: 76px; height: 76px; border-radius: 50%; flex: none; box-shadow: 0 6px 18px rgba(15,23,42,.18); }
+  .loja-cabeca small { display: block; color: #64748B; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
   .loja-menu span { padding: 8px 10px; border-radius: 9px; }
   .loja-menu span.ativo { background: var(--p); color: #fff; font-weight: 700; transition: background .35s; }
   .loja-corpo { padding: 24px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
@@ -331,19 +334,19 @@
       </div>
 
       <div class="abas" role="tablist" aria-label="Nichos">
-        <button class="aba" role="tab" aria-selected="true" data-nicho="adega"><i style="background:#9F1239"></i>Adega e bebidas</button>
-        <button class="aba" role="tab" aria-selected="false" data-nicho="moda"><i style="background:#BE185D"></i>Moda</button>
-        <button class="aba" role="tab" aria-selected="false" data-nicho="obra"><i style="background:#C2410C"></i>Material de construção</button>
-        <button class="aba" role="tab" aria-selected="false" data-nicho="acai"><i style="background:#7E22CE"></i>Açaí e lanchonete</button>
+        <button class="aba" role="tab" aria-selected="true" data-nicho="adega"><i style="background:#C0294F"></i>Adega e bebidas</button>
+        <button class="aba" role="tab" aria-selected="false" data-nicho="moda"><i style="background:#6B215C"></i>Moda</button>
+        <button class="aba" role="tab" aria-selected="false" data-nicho="obra"><i style="background:#DF7A24"></i>Material de construção</button>
+        <button class="aba" role="tab" aria-selected="false" data-nicho="padaria"><i style="background:#8A4B14"></i>Padaria</button>
       </div>
 
       <div class="loja" id="loja" role="tabpanel" aria-live="polite">
         <div class="loja-menu">
-          <div class="loja-marca"><b data-n="inicial">A</b><span data-n="nome">Adega Bom Gole</span></div>
+          <div class="loja-marca"><img data-n="logo-menu" src="./static/img/lojas/bom-gole.png" alt=""><span data-n="nome">Adega Bom Gole</span></div>
           <span>Vender</span><span class="ativo">Painel</span><span data-n="m1">WhatsApp</span><span data-n="m2">Delivery</span><span data-n="m3">Comandas</span><span>Estoque</span><span>Nota fiscal</span>
         </div>
         <div class="loja-corpo">
-          <h4 data-n="titulo">Painel · sexta-feira</h4>
+          <div class="loja-cabeca"><img data-n="logo" src="./static/img/lojas/bom-gole.png" alt="Logo da loja"><div><small data-n="ramo">Adega e bebidas</small><h4 data-n="titulo">Painel · sexta-feira</h4></div></div>
           <div class="loja-kpis">
             <div class="loja-kpi dest"><small data-n="k1r">Faturamento hoje</small><strong data-n="k1">R$ 2.690</strong></div>
             <div class="loja-kpi"><small data-n="k2r">Pedidos no WhatsApp</small><strong data-n="k2">17</strong></div>
@@ -355,7 +358,7 @@
         </div>
       </div>
       <div class="nicho-rodape">
-        <span class="muted">Exemplo ilustrativo. As lojas de demonstração de cada nicho existem na plataforma.</span>
+        <span class="muted">Ateliê Lume, Casa Forte e Pão Dourado são lojas de demonstração da plataforma, com logo e produtos próprios. Números ilustrativos.</span>
         <a class="link" href="./identidade.html">Testar o White Label na demo →</a>
       </div>
     </div>
@@ -469,22 +472,22 @@
   /* Troca de nicho na vitrine (exemplo ilustrativo). */
   (function () {
     var NICHOS = {
-      adega: { nome: "Adega Bom Gole", p: "#9F1239", d: "#D97706", m: "#2A0E16", titulo: "Painel · sexta-feira",
+      adega: { nome: "Adega Bom Gole", ramo: "Adega e bebidas", logo: "bom-gole", p: "#C0294F", d: "#9A6A16", m: "#1A1013", titulo: "Painel · sexta-feira",
         menu: ["WhatsApp", "Delivery", "Comandas"], kpis: [["Faturamento hoje", "R$ 2.690"], ["Pedidos no WhatsApp", "17"], ["Ticket médio", "R$ 99"]],
         lista: [["Fardo Heineken Lata c/ 12", "R$ 69,90"], ["Gelo Cubo Cristal 5kg", "R$ 14,00"], ["Copão Gin Tônica 700ml", "R$ 21,80"]],
         modulos: ["WhatsApp com IA", "Delivery", "Copão e comandas", "Fiado"], cta: "Finalizar venda" },
-      moda: { nome: "Ateliê Lume", p: "#BE185D", d: "#0EA5E9", m: "#241019", titulo: "Painel · sábado",
+      moda: { nome: "Ateliê Lume", ramo: "Moda e estilo", logo: "atelie-lume", p: "#6B215C", d: "#9A6A1F", m: "#1A1418", titulo: "Painel · sábado",
         menu: ["Grade", "Trocas", "Etiquetas"], kpis: [["Vendas hoje", "R$ 3.418"], ["Peças vendidas", "46"], ["Trocas", "2"]],
-        lista: [["Vestido midi linho · P M G", "R$ 289,90"], ["Camisa oxford · 38 ao 46", "R$ 159,90"], ["Calça alfaiataria · 36 ao 46", "R$ 219,90"]],
+        lista: [["Camiseta básica algodão · P a GG · 3 cores", "R$ 59,90"], ["Calça jeans reta · 38 a 44 · 2 cores", "R$ 139,90"], ["Vale-troca · Helena Costa", "R$ 59,90"]],
         modulos: ["Grade tamanho × cor", "Trocas e vale-troca", "Etiquetas", "Cashback"], cta: "Finalizar venda" },
-      obra: { nome: "Casa Forte Materiais", p: "#C2410C", d: "#CA8A04", m: "#1C1917", titulo: "Painel · segunda-feira",
-        menu: ["Orçamentos", "Entregas", "Fiado"], kpis: [["Orçamentos em aberto", "R$ 18.940"], ["Entregas hoje", "9"], ["Conversão", "61%"]],
-        lista: [["Cimento CP II 50kg", "R$ 38,90"], ["Areia média (m³)", "R$ 165,00"], ["Tijolo 8 furos (milheiro)", "R$ 890,00"]],
-        modulos: ["Orçamentos", "Entrega", "Fiado de obra", "Nota fiscal"], cta: "Enviar orçamento" },
-      acai: { nome: "Açaí da Praça", p: "#7E22CE", d: "#DB2777", m: "#1E1033", titulo: "Painel · domingo",
-        menu: ["Cardápio", "Cozinha", "Delivery"], kpis: [["Pedidos hoje", "112"], ["Tempo de preparo", "6 min"], ["Pelo cardápio", "58%"]],
-        lista: [["Açaí 500ml montado", "R$ 22,00"], ["Copo da casa 700ml", "R$ 29,90"], ["Adicional granola", "R$ 3,00"]],
-        modulos: ["Cardápio digital", "Cozinha (KDS)", "Delivery", "Fidelidade"], cta: "Enviar para a cozinha" }
+      obra: { nome: "Casa Forte Materiais", ramo: "Material de construção", logo: "casa-forte", p: "#C25E14", d: "#1C1917", m: "#1B1715", titulo: "Painel · segunda-feira",
+        menu: ["Orçamentos", "Entregas", "Fiado"], kpis: [["Orçamento aberto", "R$ 893"], ["Entregas hoje", "9"], ["Venda por metro", "Fio 2,5 mm"]],
+        lista: [["Cimento CP II 50 kg", "R$ 38,90"], ["Argamassa AC III 20 kg", "R$ 34,90"], ["Fio flexível 2,5 mm (metro)", "R$ 3,90"], ["Caixa d'água 1.000 l", "R$ 420,00"]],
+        modulos: ["Orçamentos", "Preço por quantidade", "Venda fracionada", "Nota fiscal"], cta: "Enviar orçamento" },
+      padaria: { nome: "Padaria Pão Dourado", ramo: "Padaria · desde 1998", logo: "pao-dourado", p: "#8A4B14", d: "#9A6A16", m: "#2B1A0D", titulo: "Painel · domingo",
+        menu: ["Balança", "Produção", "Encomendas"], kpis: [["Vendas hoje", "R$ 4.126"], ["Pesagens na balança", "312"], ["Encomendas", "6"]],
+        lista: [["Pão francês (kg)", "R$ 16,90"], ["Queijo minas (kg)", "R$ 54,90"], ["Mortadela fatiada (kg)", "R$ 39,90"], ["Rosca doce (kg)", "R$ 32,00"]],
+        modulos: ["Balança", "Produção", "Encomendas", "Validade"], cta: "Finalizar venda" }
     };
     var loja = document.getElementById("loja");
     function el(n) { return loja.querySelector('[data-n="' + n + '"]'); }
@@ -492,7 +495,8 @@
     function mostrar(chave) {
       var n = NICHOS[chave];
       loja.style.setProperty("--p", n.p); loja.style.setProperty("--d", n.d); loja.style.setProperty("--m", n.m);
-      el("nome").textContent = n.nome; el("inicial").textContent = n.nome.charAt(0); el("titulo").textContent = n.titulo;
+      el("nome").textContent = n.nome; el("titulo").textContent = n.titulo; el("ramo").textContent = n.ramo;
+      el("logo").src = el("logo-menu").src = "./static/img/lojas/" + n.logo + ".png"; el("logo").alt = "Logo " + n.nome;
       ["m1", "m2", "m3"].forEach(function (k, i) { el(k).textContent = n.menu[i]; });
       [1, 2, 3].forEach(function (i) { el("k" + i + "r").textContent = n.kpis[i - 1][0]; el("k" + i).textContent = n.kpis[i - 1][1]; });
       el("lista").innerHTML = n.lista.map(function (l) { return "<div><span>" + esc(l[0]) + "</span><b>" + esc(l[1]) + "</b></div>"; }).join("");
@@ -506,6 +510,7 @@
         mostrar(a.getAttribute("data-nicho"));
       });
     });
+    Object.keys(NICHOS).forEach(function (k) { var i = new Image(); i.src = "./static/img/lojas/" + NICHOS[k].logo + ".png"; });
     mostrar("adega");
   })();
 </script>
