@@ -1,23 +1,26 @@
 @font-face{ font-family:"Manrope"; font-style:normal; font-weight:200 800; font-display:swap;
   src:url("fonts/manrope-latin-wght.woff2") format("woff2"); }
 :root{
-  /* Paleta Moderna SaaS */
-  --bg:#0a0a0a;
-  --surface:#161310;
-  --surface-2:#1e1911;
-  --accent:#e0b84a;
-  --accent-soft:#3a2e12;
-  --text:#f5efe0;
-  --text-muted:#a89a7c;
-  --line:#3a3020;
-  --good:#8ee6b0;
-  --bad:#ef8a7a;
+  /* Paleta atual (Dark Navy + Azul Tecnológico + Laranja Coral). --accent e --orange seguem a
+     marca do cliente quando o White Label está aplicado (static/marca.js). */
+  --bg:#0B1120;
+  --surface:#111827;
+  --surface-2:#1E293B;
+  --accent:#0D6EFD;
+  --orange:#F97316;
+  --accent-soft:color-mix(in srgb, var(--accent) 16%, var(--surface));
+  --accent-brilho:color-mix(in srgb, var(--accent) 55%, #FFFFFF);
+  --text:#F8FAFC;
+  --text-muted:#94A3B8;
+  --line:#334155;
+  --good:#34D399;
+  --bad:#F87171;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0;
-  background:radial-gradient(70% 45% at 50% 0%, rgba(58,46,18,.7) 0%, transparent 60%), var(--bg);
+  background:radial-gradient(70% 45% at 50% 0%, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 60%), var(--bg);
   color:var(--text);
   font-family:'Manrope',system-ui,-apple-system,Segoe UI,sans-serif;
   display:flex;
@@ -45,7 +48,7 @@ body{
   color:var(--text-muted); flex:none; }
 .ultimo-item-nome{ font-family:'Manrope',sans-serif; font-weight:800; font-size:clamp(24px,4vw,48px); color:var(--text); }
 .ultimo-item-info{ font-family:'Manrope',sans-serif; font-variant-numeric:tabular-nums; font-size:clamp(16px,2vw,24px);
-  color:var(--accent); margin-left:auto; }
+  color:var(--accent-brilho); margin-left:auto; }
 
 .lista-wrap{ flex:1; overflow-y:auto; padding:6px 36px; }
 .lista-cabecalho{ display:grid; grid-template-columns:1fr auto auto auto; gap:20px; padding:12px 4px;
@@ -63,15 +66,15 @@ body{
 .tela-ociosa{ min-height:55vh; display:flex; flex-direction:column; align-items:center;
   justify-content:center; gap:28px; padding:20px; }
 .tela-ociosa[hidden]{ display:none; }
-.logo-grande{ width:min(320px, 42vw); height:auto; filter:drop-shadow(0 10px 34px rgba(224,184,74,.28)); }
-.vazio{ margin:0; text-align:center; color:var(--accent); font-family:'Manrope',sans-serif; font-weight:800;
+.logo-grande{ width:min(320px, 42vw); height:auto; filter:drop-shadow(0 10px 34px color-mix(in srgb, var(--accent) 35%, transparent)); }
+.vazio{ margin:0; text-align:center; color:var(--text); font-family:'Manrope',sans-serif; font-weight:800;
   font-size:clamp(36px,7vw,100px); letter-spacing:.04em; }
-.boas-vindas{ margin:0; text-align:center; color:var(--accent); font-family:'Manrope',sans-serif;
+.boas-vindas{ margin:0; text-align:center; color:var(--accent-brilho); font-family:'Manrope',sans-serif;
   font-weight:700; font-size:clamp(26px,4.2vw,54px); letter-spacing:.12em; text-transform:uppercase;
-  text-shadow:0 4px 26px rgba(224,184,74,.4); }
+  text-shadow:0 4px 26px color-mix(in srgb, var(--accent) 45%, transparent); }
 /* Caixa fechado: mesma tela ociosa, em tom avermelhado e logo apagada. */
 .tela-ociosa.caixa-fechado .logo-grande{ filter:grayscale(.7) brightness(.6); }
-.tela-ociosa.caixa-fechado .vazio{ color:var(--bad); text-shadow:0 4px 30px rgba(239,138,122,.35); }
+.tela-ociosa.caixa-fechado .vazio{ color:var(--bad); text-shadow:0 4px 30px rgba(248,113,113,.35); }
 
 .status-processo{ margin:0 36px 16px; padding:14px 18px; border-radius:12px; background:var(--surface-2);
   border:1px solid var(--line); display:flex; align-items:flex-start; gap:12px; font-size:18px;
@@ -93,19 +96,19 @@ body{
 .pix-qrcode-box .pix-qr-svg{ width:320px; margin:0 auto; }
 .pix-qrcode-box .pix-qr-svg svg{ width:100%; height:auto; display:block; background:#fff; border-radius:8px; padding:8px; }
 .pix-qrcode-box .pix-qr-valor{ font-family:'Manrope',sans-serif; font-variant-numeric:tabular-nums; font-size:26px; font-weight:700;
-  color:var(--accent); margin-top:10px; }
+  color:var(--accent-brilho); margin-top:10px; }
 .pix-qrcode-box .pix-qr-contador{ font-family:'Manrope',sans-serif; font-variant-numeric:tabular-nums; font-size:16px;
   color:var(--text-muted); margin-top:4px; }
 .pix-qrcode-box .pix-qr-copia{ display:flex; align-items:center; gap:10px; justify-content:center;
   margin-top:10px; flex-wrap:wrap; }
 .pix-qrcode-box .pix-qr-copia code{ font-size:11px; color:var(--text-muted); max-width:260px;
   overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.pix-qrcode-box .pix-qr-copia button{ font-family:inherit; font-size:12px; color:var(--accent);
+.pix-qrcode-box .pix-qr-copia button{ font-family:inherit; font-size:12px; color:var(--accent-brilho);
   background:transparent; border:1px solid var(--line); border-radius:6px; padding:4px 10px;
   cursor:pointer; }
 .pix-qr-expirado{ color:var(--text-muted); font-size:16px; margin:0; }
 
-.rodape{ background:var(--surface-2); border-top:2px solid var(--accent); padding:18px 36px;
+.rodape{ background:var(--surface-2); border-top:3px solid var(--orange); padding:18px 36px;
   display:flex; justify-content:space-between; align-items:center; }
 .rodape .qtd-total{ font-size:16px; color:var(--text-muted); }
 .rodape .qtd-total b{ color:var(--text); font-family:'Manrope',sans-serif; font-variant-numeric:tabular-nums; }
@@ -121,20 +124,25 @@ body{
 .rodape .total-detalhe .desconto b{ color:var(--good); }
 .rodape .total .rotulo{ font-size:16px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); }
 .rodape .total .valor{ font-family:'Manrope',sans-serif; font-variant-numeric:tabular-nums; font-variant-numeric:tabular-nums;
-  font-size:clamp(44px,6.5vw,88px); font-weight:800; line-height:1; letter-spacing:-.01em; color:var(--accent);
-  text-shadow:0 0 18px rgba(224,184,74,.18); }
+  font-size:clamp(44px,6.5vw,88px); font-weight:800; line-height:1; letter-spacing:-.01em; color:var(--text);
+  text-shadow:0 0 22px color-mix(in srgb, var(--accent) 35%, transparent); }
 
 .overlay{ position:fixed; inset:0; background:var(--bg); display:flex; flex-direction:column;
   align-items:center; justify-content:center; gap:14px; text-align:center; padding:20px;
   opacity:0; pointer-events:none; transition:opacity .4s ease; }
 .overlay.mostrar{ opacity:1; }
-.overlay .check{ width:88px; height:88px; border-radius:50%; background:var(--accent); color:#16130E;
+.overlay .check{ width:88px; height:88px; border-radius:50%; background:var(--good); color:#0B1120;
   display:flex; align-items:center; justify-content:center; font-size:40px; margin-bottom:8px; }
 .overlay h2{ font-family:'Manrope',sans-serif; font-weight:800; font-size:clamp(28px,4.6vw,38px); margin:0; }
 .overlay .valor-final{ font-family:'Manrope',sans-serif; font-variant-numeric:tabular-nums; font-size:clamp(28px,5vw,42px);
-  color:var(--accent); font-weight:800; }
+  color:var(--accent-brilho); font-weight:800; }
 
 @media (prefers-reduced-motion: reduce){
   .item-linha{ animation:none; }
   .overlay, .status-processo{ transition:none; }
 }
+
+/* Tela ociosa cabe em qualquer altura (logo pela altura da tela) e sem o cabeçalho da lista vazia */
+.logo-grande{ width:min(320px, 42vw, 30vh); }
+.tela-ociosa{ gap:min(28px, 3vh); }
+.lista-wrap:has(.tela-ociosa:not([hidden])) .lista-cabecalho{ display:none; }
