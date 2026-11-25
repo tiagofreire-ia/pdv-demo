@@ -28,6 +28,8 @@
     <meta name="apple-mobile-web-app-title" content="SUA MARCA">
     <link rel="preload" href="./static/fonts/manrope-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="./static/style.css">
+    <link rel="stylesheet" href="./static/novos.css">
+    <script src="./static/marca.js"></script>
     <script>try{var _t=localStorage.getItem('tema');if(_t==='dark'||_t==='light')document.documentElement.setAttribute('data-theme',_t);if(localStorage.getItem('sidebarColapsado')==='1')document.documentElement.classList.add('sidebar-collapsed');}catch(e){}</script>
     <script src="./static/vendor/htmx-2.0.3.min.js"></script>
     <script>
@@ -55,124 +57,212 @@
         </div>
 
         <nav class="side-nav">
-          
           <div class="side-secao">Operação</div>
-          <a href="./venda.html" title="Frente de caixa (F1)" data-tour="venda" data-tour-titulo="Vender" data-tour-text="Frente de caixa: bipe os produtos e receba o pagamento por atalhos de teclado.">
+
+          <a href="./venda.html" title="Frente de caixa (F1)" data-ativo-arquivos="venda_balcao">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 2h3l2.5 12.4a2 2 0 0 0 2 1.6h9.6a2 2 0 0 0 2-1.6L22 6H5.2"/></svg>
             <span class="label">Vender</span>
             <kbd class="side-kbd">F1</kbd>
           </a>
-          <a href="./caixa.html" title="Abrir e fechar o caixa" data-tour="caixa" data-tour-text="Abra o caixa no início do dia e feche no fim, conferindo o dinheiro da gaveta.">
+
+          <a href="./caixa.html" title="Abrir e fechar o caixa">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>
             <span class="label">Abrir/fechar caixa</span>
           </a>
 
+          <details class="side-grupo" id="grupo-pedidos">
+            <summary title="Pedidos">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+              <span class="label">Pedidos</span>
+              <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="side-subnav">
+              <a href="./comandas.html" title="Comandas e mesas">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16v18l-3-2-3 2-2-2-2 2-3-2-3 2z"/><path d="M8 8h8M8 12h8"/></svg>
+            <span class="label">Comandas</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+              <a href="./cozinha.html" title="Tela da cozinha e do bar (KDS)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13.9V20h12v-6.1"/><path d="M6 14a4 4 0 0 1-.9-7.9A5 5 0 0 1 12 3a5 5 0 0 1 6.9 3.1A4 4 0 0 1 18 14z"/><path d="M6 17h12"/></svg>
+            <span class="label">Cozinha/Bar</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+              <a href="./delivery.html" title="Delivery">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M8 17.5h7.5M15 6h3l3 5v6.5h-.5M3 17.5V8h10v9.5"/></svg>
+            <span class="label">Delivery</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+              <a href="./cardapio.html" title="Cardápio digital">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4M9 7h6M9 11h6"/></svg>
+            <span class="label">Cardápio</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+            </div>
+          </details>
+
+          <a href="./orcamentos.html" title="Orçamentos">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h3"/></svg>
+            <span class="label">Orçamentos</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+
+          <a href="./trocas.html" title="Trocas e devoluções">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            <span class="label">Trocas</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+
           <div class="side-secao">Cadastros</div>
-          <details class="side-grupo" id="grupo-estoque"
-                    >
+
+          <details class="side-grupo" id="grupo-estoque">
             <summary title="Estoque">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5" rx="1"/><path d="M4 8v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8"/><path d="M10 13h4"/></svg>
               <span class="label">Estoque</span>
               <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </summary>
             <div class="side-subnav">
-              <a href="./produtos.html" title="Produtos" data-tour="produtos" data-tour-text="Cadastre produtos, preços, código de barras e estoque mínimo.">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg>
-                <span class="label">Produtos</span>
-              </a>
-              <a href="./entradas.html" title="Entradas" data-tour="entradas" data-tour-text="Registre a compra de mercadoria: aumenta o estoque automaticamente.">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10"/><path d="M8 9l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-                <span class="label">Entradas</span>
-              </a>
-              
-              <a href="./inventarios.html" title="Inventário" data-tour="inventarios" data-tour-text="Contagem física do estoque (cega) e ajuste em massa ao fechar.">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                <span class="label">Inventário</span>
-              </a>
-              <a href="./reposicao.html" title="Reposição" data-tour="reposicao" data-tour-text="Sugestão de compra com base na velocidade de venda dos últimos 30 dias.">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"/><path d="M3 8h18l-1.5 11a2 2 0 0 1-2 1.7H6.5a2 2 0 0 1-2-1.7L3 8z"/><path d="M9 12h6"/></svg>
-                <span class="label">Reposição</span>
-              </a>
-              
+              <a href="./produtos.html" title="Produtos">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg>
+            <span class="label">Produtos</span>
+          </a>
+              <a href="./entradas.html" title="Entradas">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10"/><path d="M8 9l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            <span class="label">Entradas</span>
+          </a>
+              <a href="./inventarios.html" title="Inventário" data-ativo-arquivos="inventario">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <span class="label">Inventário</span>
+          </a>
+              <a href="./reposicao.html" title="Reposição">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"/><path d="M3 8h18l-1.5 11a2 2 0 0 1-2 1.7H6.5a2 2 0 0 1-2-1.7L3 8z"/><path d="M9 12h6"/></svg>
+            <span class="label">Reposição</span>
+          </a>
             </div>
           </details>
-          <a href="./clientes.html" title="Clientes" data-tour="clientes" data-tour-text="Cadastre clientes (útil para vendas na Confiança e comprovantes).">
+
+          <a href="./clientes.html" title="Clientes">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
             <span class="label">Clientes</span>
           </a>
-          <a href="./fornecedores.html" title="Fornecedores" data-tour="fornecedores" data-tour-text="Cadastre seus fornecedores de bebidas.">
+
+          <a href="./fornecedores.html" title="Fornecedores">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h13v10H1z"/><path d="M14 8h4l3 3v3h-7z"/><circle cx="5.5" cy="18" r="1.6"/><circle cx="17.5" cy="18" r="1.6"/></svg>
             <span class="label">Fornecedores</span>
           </a>
 
-          
           <div class="side-secao">Gestão</div>
-          <a href="./painel.html" title="Painel" data-tour="admin" data-tour-text="Painel com cartões de faturamento, vendas, lucro e descontos do dia, e o que precisa de atenção.">
+
+          <a href="./painel.html" title="Painel">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
             <span class="label">Painel</span>
           </a>
-          <a href="./contas_pagar.html" title="Contas" data-tour="contas_pagar" data-tour-titulo="Contas" data-tour-text="Contas a pagar: luz, água, energia, funcionário, aluguel e outros serviços.">
+
+          <a href="./inteligencia.html" title="Inteligência do negócio: horários, clima e sugestões">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2V17h6v-.3c0-.8.4-1.5 1-2A7 7 0 0 0 12 2z"/></svg>
+            <span class="label">Inteligência</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+
+          <a href="./fluxo_caixa.html" title="Fluxo de caixa">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+            <span class="label">Fluxo de caixa</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+
+          <a href="./contas_pagar.html" title="Contas" data-ativo-arquivos="contas">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/><path d="M8 2v4M16 2v4"/><path d="M8 14h4"/></svg>
             <span class="label">Contas</span>
           </a>
-          <a href="./relatorio.html" title="Relatórios" data-tour="relatorio" data-tour-text="Relatórios de vendas por período, com exportação em PDF e gráfico.">
+
+          <a href="./relatorio.html" title="Relatórios">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="10" width="3" height="8"/><rect x="12" y="6" width="3" height="12"/><rect x="17" y="13" width="3" height="5"/></svg>
             <span class="label">Relatórios</span>
           </a>
-          <a href="./patrimonio.html" title="Patrimônio" data-tour="patrimonio" data-tour-text="Bens da loja (freezer, móveis, equipamentos), separado do estoque de produtos.">
+
+          <a href="./fiscal.html" title="Nota fiscal (NFC-e)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+            <span class="label">Nota fiscal</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+
+          <a href="./patrimonio.html" title="Patrimônio">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
             <span class="label">Patrimônio</span>
           </a>
-          
+
+          <div class="side-secao">Relacionamento</div>
+
+          <a href="./whatsapp.html" title="Conversas do WhatsApp com o agente de IA">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.5L3 21l1.9-5.6A8.4 8.4 0 1 1 21 11.5z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 1c-1-.4-1.6-1-2-2l1-1-1-2z"/></svg>
+            <span class="label">WhatsApp</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+
+          <a href="./agente.html" title="Agente de IA que atende no WhatsApp">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9 17h6"/><circle cx="12" cy="3" r="1"/></svg>
+            <span class="label">Agente de IA</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+
+          <a href="./relacionamento.html" title="Relacionamento com IA">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+            <span class="label">Campanhas</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+
+          <a href="./fidelizacao.html" title="Fidelidade e cashback">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6.3 7 1-5 4.8 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.8 7-1z"/></svg>
+            <span class="label">Fidelidade</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
 
           <div class="side-secao">Apoio</div>
-          
-          <a href="./assistente.html" title="Assistente de IA" data-tour="assistente" data-tour-text="Pergunte em qualquer língua sobre vendas, estoque, contas e Confiança; peça cadastros e lançamentos para você confirmar.">
+
+          <a href="./assistente.html" title="Assistente de IA" data-ativo-arquivos="conversas_ia,memoria_ia,uso_ia">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
             <span class="label">Assistente IA</span>
           </a>
-          <a href="./ajuda.html" title="Ajuda" data-tour="ajuda" data-tour-text="Guias passo a passo, atalhos de teclado, perguntas frequentes e o que o assistente sabe fazer.">
+
+          <a href="./ajuda.html" title="Ajuda">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1 .9-1 1.6"/><path d="M12 17h.01"/></svg>
             <span class="label">Ajuda</span>
           </a>
 
-          <details class="side-grupo" id="grupo-configuracoes"
-                    open>
+          <details class="side-grupo" id="grupo-configuracoes">
             <summary title="Configurações">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82 2 2 0 1 1-2.83 2.83 1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51 2 2 0 0 1-4 0 1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33 2 2 0 1 1-2.83-2.83A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1 2 2 0 0 1 0-4 1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82 2 2 0 1 1 2.83-2.83A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51 2 2 0 0 1 4 0 1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33 2 2 0 1 1 2.83 2.83A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1 2 2 0 0 1 0 4 1.65 1.65 0 0 0-1.51 1z"/></svg>
               <span class="label">Configurações</span>
               <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </summary>
             <div class="side-subnav">
-              
-              <a href="./usuarios.html" title="Usuários" data-tour="usuarios" data-tour-text="Gerencie operadores e administradores do sistema.">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0"/><path d="M16 5.6a3.5 3.5 0 0 1 0 4.8"/><path d="M18.5 21a6.5 6.5 0 0 0-3-5.4"/></svg>
-                <span class="label">Usuários</span>
-              </a>
-              
-              
-              <a href="./configuracoes.html" title="Loja" data-tour="loja" data-tour-text="Taxas das maquininhas e fechamento automático do caixa.">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg>
-                <span class="label">Loja</span>
-              </a>
-              
-              
-              <a href="./saude.html" title="Sistema" data-tour="sistema" data-ativo-em="/admin/saude,/logs,/admin/uso-ia,/admin/conversas-ia,/admin/memoria-ia"
-                 data-tour-text="Saúde do sistema (backup, banco, alertas), logs de auditoria, uso, conversas e memória da IA.">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                <span class="label">Sistema</span>
-              </a>
-              
-              <a href="./suporte.html" title="Suporte" data-tour="suporte" data-tour-text="Relate um problema ou dúvida sobre o sistema.">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24"/></svg>
-                <span class="label">Suporte</span>
-              </a>
+              <a href="./identidade.html" title="White Label: nome, logo e cores">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2a10 10 0 0 0 0 20c1 0 1.7-.8 1.7-1.7 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.8-1.7 1.7-1.7h2A5.6 5.6 0 0 0 22 11 10 10 0 0 0 12 2z"/></svg>
+            <span class="label">Identidade</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+              <a href="./minha_pagina.html" title="Site da loja">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span class="label">Minha página</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+              <a href="./plano.html" title="Plano e módulos">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>
+            <span class="label">Plano e módulos</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
+              <a href="./usuarios.html" title="Usuários">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0"/><path d="M16 5.6a3.5 3.5 0 0 1 0 4.8"/><path d="M18.5 21a6.5 6.5 0 0 0-3-5.4"/></svg>
+            <span class="label">Usuários</span>
+          </a>
+              <a href="./configuracoes.html" title="Taxas das maquininhas e fechamento automático do caixa.">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg>
+            <span class="label">Loja</span>
+          </a>
+              <a href="./saude.html" title="Sistema" data-ativo-arquivos="logs">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <span class="label">Sistema</span>
+          </a>
+              <a href="./suporte.html" title="Suporte">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24"/></svg>
+            <span class="label">Suporte</span>
+          </a>
               <button type="button" id="btn-tour" class="side-link" title="Tour guiado">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>
                 <span class="label">Tour guiado</span>
               </button>
             </div>
           </details>
+
+          <div class="side-secao">Óptima</div>
+
+          <a href="./master.html" title="Visão da plataforma: todas as lojas">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/><path d="M9 10h.01M15 10h.01"/></svg>
+            <span class="label">Painel Master</span><span class="nv-novo" aria-label="novo">novo</span>
+          </a>
         </nav>
 
         
