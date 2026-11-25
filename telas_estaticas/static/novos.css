@@ -340,9 +340,25 @@
 .nv-passos-barra span.ativo { border-color: var(--accent); color: var(--accent-text); box-shadow: inset 0 0 0 1px var(--accent); }
 .nv-passos-barra span.feito { color: var(--ok-ink); background: var(--ok-bg); border-color: transparent; }
 .nv-checks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.nv-checks label { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border: 1px solid var(--line); border-radius: 12px; font-size: 14px; background: var(--card); cursor: pointer; }
-.nv-checks label span { color: var(--muted); font-size: 12px; display: block; }
-.nv-checks input { margin-top: 3px; accent-color: var(--accent); }
+.nv-checks label { display: flex !important; flex-direction: row !important; gap: 12px; align-items: center; justify-content: flex-start;
+  margin: 0; padding: 14px 16px; min-height: 64px; border: 1.5px solid var(--line); border-radius: 12px; font-size: 14px;
+  background: var(--card); cursor: pointer; text-align: left; transition: border-color .15s, background .15s, box-shadow .15s; }
+.nv-checks label:hover { border-color: var(--accent); }
+.nv-checks label > div { flex: 1; min-width: 0; text-align: left; line-height: 1.3; }
+.nv-checks label b { display: block; font-weight: 700; color: var(--ink); }
+.nv-checks label span { color: var(--muted); font-size: 12px; display: block; margin-top: 2px; font-weight: 500; }
+.nv-checks input[type="checkbox"] { appearance: none; -webkit-appearance: none; flex: none; width: 22px !important; height: 22px !important;
+  min-width: 0; margin: 0 !important; padding: 0 !important; border: 1.5px solid var(--line); border-radius: 7px; background: var(--card);
+  display: grid; place-items: center; cursor: pointer; box-shadow: none; transition: background .15s, border-color .15s; }
+.nv-checks input[type="checkbox"]::after { content: ""; width: 6px; height: 11px; border: solid #fff; border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg) translate(-1px, -1px); opacity: 0; }
+.nv-checks input[type="checkbox"]:checked { background: var(--accent); border-color: var(--accent); }
+.nv-checks input[type="checkbox"]:checked::after { opacity: 1; }
+.nv-checks input[type="checkbox"]:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring, rgba(13,110,253,.28)); }
+.nv-checks label:has(input:checked) { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, var(--card)); }
+.nv-checks label:has(input:disabled) { cursor: default; }
+.nv-checks label:has(input:disabled):hover { border-color: var(--accent); }
+.nv-checks input[type="checkbox"]:disabled { opacity: .55; cursor: default; }
 @media (max-width: 760px) { .nv-checks { grid-template-columns: 1fr; } }
 .nv-mfa { display: flex; gap: 10px; justify-content: center; }
 .nv-mfa input { width: 48px; height: 58px; text-align: center; font-size: 24px; font-weight: 800; border-radius: 12px; border: 1px solid var(--line); background: var(--input-bg); color: var(--ink); }
