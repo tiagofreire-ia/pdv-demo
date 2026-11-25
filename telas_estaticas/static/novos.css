@@ -324,3 +324,28 @@
 .nv-itens td.num { white-space: nowrap; padding-left: 10px; }
 
 @media (max-width: 600px) { .nv-kpi strong { font-size: 20px; } .nv-grande { font-size: 24px; } }
+
+/* ---------- Área Master ---------- */
+.nv-surge { animation: nv-chega .5s ease; }
+.nv-vazio { text-align: center; padding: 34px 20px; color: var(--muted); border: 1px dashed var(--line); border-radius: 14px; }
+.nv-vazio b { display: block; color: var(--ink); font-size: 17px; margin: 8px 0 4px; }
+.nv-vazio .ic { font-size: 34px; }
+.nv-logo-loja { width: 40px; height: 40px; border-radius: 50%; flex: none; object-fit: cover; box-shadow: 0 0 0 1px var(--line); background: var(--card); }
+.nv-logo-loja.grande { width: 84px; height: 84px; }
+.nv-loja-ini { width: 40px; height: 40px; border-radius: 50%; flex: none; display: grid; place-items: center; font-weight: 800; color: #fff; background: var(--carvao); font-size: 14px; }
+.nv-celula-loja { display: flex; align-items: center; gap: 12px; min-width: 220px; }
+.nv-celula-loja b { display: block; }
+.nv-passos-barra { display: flex; gap: 8px; margin-bottom: 22px; flex-wrap: wrap; }
+.nv-passos-barra span { flex: 1; min-width: 120px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); font-size: 13px; font-weight: 700; color: var(--muted); background: var(--card); }
+.nv-passos-barra span.ativo { border-color: var(--accent); color: var(--accent-text); box-shadow: inset 0 0 0 1px var(--accent); }
+.nv-passos-barra span.feito { color: var(--ok-ink); background: var(--ok-bg); border-color: transparent; }
+.nv-checks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.nv-checks label { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border: 1px solid var(--line); border-radius: 12px; font-size: 14px; background: var(--card); cursor: pointer; }
+.nv-checks label span { color: var(--muted); font-size: 12px; display: block; }
+.nv-checks input { margin-top: 3px; accent-color: var(--accent); }
+@media (max-width: 760px) { .nv-checks { grid-template-columns: 1fr; } }
+.nv-mfa { display: flex; gap: 10px; justify-content: center; }
+.nv-mfa input { width: 48px; height: 58px; text-align: center; font-size: 24px; font-weight: 800; border-radius: 12px; border: 1px solid var(--line); background: var(--input-bg); color: var(--ink); }
+.side-top .nv-simbolo-optima { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex: none;
+  background: linear-gradient(135deg, #0D6EFD, #3B82F6); color: #fff; font-weight: 800; font-size: 17px; }
+.nv-selo-master { font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #FDBA74; display: block; line-height: 1; margin-top: 2px; }

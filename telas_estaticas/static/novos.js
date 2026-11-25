@@ -158,6 +158,55 @@
     });
   });
 
+  /* ---------- Simular (telas que hoje estão vazias de verdade) ---------- */
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-simular]');
+    if (!b) return;
+    var alvo = document.getElementById(b.getAttribute('data-simular'));
+    var vazio = document.querySelector('[data-vazio="' + b.getAttribute('data-simular') + '"]');
+    if (alvo) { alvo.hidden = false; alvo.classList.add('nv-surge'); }
+    if (vazio) vazio.hidden = true;
+    b.disabled = true;
+    toast(b.getAttribute('data-msg') || 'Exemplo simulado.');
+  });
+
+  /* ---------- Assistente em etapas (Nova loja) ---------- */
+  $$('[data-assistente]').forEach(function (a) {
+    var passos = $$('[data-passo]', a);
+    var marcas = $$('.nv-passos-barra span', a);
+    var atual = 0;
+    function ir(i) {
+      atual = Math.max(0, Math.min(passos.length - 1, i));
+      passos.forEach(function (p, k) { p.hidden = k !== atual; });
+      marcas.forEach(function (m, k) { m.classList.toggle('feito', k < atual); m.classList.toggle('ativo', k === atual); });
+      var nome = $('[name=loja_nome]', a);
+      $$('[data-resumo-nome]', a).forEach(function (el) { el.textContent = (nome && nome.value) || 'Nova loja'; });
+    }
+    function slug(t) { return (t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+    var nome = $('[name=loja_nome]', a);
+    if (nome) nome.addEventListener('input', function () {
+      $$('[data-slug]', a).forEach(function (el) { el.textContent = (slug(nome.value) || 'nome-da-loja') + '.optimapdv.com.br'; });
+    });
+    var ramo = $('[name=loja_ramo]', a);
+    if (ramo) ramo.addEventListener('change', function () {
+      var liga = (ramo.selectedOptions[0].getAttribute('data-modulos') || '').split(',');
+      $$('[data-modulo]', a).forEach(function (c) {
+        var base = c.getAttribute('data-base') === 'sim';
+        c.checked = base || liga.indexOf(c.getAttribute('data-modulo')) !== -1;
+      });
+    });
+    a.addEventListener('click', function (e) {
+      if (e.target.closest('[data-avancar-passo]')) { e.preventDefault(); ir(atual + 1); }
+      if (e.target.closest('[data-voltar-passo]')) { e.preventDefault(); ir(atual - 1); }
+      if (e.target.closest('[data-criar-loja]')) {
+        e.preventDefault();
+        ir(passos.length - 1);
+        toast('Loja criada. O teste grátis de 5 dias começou e o admin recebeu o convite por e-mail.');
+      }
+    });
+    ir(0);
+  });
+
   /* ---------- Sugestões (aceitar / dispensar) ---------- */
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-sugestao]');

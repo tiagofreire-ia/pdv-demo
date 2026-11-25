@@ -101,6 +101,14 @@
     }
   }
 
+  // Área Master (equipe Óptima): marca fixa, não segue o White Label das lojas.
+  var semMarca = document.documentElement.hasAttribute('data-sem-marca');
+  if (semMarca) {
+    window.MarcaDemo = { padrao: NOME_PADRAO, ler: ler, aplicarCores: function () {}, salvar: function () {}, limpar: function () {} };
+    document.addEventListener('DOMContentLoaded', marcarAtivo);
+    return;
+  }
+
   aplicarCores(ler());
 
   window.MarcaDemo = {

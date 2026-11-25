@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-br" data-sem-marca>
 <head>
     <script>
       try{localStorage.setItem('tourVisto_v1','1');}catch(e){}
@@ -14,7 +14,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="kHG4Z932I_qj5tFapiSvzKAxVlcoE6PM2TC4pZ4iNOY">
-    <title>Painel Master</title>
+    <title>Master · Visão geral</title>
     <link rel="icon" href="./static/img/favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="./static/img/favicon-32.png" sizes="32x32">
     <link rel="apple-touch-icon" href="./static/img/logo-marca.svg">
@@ -45,8 +45,8 @@
       
       <aside class="sidebar" id="sidebar">
         <div class="side-top">
-          <img class="side-mark" src="./static/img/logo-marca.svg" alt="" aria-hidden="true">
-          <span class="side-name">SUA MARCA</span>
+          <span class="nv-simbolo-optima" aria-hidden="true">Ó</span>
+          <span class="side-name">Óptima<span class="nv-selo-master">Master</span></span>
           
           <button type="button" class="side-toggle" id="side-toggle" title="Recolher menu" aria-label="Recolher menu">
             <svg class="ic-recolher" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
@@ -57,211 +57,86 @@
         </div>
 
         <nav class="side-nav">
+          <div class="side-secao">Plataforma</div>
+
+          <a href="./master.html" title="Visão geral">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+            <span class="label">Visão geral</span>
+          </a>
+
+          <div class="side-secao">Lojas</div>
+
+          <a href="./master_lojas.html" title="Lojas" data-ativo-arquivos="master_loja">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg>
+            <span class="label">Lojas</span>
+          </a>
+
+          <a href="./master_nova_loja.html" title="Nova loja">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+            <span class="label">Nova loja</span>
+          </a>
+
+          <a href="./master_pre_cadastros.html" title="Pedidos de teste do site">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            <span class="label">Pré-cadastros</span>
+          </a>
+
+          <div class="side-secao">Comercial</div>
+
+          <a href="./master_site.html" title="Site de vendas">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span class="label">Site de vendas</span>
+          </a>
+
+          <a href="./master_novidades.html" title="Novidades publicadas para as lojas">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+            <span class="label">Novidades</span>
+          </a>
+
+          <a href="./master_cobranca.html" title="Cobrança" data-ativo-arquivos="master_precos">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>
+            <span class="label">Cobrança</span>
+          </a>
+
+          <div class="side-secao">Serviços das lojas</div>
+
+          <a href="./master_whatsapp.html" title="WhatsApp das lojas">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.5L3 21l1.9-5.6A8.4 8.4 0 1 1 21 11.5z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 1c-1-.4-1.6-1-2-2l1-1-1-2z"/></svg>
+            <span class="label">WhatsApp das lojas</span>
+          </a>
+
+          <a href="./master_ia.html" title="IA das lojas">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
+            <span class="label">IA das lojas</span>
+          </a>
+
           <div class="side-secao">Operação</div>
 
-          <a href="./venda.html" title="Frente de caixa (F1)" data-ativo-arquivos="venda_balcao">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 2h3l2.5 12.4a2 2 0 0 0 2 1.6h9.6a2 2 0 0 0 2-1.6L22 6H5.2"/></svg>
-            <span class="label">Vender</span>
-            <kbd class="side-kbd">F1</kbd>
-          </a>
-
-          <a href="./caixa.html" title="Abrir e fechar o caixa">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>
-            <span class="label">Abrir/fechar caixa</span>
-          </a>
-
-          <details class="side-grupo" id="grupo-pedidos">
-            <summary title="Pedidos">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
-              <span class="label">Pedidos</span>
-              <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-            </summary>
-            <div class="side-subnav">
-              <a href="./comandas.html" title="Comandas e mesas">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16v18l-3-2-3 2-2-2-2 2-3-2-3 2z"/><path d="M8 8h8M8 12h8"/></svg>
-            <span class="label">Comandas</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-              <a href="./cozinha.html" title="Tela da cozinha e do bar (KDS)">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13.9V20h12v-6.1"/><path d="M6 14a4 4 0 0 1-.9-7.9A5 5 0 0 1 12 3a5 5 0 0 1 6.9 3.1A4 4 0 0 1 18 14z"/><path d="M6 17h12"/></svg>
-            <span class="label">Cozinha/Bar</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-              <a href="./delivery.html" title="Delivery">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M8 17.5h7.5M15 6h3l3 5v6.5h-.5M3 17.5V8h10v9.5"/></svg>
-            <span class="label">Delivery</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-              <a href="./cardapio.html" title="Cardápio digital">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4M9 7h6M9 11h6"/></svg>
-            <span class="label">Cardápio</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-            </div>
-          </details>
-
-          <a href="./orcamentos.html" title="Orçamentos">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h3"/></svg>
-            <span class="label">Orçamentos</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-
-          <a href="./trocas.html" title="Trocas e devoluções">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-            <span class="label">Trocas</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-
-          <div class="side-secao">Cadastros</div>
-
-          <details class="side-grupo" id="grupo-estoque">
-            <summary title="Estoque">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5" rx="1"/><path d="M4 8v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8"/><path d="M10 13h4"/></svg>
-              <span class="label">Estoque</span>
-              <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-            </summary>
-            <div class="side-subnav">
-              <a href="./produtos.html" title="Produtos">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg>
-            <span class="label">Produtos</span>
-          </a>
-              <a href="./entradas.html" title="Entradas">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10"/><path d="M8 9l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-            <span class="label">Entradas</span>
-          </a>
-              <a href="./inventarios.html" title="Inventário" data-ativo-arquivos="inventario">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            <span class="label">Inventário</span>
-          </a>
-              <a href="./reposicao.html" title="Reposição">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"/><path d="M3 8h18l-1.5 11a2 2 0 0 1-2 1.7H6.5a2 2 0 0 1-2-1.7L3 8z"/><path d="M9 12h6"/></svg>
-            <span class="label">Reposição</span>
-          </a>
-            </div>
-          </details>
-
-          <a href="./clientes.html" title="Clientes">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
-            <span class="label">Clientes</span>
-          </a>
-
-          <a href="./fornecedores.html" title="Fornecedores">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h13v10H1z"/><path d="M14 8h4l3 3v3h-7z"/><circle cx="5.5" cy="18" r="1.6"/><circle cx="17.5" cy="18" r="1.6"/></svg>
-            <span class="label">Fornecedores</span>
-          </a>
-
-          <div class="side-secao">Gestão</div>
-
-          <a href="./painel.html" title="Painel">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
-            <span class="label">Painel</span>
-          </a>
-
-          <a href="./inteligencia.html" title="Inteligência do negócio: horários, clima e sugestões">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2V17h6v-.3c0-.8.4-1.5 1-2A7 7 0 0 0 12 2z"/></svg>
-            <span class="label">Inteligência</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-
-          <a href="./fluxo_caixa.html" title="Fluxo de caixa">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
-            <span class="label">Fluxo de caixa</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-
-          <a href="./contas_pagar.html" title="Contas" data-ativo-arquivos="contas">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18"/><path d="M8 2v4M16 2v4"/><path d="M8 14h4"/></svg>
-            <span class="label">Contas</span>
-          </a>
-
-          <a href="./relatorio.html" title="Relatórios">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="10" width="3" height="8"/><rect x="12" y="6" width="3" height="12"/><rect x="17" y="13" width="3" height="5"/></svg>
-            <span class="label">Relatórios</span>
-          </a>
-
-          <a href="./fiscal.html" title="Nota fiscal (NFC-e)">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
-            <span class="label">Nota fiscal</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-
-          <a href="./patrimonio.html" title="Patrimônio">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-            <span class="label">Patrimônio</span>
-          </a>
-
-          <div class="side-secao">Relacionamento</div>
-
-          <a href="./whatsapp.html" title="Conversas do WhatsApp com o agente de IA">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.5L3 21l1.9-5.6A8.4 8.4 0 1 1 21 11.5z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 1c-1-.4-1.6-1-2-2l1-1-1-2z"/></svg>
-            <span class="label">WhatsApp</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-
-          <a href="./agente.html" title="Agente de IA que atende no WhatsApp">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9 17h6"/><circle cx="12" cy="3" r="1"/></svg>
-            <span class="label">Agente de IA</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-
-          <a href="./relacionamento.html" title="Relacionamento com IA">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
-            <span class="label">Campanhas</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-
-          <a href="./fidelizacao.html" title="Fidelidade e cashback">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6.3 7 1-5 4.8 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.8 7-1z"/></svg>
-            <span class="label">Fidelidade</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-
-          <div class="side-secao">Apoio</div>
-
-          <a href="./assistente.html" title="Assistente de IA" data-ativo-arquivos="conversas_ia,memoria_ia,uso_ia">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
-            <span class="label">Assistente IA</span>
-          </a>
-
-          <a href="./ajuda.html" title="Ajuda">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1 .9-1 1.6"/><path d="M12 17h.01"/></svg>
-            <span class="label">Ajuda</span>
-          </a>
-
-          <details class="side-grupo" id="grupo-configuracoes">
-            <summary title="Configurações">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82 2 2 0 1 1-2.83 2.83 1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51 2 2 0 0 1-4 0 1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33 2 2 0 1 1-2.83-2.83A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1 2 2 0 0 1 0-4 1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82 2 2 0 1 1 2.83-2.83A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51 2 2 0 0 1 4 0 1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33 2 2 0 1 1 2.83 2.83A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1 2 2 0 0 1 0 4 1.65 1.65 0 0 0-1.51 1z"/></svg>
-              <span class="label">Configurações</span>
-              <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-            </summary>
-            <div class="side-subnav">
-              <a href="./identidade.html" title="White Label: nome, logo e cores">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2a10 10 0 0 0 0 20c1 0 1.7-.8 1.7-1.7 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.8-1.7 1.7-1.7h2A5.6 5.6 0 0 0 22 11 10 10 0 0 0 12 2z"/></svg>
-            <span class="label">Identidade</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-              <a href="./minha_pagina.html" title="Site da loja">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            <span class="label">Minha página</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-              <a href="./plano.html" title="Plano e módulos">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>
-            <span class="label">Plano e módulos</span><span class="nv-novo" aria-label="novo">novo</span>
-          </a>
-              <a href="./usuarios.html" title="Usuários">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0"/><path d="M16 5.6a3.5 3.5 0 0 1 0 4.8"/><path d="M18.5 21a6.5 6.5 0 0 0-3-5.4"/></svg>
-            <span class="label">Usuários</span>
-          </a>
-              <a href="./configuracoes.html" title="Taxas das maquininhas e fechamento automático do caixa.">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg>
-            <span class="label">Loja</span>
-          </a>
-              <a href="./saude.html" title="Sistema" data-ativo-arquivos="logs">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-            <span class="label">Sistema</span>
-          </a>
-              <a href="./suporte.html" title="Suporte">
+          <a href="./master_chamados.html" title="Chamados">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24"/></svg>
-            <span class="label">Suporte</span>
+            <span class="label">Chamados</span>
           </a>
-              <button type="button" id="btn-tour" class="side-link" title="Tour guiado">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>
-                <span class="label">Tour guiado</span>
-              </button>
-            </div>
-          </details>
 
-          <div class="side-secao">Óptima</div>
+          <a href="./master_operacoes.html" title="Operações">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <span class="label">Operações</span>
+          </a>
 
-          <a href="./master.html" title="Visão da plataforma: todas as lojas">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/><path d="M9 10h.01M15 10h.01"/></svg>
-            <span class="label">Painel Master</span><span class="nv-novo" aria-label="novo">novo</span>
+          <a href="./master_auditoria.html" title="Auditoria">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+            <span class="label">Auditoria</span>
+          </a>
+
+          <a href="./master_equipe.html" title="Equipe Óptima">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0"/><path d="M16 5.6a3.5 3.5 0 0 1 0 4.8"/><path d="M18.5 21a6.5 6.5 0 0 0-3-5.4"/></svg>
+            <span class="label">Equipe Óptima</span>
+          </a>
+
+          <div class="side-secao">Demonstração</div>
+
+          <a href="./painel.html" title="Sistema de uma loja (Adega Bom Gole)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 2h3l2.5 12.4a2 2 0 0 0 2 1.6h9.6a2 2 0 0 0 2-1.6L22 6H5.2"/></svg>
+            <span class="label">Abrir uma loja</span>
           </a>
         </nav>
 
@@ -271,15 +146,15 @@
         
         <div class="side-bottom">
           <div class="usuario-wrap">
-            <button type="button" class="side-usuario" id="btn-usuario" aria-haspopup="menu" aria-expanded="false" aria-controls="usuario-menu" title="Carlos Eduardo (Proprietário) · Super admin">
-              <span class="side-avatar" aria-hidden="true">C(</span>
+            <button type="button" class="side-usuario" id="btn-usuario" aria-haspopup="menu" aria-expanded="false" aria-controls="usuario-menu" title="Tiago · Equipe Óptima">
+              <span class="side-avatar" aria-hidden="true">T</span>
               <span class="side-usuario-texto">
-                <span class="side-usuario-nome">Carlos Eduardo (Proprietário)</span>
-                <span class="side-usuario-papel">Super admin</span>
+                <span class="side-usuario-nome">Tiago</span>
+                <span class="side-usuario-papel">Equipe Óptima · admin</span>
               </span>
             </button>
             <div class="side-usuario-menu" id="usuario-menu" role="menu" aria-label="Conta" hidden>
-              <a href="./minha_conta.html" class="side-usuario-item" role="menuitem" title="Minha conta (trocar a senha)">
+              <a href="./master_equipe.html" class="side-usuario-item" role="menuitem" title="Minha conta (trocar a senha)">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
                 <span>Minha conta</span>
               </a>
@@ -291,7 +166,7 @@
                 <span class="icone-tema-light">Tema claro</span>
               </button>
               <div class="side-usuario-sep" role="separator"></div>
-              <a href="./login.html" class="side-usuario-item side-sair" role="menuitem">
+              <a href="./master_entrar.html" class="side-usuario-item side-sair" role="menuitem">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg>
                 <span>Sair</span>
               </a>
@@ -334,9 +209,6 @@
       <div class="app-main">
         <main>
           
-          <a class="ajuda-contexto" href="./ajuda.html"
-             title="Ajuda desta tela" aria-label="Ajuda desta tela">?</a>
-          
           
           
 
@@ -345,28 +217,25 @@
 <div class="page produtos-tela nv-master">
 <div class="pr-topo">
     <div class="en-titulo">
-      <h1>Painel Master</h1>
-      <span class="muted">A visão da plataforma: todas as lojas, receita recorrente, cobrança, módulos e novos clientes. Cada loja com a sua marca e os dados isolados.</span>
+      <h1>Visão geral</h1>
+      <span class="muted">A plataforma Óptima PDV em pré-lançamento: o cliente piloto em produção e as lojas de demonstração de cada ramo.</span>
     </div>
-    <div class="pr-acoes nv-acoes-topo"><button type="button" class="btn-principal btn-alto" data-toast="Assistente de criação: nome, endereço, ramo, módulos e usuário admin.">+ Nova loja</button></div>
-  </div><div class="nv-faixa aviso">⚠ <b>Dados fictícios de demonstração</b>: os números desta tela são ilustrativos e não representam a operação real.</div><div class="nv-kpis"><div class="nv-kpi destaque"><span class="rotulo">Receita recorrente (MRR)</span><strong>R$ 48,6 mil</strong><span class="apoio"><b class="ok">+14%</b> no mês</span></div><div class="nv-kpi"><span class="rotulo">Lojas ativas</span><strong>214</strong><span class="apoio">37 em teste grátis</span></div><div class="nv-kpi"><span class="rotulo">Ticket médio por loja</span><strong>R$ 227</strong><span class="apoio">4,8 módulos por loja</span></div><div class="nv-kpi"><span class="rotulo">Cancelamento (churn)</span><strong>1,8%</strong><span class="apoio">ao mês</span></div></div><div class="nv-grade-lado"><div class="nv-pilha"><div class="card">
-  <div class="card-cabeca"><h2>Receita recorrente, últimos 12 meses (R$ mil)</h2></div>
-  <div class="nv-barras"><div class="col"><span class="v">6,1k</span><div class="b suave" style="height:13%"></div><span class="r">dez</span></div><div class="col"><span class="v">8,4k</span><div class="b suave" style="height:17%"></div><span class="r">jan</span></div><div class="col"><span class="v">10,2k</span><div class="b suave" style="height:21%"></div><span class="r">fev</span></div><div class="col"><span class="v">12,9k</span><div class="b suave" style="height:27%"></div><span class="r">mar</span></div><div class="col"><span class="v">15,8k</span><div class="b suave" style="height:33%"></div><span class="r">abr</span></div><div class="col"><span class="v">19,4k</span><div class="b suave" style="height:40%"></div><span class="r">mai</span></div><div class="col"><span class="v">23,1k</span><div class="b suave" style="height:48%"></div><span class="r">jun</span></div><div class="col"><span class="v">27,6k</span><div class="b suave" style="height:57%"></div><span class="r">jul</span></div><div class="col"><span class="v">31,9k</span><div class="b suave" style="height:66%"></div><span class="r">ago</span></div><div class="col"><span class="v">36,8k</span><div class="b suave" style="height:76%"></div><span class="r">set</span></div><div class="col"><span class="v">42,5k</span><div class="b suave" style="height:87%"></div><span class="r">out</span></div><div class="col"><span class="v">48,6k</span><div class="b " style="height:100%"></div><span class="r">nov</span></div></div>
+    <div class="pr-acoes nv-acoes-topo"><a class="btn-principal btn-alto" href="./master_nova_loja.html">+ Nova loja</a></div>
+  </div><div class="nv-faixa">Situação real da plataforma. A cobrança das lojas começa no lançamento.</div><div class="nv-kpis"><div class="nv-kpi destaque"><span class="rotulo">Lojas na plataforma</span><strong>5</strong><span class="apoio">1 cliente piloto + 4 demonstrações</span></div><div class="nv-kpi"><span class="rotulo">Cliente em produção</span><strong>3 meses</strong><span class="apoio">distribuidora de bebidas, todos os dias</span></div><div class="nv-kpi"><span class="rotulo">Módulos prontos</span><strong>11</strong><span class="apoio">ligados e desligados por loja</span></div><div class="nv-kpi"><span class="rotulo">Fase do projeto</span><strong>14 de 15</strong><span class="apoio">verificação antes do lançamento</span></div></div><div class="nv-grade-lado"><div class="nv-pilha"><div class="card">
+  <div class="card-cabeca"><h2>Lojas</h2><a class="link-ouro" href="./master_lojas.html">ver todas</a></div>
+  <div class="tabela-rolagem"><table class="tabela pr-tabela"><thead><tr><th>Loja</th><th>Situação</th><th>Cobrança</th></tr></thead><tbody><tr><td><div class="nv-celula-loja"><span class="nv-loja-ini" aria-hidden="true">DB</span><div><a class="pr-nome" href="#"><b>Distribuidora de bebidas</b></a><span class="small muted nv-mono">sistema dedicado</span></div></div></td><td><span class="nv-tag ok">Em produção · 3 meses</span></td><td><span class="nv-tag info">Cliente piloto</span></td></tr><tr><td><div class="nv-celula-loja"><img class="nv-logo-loja" src="./static/img/lojas/pao-dourado.png" alt=""><div><a class="pr-nome" href="./master_loja.html"><b>Padaria Pão Dourado</b></a><span class="small muted nv-mono">loja-demo.optimapdv.com.br</span></div></div></td><td><span class="nv-tag info">Demonstração</span></td><td><span class="nv-tag ">Isenta (demo)</span></td></tr><tr><td><div class="nv-celula-loja"><img class="nv-logo-loja" src="./static/img/lojas/atelie-lume.png" alt=""><div><a class="pr-nome" href="#"><b>Ateliê Lume</b></a><span class="small muted nv-mono">demo-moda.optimapdv.com.br</span></div></div></td><td><span class="nv-tag info">Demonstração</span></td><td><span class="nv-tag ">Isenta (demo)</span></td></tr><tr><td><div class="nv-celula-loja"><img class="nv-logo-loja" src="./static/img/lojas/casa-forte.png" alt=""><div><a class="pr-nome" href="#"><b>Casa Forte Materiais</b></a><span class="small muted nv-mono">demo-obra.optimapdv.com.br</span></div></div></td><td><span class="nv-tag info">Demonstração</span></td><td><span class="nv-tag ">Isenta (demo)</span></td></tr><tr><td><div class="nv-celula-loja"><img class="nv-logo-loja" src="./static/img/lojas/bom-gole.png" alt=""><div><a class="pr-nome" href="#"><b>Adega Bom Gole</b></a><span class="small muted nv-mono">adegabomgole.optimapdv.com.br</span></div></div></td><td><span class="nv-tag info">Demonstração</span></td><td><span class="nv-tag ">Isenta (demo)</span></td></tr></tbody></table></div>
 </div><div class="card">
-  <div class="card-cabeca"><h2>Lojas</h2><a class="link-ouro" href="#" data-toast="Lista completa com filtros por ramo, cobrança e módulo.">ver todas (251)</a></div>
-  <div class="tabela-rolagem"><table class="tabela pr-tabela"><thead><tr><th>Loja</th><th>Ramo</th><th class="num">Módulos</th><th>Cobrança</th><th class="num">Mensalidade</th></tr></thead><tbody><tr><td><b>Adega Bom Gole</b><div class="small muted nv-mono">bomgole.optimapdv.com.br</div></td><td>Bebidas</td><td class="num">9</td><td><span class="nv-tag ok">em dia</span></td><td class="num"><b>R$ 312,00</b></td></tr><tr><td><b>Ateliê Lume</b><div class="small muted nv-mono">atelielume.optimapdv.com.br</div></td><td>Roupas</td><td class="num">6</td><td><span class="nv-tag ok">em dia</span></td><td class="num"><b>R$ 196,00</b></td></tr><tr><td><b>Casa Forte Materiais</b><div class="small muted nv-mono">casaforte.optimapdv.com.br</div></td><td>Material de construção</td><td class="num">7</td><td><span class="nv-tag ok">em dia</span></td><td class="num"><b>R$ 254,00</b></td></tr><tr><td><b>Açaí da Praça</b><div class="small muted nv-mono">acaidapraca.optimapdv.com.br</div></td><td>Lanchonete / açaí</td><td class="num">5</td><td><span class="nv-tag info">em teste · 3 dias</span></td><td class="num">—</td></tr><tr><td><b>Mercearia São José</b><div class="small muted nv-mono">saojose.optimapdv.com.br</div></td><td>Mercearia</td><td class="num">6</td><td><span class="nv-tag aviso">carência · 2 dias</span></td><td class="num"><b>R$ 177,00</b></td></tr><tr><td><b>Hortifruti Campo Bom</b><div class="small muted nv-mono">campobom.optimapdv.com.br</div></td><td>Hortifruti</td><td class="num">5</td><td><span class="nv-tag ok">em dia</span></td><td class="num"><b>R$ 158,00</b></td></tr></tbody></table></div>
+  <div class="card-cabeca"><h2>Caminho até o lançamento</h2></div>
+  <ul class="nv-linhas"><li><span class="nv-ico">✅</span><div class="cresce"><b>Fases 1 a 13 concluídas</b><span>caixa, estoque, cobrança, cardápio, fiscal, IA, WhatsApp, inteligência e design</span></div></li><li><span class="nv-ico">🔎</span><div class="cresce"><b>Fase 14: verificação do sistema inteiro</b><span>Tiago e Lucas passando por 9 famílias de telas em 6 aparelhos</span></div><span class="nv-tag info">em andamento</span></li><li><span class="nv-ico">🚀</span><div class="cresce"><b>Lançamento</b><span>servidor de produção, domínio e HTTPS</span></div><span class="nv-tag aviso">próximo</span></li><li><span class="nv-ico">🧾</span><div class="cresce"><b>Nota fiscal na SEFAZ</b><span>emissão real com provedor homologado</span></div><span class="nv-tag aviso">próximo</span></li><li><span class="nv-ico">💬</span><div class="cresce"><b>WhatsApp oficial</b><span>Óptima como parceira de tecnologia da Meta</span></div><span class="nv-tag aviso">próximo</span></li></ul>
 </div></div><div class="nv-pilha"><div class="card">
-  <div class="card-cabeca"><h2>Lojas por ramo</h2></div>
-  <div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">Bebidas / adega</span><span><strong>64</strong> <span class="muted">· 30%</span></span></div><div class="barra fina"><span style="width:100%"></span></div></div><div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">Mercearia</span><span><strong>41</strong> <span class="muted">· 19%</span></span></div><div class="barra fina"><span style="width:64%"></span></div></div><div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">Lanchonete / açaí</span><span><strong>33</strong> <span class="muted">· 15%</span></span></div><div class="barra fina"><span style="width:52%"></span></div></div><div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">Material de construção</span><span><strong>22</strong> <span class="muted">· 10%</span></span></div><div class="barra fina"><span style="width:34%"></span></div></div><div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">Roupas e calçados</span><span><strong>19</strong> <span class="muted">· 9%</span></span></div><div class="barra fina"><span style="width:30%"></span></div></div><div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">Hortifruti / açougue</span><span><strong>18</strong> <span class="muted">· 8%</span></span></div><div class="barra fina"><span style="width:28%"></span></div></div><div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">Outros</span><span><strong>17</strong> <span class="muted">· 8%</span></span></div><div class="barra fina"><span style="width:27%"></span></div></div>
+  <div class="card-cabeca"><h2>Atalhos</h2></div>
+  <div class="nv-pilha" style="gap:10px"><a class="btn-principal" href="./master_nova_loja.html">+ Criar uma loja</a><a class="btn-secundario" href="./master_pre_cadastros.html">Pré-cadastros do site</a><a class="btn-secundario" href="./master_cobranca.html">Cobrança</a></div>
 </div><div class="card">
-  <div class="card-cabeca"><h2>Módulos mais contratados</h2></div>
-  <div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">Frente de caixa + estoque</span><span><strong>100%</strong></span></div><div class="barra fina"><span style="width:100%"></span></div></div><div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">Nota fiscal NFC-e</span><span><strong>78%</strong></span></div><div class="barra fina"><span style="width:78%"></span></div></div><div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">WhatsApp com agente de IA</span><span><strong>61%</strong></span></div><div class="barra fina"><span style="width:61%"></span></div></div><div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">Cardápio digital</span><span><strong>54%</strong></span></div><div class="barra fina"><span style="width:54%"></span></div></div><div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">Inteligência e assistente</span><span><strong>47%</strong></span></div><div class="barra fina"><span style="width:47%"></span></div></div><div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">Comandas / delivery</span><span><strong>39%</strong></span></div><div class="barra fina"><span style="width:39%"></span></div></div>
+  <div class="card-cabeca"><h2>Rotinas automáticas</h2></div>
+  <ul class="nv-linhas"><li><div class="cresce"><b>Cobrança diária</b><span>gera faturas 5 dias antes, avisa 3 dias antes, carência e só leitura</span></div><span class="nv-tag ok">ativa</span></li><li><div class="cresce"><b>Backup do banco</b><span>todo dia</span></div><span class="nv-tag ok">ativa</span></li><li><div class="cresce"><b>Limpeza do WhatsApp (LGPD)</b><span>retenção de 30/90 dias</span></div><span class="nv-tag ok">ativa</span></li><li><div class="cresce"><b>Ofertas programadas</b><span>ligam e desligam sozinhas em cada loja</span></div><span class="nv-tag ok">ativa</span></li></ul>
 </div><div class="card">
-  <div class="card-cabeca"><h2>Novos pedidos de teste (site)</h2><span class="nv-tag info">3 novos</span></div>
-  <ul class="nv-linhas"><li><span class="nv-avatar" style="background:#F97316">PD</span><div class="cresce"><b>Padaria Doce Trigo</b><span>Mercearia · veio do site (Instagram) · hoje 11:20</span></div><button type="button" class="nv-btn-mini cheio" data-toast="Loja criada pelo assistente: endereço, módulos e usuário admin. O teste de 5 dias começou.">Criar loja</button></li><li><span class="nv-avatar" style="background:#10B981">EB</span><div class="cresce"><b>Empório da Beth</b><span>Produtos naturais · indicação · ontem</span></div><button type="button" class="nv-btn-mini cheio" data-toast="Loja criada. O teste de 5 dias começou.">Criar loja</button></li><li><span class="nv-avatar" style="background:#6366F1">DM</span><div class="cresce"><b>Distribuidora Mais Gelo</b><span>Bebidas · veio do site (Google) · ontem</span></div><button type="button" class="nv-btn-mini cheio" data-toast="Loja criada. O teste de 5 dias começou.">Criar loja</button></li></ul>
-</div><div class="card">
-  <div class="card-cabeca"><h2>Saúde da plataforma</h2></div>
-  <ul class="nv-linhas"><li><span class="nv-ico">🟢</span><div class="cresce"><b>Disponibilidade 99,97%</b><span>últimos 30 dias</span></div></li><li><span class="nv-ico">🔐</span><div class="cresce"><b>Dados isolados por loja</b><span>teste de vazamento em todas as tabelas</span></div></li><li><span class="nv-ico">💾</span><div class="cresce"><b>Backup diário</b><span>último hoje 03:00</span></div></li></ul>
+  <div class="card-cabeca"><h2>Pendências agora</h2></div>
+  <div class="nv-vazio"><div class="ic">✨</div><b>Nada pendente</b>0 chamados abertos · 0 operações com falha · 0 pré-cadastros</div>
 </div></div></div>
 </div>
         </main>

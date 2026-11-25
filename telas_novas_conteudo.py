@@ -1115,73 +1115,6 @@ def tela_plano() -> str:
     return pagina("nv-plano", corpo)
 
 
-# ----------------------------------------------------------------------------------------------
-# 17. Painel Master (plataforma)
-# ----------------------------------------------------------------------------------------------
-def tela_master() -> str:
-    meses = [("dez", 6.1), ("jan", 8.4), ("fev", 10.2), ("mar", 12.9), ("abr", 15.8), ("mai", 19.4),
-             ("jun", 23.1), ("jul", 27.6), ("ago", 31.9), ("set", 36.8), ("out", 42.5), ("nov", 48.6)]
-    mrr = barras(meses, fmt=lambda v: f"{v:.1f}k".replace(".", ","), classe=lambda i, v: "" if i == len(meses) - 1 else "suave")
-    ramos = [("Bebidas / adega", 64), ("Mercearia", 41), ("Lanchonete / açaí", 33), ("Material de construção", 22),
-             ("Roupas e calçados", 19), ("Hortifruti / açougue", 18), ("Outros", 17)]
-    total_r = sum(v for _, v in ramos)
-    ramos_html = "".join(
-        f'<div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">{n}</span><span><strong>{v}</strong> <span class="muted">· {v / total_r * 100:.0f}%</span></span></div>'
-        f'<div class="barra fina"><span style="width:{v / ramos[0][1] * 100:.0f}%"></span></div></div>'
-        for n, v in ramos
-    )
-    lojas = tabela(
-        ["Loja", "Ramo", "Módulos", "Cobrança", "Mensalidade"],
-        [
-            ["<b>Adega Bom Gole</b><div class=\"small muted nv-mono\">bomgole.optimapdv.com.br</div>", "Bebidas", "9", tag("ok", "em dia"), "<b>R$ 312,00</b>"],
-            ["<b>Ateliê Lume</b><div class=\"small muted nv-mono\">atelielume.optimapdv.com.br</div>", "Roupas", "6", tag("ok", "em dia"), "<b>R$ 196,00</b>"],
-            ["<b>Casa Forte Materiais</b><div class=\"small muted nv-mono\">casaforte.optimapdv.com.br</div>", "Material de construção", "7", tag("ok", "em dia"), "<b>R$ 254,00</b>"],
-            ["<b>Açaí da Praça</b><div class=\"small muted nv-mono\">acaidapraca.optimapdv.com.br</div>", "Lanchonete / açaí", "5", tag("info", "em teste · 3 dias"), "—"],
-            ["<b>Mercearia São José</b><div class=\"small muted nv-mono\">saojose.optimapdv.com.br</div>", "Mercearia", "6", tag("aviso", "carência · 2 dias"), "<b>R$ 177,00</b>"],
-            ["<b>Hortifruti Campo Bom</b><div class=\"small muted nv-mono\">campobom.optimapdv.com.br</div>", "Hortifruti", "5", tag("ok", "em dia"), "<b>R$ 158,00</b>"],
-        ],
-        (2, 4),
-    )
-    pre = (
-        '<ul class="nv-linhas">'
-        '<li><span class="nv-avatar" style="background:#F97316">PD</span><div class="cresce"><b>Padaria Doce Trigo</b><span>Mercearia · veio do site (Instagram) · hoje 11:20</span></div>' + btn("Criar loja", "nv-btn-mini cheio", "Loja criada pelo assistente: endereço, módulos e usuário admin. O teste de 5 dias começou.") + "</li>"
-        '<li><span class="nv-avatar" style="background:#10B981">EB</span><div class="cresce"><b>Empório da Beth</b><span>Produtos naturais · indicação · ontem</span></div>' + btn("Criar loja", "nv-btn-mini cheio", "Loja criada. O teste de 5 dias começou.") + "</li>"
-        '<li><span class="nv-avatar" style="background:#6366F1">DM</span><div class="cresce"><b>Distribuidora Mais Gelo</b><span>Bebidas · veio do site (Google) · ontem</span></div>' + btn("Criar loja", "nv-btn-mini cheio", "Loja criada. O teste de 5 dias começou.") + "</li>"
-        "</ul>"
-    )
-    modulos = "".join(
-        f'<div class="rl-top"><div class="rl-top-linha"><span class="rl-forte">{n}</span><span><strong>{v}%</strong></span></div>'
-        f'<div class="barra fina"><span style="width:{v}%"></span></div></div>'
-        for n, v in [("Frente de caixa + estoque", 100), ("Nota fiscal NFC-e", 78), ("WhatsApp com agente de IA", 61),
-                     ("Cardápio digital", 54), ("Inteligência e assistente", 47), ("Comandas / delivery", 39)]
-    )
-    corpo = (
-        topo("Painel Master", "A visão da plataforma: todas as lojas, receita recorrente, cobrança, módulos e novos clientes. Cada loja com a sua marca e os dados isolados.",
-             btn("+ Nova loja", "btn-principal btn-alto", "Assistente de criação: nome, endereço, ramo, módulos e usuário admin."))
-        + '<div class="nv-faixa aviso">⚠ <b>Dados fictícios de demonstração</b>: os números desta tela são ilustrativos e não representam a operação real.</div>'
-        + kpis([
-            ("Receita recorrente (MRR)", "R$ 48,6 mil", "<b class=\"ok\">+14%</b> no mês"),
-            ("Lojas ativas", "214", "37 em teste grátis"),
-            ("Ticket médio por loja", "R$ 227", "4,8 módulos por loja"),
-            ("Cancelamento (churn)", "1,8%", "ao mês"),
-        ])
-        + '<div class="nv-grade-lado"><div class="nv-pilha">'
-        + card("Receita recorrente, últimos 12 meses (R$ mil)", mrr)
-        + card("Lojas", lojas,
-               '<a class="link-ouro" href="#" data-toast="Lista completa com filtros por ramo, cobrança e módulo.">ver todas (251)</a>')
-        + "</div><div class=\"nv-pilha\">"
-        + card("Lojas por ramo", ramos_html)
-        + card("Módulos mais contratados", modulos)
-        + card("Novos pedidos de teste (site)", pre, tag("info", "3 novos"))
-        + card("Saúde da plataforma", '<ul class="nv-linhas">'
-               '<li><span class="nv-ico">🟢</span><div class="cresce"><b>Disponibilidade 99,97%</b><span>últimos 30 dias</span></div></li>'
-               '<li><span class="nv-ico">🔐</span><div class="cresce"><b>Dados isolados por loja</b><span>teste de vazamento em todas as tabelas</span></div></li>'
-               '<li><span class="nv-ico">💾</span><div class="cresce"><b>Backup diário</b><span>último hoje 03:00</span></div></li></ul>')
-        + "</div></div>"
-    )
-    return pagina("nv-master", corpo)
-
-
 PAGINAS = {
     "comandas.html": ("Comandas e mesas", tela_comandas()),
     "cozinha.html": ("Cozinha / Bar", tela_cozinha()),
@@ -1199,5 +1132,4 @@ PAGINAS = {
     "identidade.html": ("Identidade da marca", tela_identidade()),
     "minha_pagina.html": ("Minha página", tela_minha_pagina()),
     "plano.html": ("Plano e módulos", tela_plano()),
-    "master.html": ("Painel Master", tela_master()),
 }

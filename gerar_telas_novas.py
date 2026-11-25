@@ -22,6 +22,7 @@ MOLDE = TELAS / "patrimonio.html"
 
 sys.path.insert(0, str(DEMO_DIR))
 from telas_novas_conteudo import PAGINAS  # noqa: E402
+from telas_master_conteudo import PAGINAS_MASTER  # noqa: E402
 
 
 # ----------------------------------------------------------------------------------------------
@@ -165,11 +166,116 @@ def montar_nav() -> str:
             '                <span class="label">Tour guiado</span>\n'
             "              </button>",
         ]),
-
-        secao("Óptima"),
-        link("master.html", "Painel Master", "master", "Visão da plataforma: todas as lojas", novo=True),
     ]
     return '<nav class="side-nav">\n          ' + "\n\n          ".join(partes) + "\n        </nav>"
+
+
+ICONES["megafone"] = '<path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>'
+ICONES["mais"] = '<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>'
+ICONES["auditoria"] = '<path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/>'
+
+
+def montar_nav_master() -> str:
+    partes = [
+        secao("Plataforma"),
+        link("master.html", "Visão geral", "painel"),
+        secao("Lojas"),
+        link("master_lojas.html", "Lojas", "loja", ativo_arquivos="master_loja"),
+        link("master_nova_loja.html", "Nova loja", "mais"),
+        link("master_pre_cadastros.html", "Pré-cadastros", "clientes", "Pedidos de teste do site"),
+        secao("Comercial"),
+        link("master_site.html", "Site de vendas", "pagina"),
+        link("master_novidades.html", "Novidades", "megafone", "Novidades publicadas para as lojas"),
+        link("master_cobranca.html", "Cobrança", "plano", ativo_arquivos="master_precos"),
+        secao("Serviços das lojas"),
+        link("master_whatsapp.html", "WhatsApp das lojas", "whatsapp"),
+        link("master_ia.html", "IA das lojas", "assistente"),
+        secao("Operação"),
+        link("master_chamados.html", "Chamados", "suporte"),
+        link("master_operacoes.html", "Operações", "sistema"),
+        link("master_auditoria.html", "Auditoria", "auditoria"),
+        link("master_equipe.html", "Equipe Óptima", "usuarios"),
+        secao("Demonstração"),
+        link("painel.html", "Abrir uma loja", "vender", "Sistema de uma loja (Adega Bom Gole)"),
+    ]
+    return '<nav class="side-nav">\n          ' + "\n\n          ".join(partes) + "\n        </nav>"
+
+
+def converter_para_master(html: str, nav_master: str) -> str:
+    """Troca o menu, a marca e o usuário do molde da loja pelos da equipe Óptima."""
+    html = html.replace('<html lang="pt-br">', '<html lang="pt-br" data-sem-marca>', 1)
+    html = NAV_RE.sub(lambda _m: nav_master, html, count=1)
+    html = re.sub(r'<img class="side-mark"[^>]*>\s*<span class="side-name">[^<]*</span>',
+                  '<span class="nv-simbolo-optima" aria-hidden="true">Ó</span>\n          '
+                  '<span class="side-name">Óptima<span class="nv-selo-master">Master</span></span>', html, count=1)
+    html = html.replace('title="Carlos Eduardo (Proprietário) · Super admin"', 'title="Tiago · Equipe Óptima"')
+    html = html.replace('<span class="side-avatar" aria-hidden="true">C(</span>', '<span class="side-avatar" aria-hidden="true">T</span>')
+    html = html.replace('<span class="side-usuario-nome">Carlos Eduardo (Proprietário)</span>', '<span class="side-usuario-nome">Tiago</span>')
+    html = html.replace('<span class="side-usuario-papel">Super admin</span>', '<span class="side-usuario-papel">Equipe Óptima · admin</span>')
+    html = html.replace('href="./minha_conta.html" class="side-usuario-item"', 'href="./master_equipe.html" class="side-usuario-item"')
+    html = html.replace('<a href="./login.html" class="side-usuario-item side-sair"', '<a href="./master_entrar.html" class="side-usuario-item side-sair"')
+    html = re.sub(r'\s*<a class="ajuda-contexto"[^>]*>\?</a>', "", html, count=1)
+    return html
+
+
+ENTRAR_MASTER = """<!doctype html>
+<html lang="pt-br" data-sem-marca>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Óptima Master · Entrar</title>
+<link rel="icon" href="./static/img/favicon.ico" sizes="any">
+<link rel="stylesheet" href="./static/style.css">
+<link rel="stylesheet" href="./static/novos.css">
+<script>try{var _t=localStorage.getItem('tema');if(_t==='dark'||_t==='light')document.documentElement.setAttribute('data-theme',_t);}catch(e){}</script>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--bg); padding: 16px; }
+  .entrar { width: min(420px, 100%); background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 32px; box-shadow: 0 20px 60px rgba(15,23,42,.12); }
+  .entrar .topo-marca { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; margin-bottom: 22px; }
+  .entrar h1 { font-size: 24px; margin: 0 0 6px; }
+  .entrar p { color: var(--muted); margin: 0 0 20px; font-size: 15px; }
+  .entrar .btn-principal { width: 100%; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <main class="entrar">
+    <div class="topo-marca"><span class="nv-simbolo-optima" style="width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#0D6EFD,#3B82F6);color:#fff">Ó</span>Óptima Master</div>
+    <section id="passo-senha">
+      <h1>Entrar no Master</h1>
+      <p>Área da equipe Óptima. As lojas entram pelo endereço de cada uma.</p>
+      <form class="nv-form" id="form-senha">
+        <label>E-mail<input type="email" value="tiago@optimati.com.br" autocomplete="username"></label>
+        <label>Senha<input type="password" value="demonstracao" autocomplete="current-password"></label>
+        <button class="btn-principal btn-alto" type="submit">Continuar</button>
+      </form>
+    </section>
+    <section id="passo-mfa" hidden>
+      <h1>Verificação em duas etapas</h1>
+      <p>Digite o código de 6 números do seu aplicativo autenticador. Na demonstração, qualquer código entra.</p>
+      <form id="form-mfa">
+        <div class="nv-mfa">
+          <input inputmode="numeric" maxlength="1" aria-label="Dígito 1" value="4"><input inputmode="numeric" maxlength="1" aria-label="Dígito 2" value="8">
+          <input inputmode="numeric" maxlength="1" aria-label="Dígito 3" value="1"><input inputmode="numeric" maxlength="1" aria-label="Dígito 4" value="0">
+          <input inputmode="numeric" maxlength="1" aria-label="Dígito 5" value="9"><input inputmode="numeric" maxlength="1" aria-label="Dígito 6" value="2">
+        </div>
+        <button class="btn-principal btn-alto" type="submit" style="width:100%;margin-top:20px">Entrar</button>
+      </form>
+    </section>
+  </main>
+  <script>
+    document.getElementById('form-senha').addEventListener('submit', function (e) {
+      e.preventDefault();
+      document.getElementById('passo-senha').hidden = true;
+      document.getElementById('passo-mfa').hidden = false;
+    });
+    document.getElementById('form-mfa').addEventListener('submit', function (e) {
+      e.preventDefault();
+      location.href = './master.html';
+    });
+  </script>
+</body>
+</html>
+"""
 
 
 NAV_RE = re.compile(r'<nav class="side-nav">.*?</nav>', re.S)
@@ -214,10 +320,20 @@ def main() -> None:
         (TELAS / arquivo).write_text(html, encoding="utf-8")
         print(f"  + {arquivo}")
 
-    # 2) Menu novo + marca em todas as telas existentes
+    # 2) Área Master (equipe Óptima): menu, marca e usuário próprios, sem White Label
+    nav_master = montar_nav_master()
+    for arquivo, (titulo, conteudo) in PAGINAS_MASTER.items():
+        html = antes + f"<title>{titulo}</title>" + meio + conteudo + "\n" + depois
+        html = incluir_ativos(html)
+        html = converter_para_master(html, nav_master)
+        (TELAS / arquivo).write_text(html, encoding="utf-8")
+        print(f"  + {arquivo} (Master)")
+    (TELAS / "master_entrar.html").write_text(ENTRAR_MASTER, encoding="utf-8")
+
+    # 3) Menu novo + marca em todas as telas existentes da loja
     alteradas = 0
     for pagina in sorted(TELAS.glob("*.html")):
-        if pagina.name in PAGINAS:
+        if pagina.name in PAGINAS or pagina.name.startswith("master"):
             continue
         html = pagina.read_text(encoding="utf-8")
         novo = NAV_RE.sub(lambda _m: nav, html, count=1)

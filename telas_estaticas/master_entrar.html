@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-br" data-sem-marca>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Óptima Master · Entrar</title>
+<link rel="icon" href="./static/img/favicon.ico" sizes="any">
+<link rel="stylesheet" href="./static/style.css">
+<link rel="stylesheet" href="./static/novos.css">
+<script>try{var _t=localStorage.getItem('tema');if(_t==='dark'||_t==='light')document.documentElement.setAttribute('data-theme',_t);}catch(e){}</script>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--bg); padding: 16px; }
+  .entrar { width: min(420px, 100%); background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 32px; box-shadow: 0 20px 60px rgba(15,23,42,.12); }
+  .entrar .topo-marca { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; margin-bottom: 22px; }
+  .entrar h1 { font-size: 24px; margin: 0 0 6px; }
+  .entrar p { color: var(--muted); margin: 0 0 20px; font-size: 15px; }
+  .entrar .btn-principal { width: 100%; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <main class="entrar">
+    <div class="topo-marca"><span class="nv-simbolo-optima" style="width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#0D6EFD,#3B82F6);color:#fff">Ó</span>Óptima Master</div>
+    <section id="passo-senha">
+      <h1>Entrar no Master</h1>
+      <p>Área da equipe Óptima. As lojas entram pelo endereço de cada uma.</p>
+      <form class="nv-form" id="form-senha">
+        <label>E-mail<input type="email" value="tiago@optimati.com.br" autocomplete="username"></label>
+        <label>Senha<input type="password" value="demonstracao" autocomplete="current-password"></label>
+        <button class="btn-principal btn-alto" type="submit">Continuar</button>
+      </form>
+    </section>
+    <section id="passo-mfa" hidden>
+      <h1>Verificação em duas etapas</h1>
+      <p>Digite o código de 6 números do seu aplicativo autenticador. Na demonstração, qualquer código entra.</p>
+      <form id="form-mfa">
+        <div class="nv-mfa">
+          <input inputmode="numeric" maxlength="1" aria-label="Dígito 1" value="4"><input inputmode="numeric" maxlength="1" aria-label="Dígito 2" value="8">
+          <input inputmode="numeric" maxlength="1" aria-label="Dígito 3" value="1"><input inputmode="numeric" maxlength="1" aria-label="Dígito 4" value="0">
+          <input inputmode="numeric" maxlength="1" aria-label="Dígito 5" value="9"><input inputmode="numeric" maxlength="1" aria-label="Dígito 6" value="2">
+        </div>
+        <button class="btn-principal btn-alto" type="submit" style="width:100%;margin-top:20px">Entrar</button>
+      </form>
+    </section>
+  </main>
+  <script>
+    document.getElementById('form-senha').addEventListener('submit', function (e) {
+      e.preventDefault();
+      document.getElementById('passo-senha').hidden = true;
+      document.getElementById('passo-mfa').hidden = false;
+    });
+    document.getElementById('form-mfa').addEventListener('submit', function (e) {
+      e.preventDefault();
+      location.href = './master.html';
+    });
+  </script>
+</body>
+</html>
