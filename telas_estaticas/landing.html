@@ -135,6 +135,18 @@
   .grade-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
   .cartao { background: var(--surface); border: 1px solid var(--line); border-radius: var(--raio); padding: 28px; }
   .cartao p { margin: 0; color: var(--text-2); font-size: 16px; }
+  /* Três forças: painel de destaque da dor */
+  .forcas { margin-top: 88px; padding: clamp(28px, 5vw, 56px); border-radius: 24px;
+    background: linear-gradient(140deg, color-mix(in srgb, var(--acao) 14%, var(--surface)), var(--surface) 70%);
+    border: 1px solid color-mix(in srgb, var(--acao) 35%, var(--line)); }
+  .forcas .cabeca-secao { margin-bottom: 36px; }
+  .forcas h2 { font-size: clamp(34px, 4.6vw, 56px); margin-bottom: 12px; }
+  .forcas .apoio { font-size: clamp(18px, 1.8vw, 22px); color: var(--text); font-weight: 600; }
+  .forcas .cartao { border-top: 4px solid var(--c); padding: 32px; }
+  .forcas .ico-tile { width: 56px; height: 56px; border-radius: 14px; }
+  .forcas .ico-tile .ic { width: 28px; height: 28px; }
+  .forcas h3 { font-size: 22px; margin: 0 0 8px; }
+  .forcas .cartao p { font-size: 17px; }
   @media (max-width: 900px) { .grade-3 { grid-template-columns: 1fr; } }
 
   /* ---------- Produto (3 vantagens) ---------- */
@@ -469,14 +481,16 @@
         <div class="cartao"><span class="ico-tile c-laranja" aria-hidden="true"><svg class="ic"><use href="#i-olho-off"/></svg></span><h3>Decisão no escuro</h3><p>Fiado no caderno, lucro “no olho” e compra feita por intuição, sem saber o que vende em cada dia e horário.</p></div>
       </div>
 
-      <div class="cabeca-secao" style="margin:88px 0 40px">
-        <h2>Três forças aceleram a troca.</h2>
-        <p class="apoio">Os sistemas antigos, instalados no computador da loja, não foram feitos para isso: não se adaptam à nova nota, não atendem no WhatsApp e não têm IA.</p>
-      </div>
-      <div class="grade-3">
-        <div class="cartao"><span class="ico-tile c-azul" aria-hidden="true"><svg class="ic"><use href="#i-balanca"/></svg></span><h3>Reforma Tributária</h3><p>Sistemas antigos exigem troca imediata.</p></div>
-        <div class="cartao"><span class="ico-tile c-verde" aria-hidden="true"><svg class="ic"><use href="#i-zap"/></svg></span><h3>WhatsApp é o Balcão</h3><p>Atendimento instantâneo 24 horas.</p></div>
-        <div class="cartao"><span class="ico-tile c-roxo" aria-hidden="true"><svg class="ic"><use href="#i-chip"/></svg></span><h3>IA Acessível</h3><p>Custo caiu para centavos mensais.</p></div>
+      <div class="forcas">
+        <div class="cabeca-secao">
+          <h2>Três forças aceleram a troca.</h2>
+          <p class="apoio">Os sistemas antigos ficaram para trás.</p>
+        </div>
+        <div class="grade-3">
+        <div class="cartao c-azul"><span class="ico-tile" aria-hidden="true"><svg class="ic"><use href="#i-balanca"/></svg></span><h3>Reforma Tributária</h3><p>Sistemas antigos exigem troca imediata.</p></div>
+        <div class="cartao c-verde"><span class="ico-tile" aria-hidden="true"><svg class="ic"><use href="#i-zap"/></svg></span><h3>WhatsApp é o Balcão</h3><p>Atendimento instantâneo 24 horas.</p></div>
+        <div class="cartao c-roxo"><span class="ico-tile" aria-hidden="true"><svg class="ic"><use href="#i-chip"/></svg></span><h3>IA Acessível</h3><p>Custo caiu para centavos mensais.</p></div>
+        </div>
       </div>
     </div>
   </section>
