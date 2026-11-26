@@ -106,7 +106,6 @@
   .problema { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .grade-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
   .cartao { background: var(--surface); border: 1px solid var(--line); border-radius: var(--raio); padding: 28px; }
-  .cartao .ico { font-size: 28px; margin-bottom: 14px; display: block; }
   .cartao p { margin: 0; color: var(--text-2); font-size: 16px; }
   @media (max-width: 900px) { .grade-3 { grid-template-columns: 1fr; } }
 
@@ -296,11 +295,37 @@
   .vista span { font-size: 14px; line-height: 1.45; display: block; }
   .vista[aria-selected="true"] { background: var(--surface); border-color: var(--blue-claro); box-shadow: inset 3px 0 0 var(--blue-claro); }
   .vistas-extra { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 8px; font-size: 14px; color: var(--muted); }
-  .vistas-extra li::before { content: "✓ "; color: var(--ok); font-weight: 800; }
+  .vistas-extra li { display: flex; gap: 10px; align-items: center; }
+  .vistas-extra li::before { content: ""; flex: none; width: 16px; height: 16px; background: var(--ok);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center / contain no-repeat; }
   .master-tela img { transition: opacity .25s; }
   @media (max-width: 980px) { .master-grade { grid-template-columns: 1fr; } .master-kpis { grid-template-columns: 1fr 1fr; } }
 
+  /* Ícones em quadro (substituem os emojis) */
+  .ico-tile { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 18px; color: var(--c);
+    background: color-mix(in srgb, var(--c) 13%, transparent); border: 1px solid color-mix(in srgb, var(--c) 30%, transparent); }
+  .ico-tile .ic { width: 24px; height: 24px; }
+  .seta { width: 1em; height: 1em; vertical-align: -0.15em; margin-left: 6px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform .15s; }
+  a:hover > .seta { transform: translateX(3px); }
+  .bolha-in .ic { width: 16px; height: 16px; vertical-align: -3px; margin-right: 6px; color: var(--muted); }
+  .marco .quando { display: flex; align-items: center; gap: 8px; height: 22px; }
+  .marco .quando .ic { width: 18px; height: 18px; stroke-width: 2.2; }
+  .ponto-vivo { width: 9px; height: 9px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 0 currentColor; animation: pulsa 2s infinite; }
+  @keyframes pulsa { 0% { box-shadow: 0 0 0 0 rgba(96,165,250,.6); } 70% { box-shadow: 0 0 0 8px rgba(96,165,250,0); } 100% { box-shadow: 0 0 0 0 rgba(96,165,250,0); } }
+
+  /* Voltar ao topo */
+  .topo-btn { position: fixed; right: 24px; bottom: 24px; z-index: 30; width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center;
+    background: var(--surface-2); color: var(--text); border: 1px solid #334155; box-shadow: 0 12px 30px rgba(0,0,0,.45); cursor: pointer;
+    opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .2s, transform .2s, background .15s, border-color .15s; }
+  .topo-btn.ver { opacity: 1; transform: none; pointer-events: auto; }
+  .topo-btn:hover { background: var(--blue); border-color: var(--blue); }
+  .topo-btn:focus-visible { outline: 2px solid var(--blue-claro); outline-offset: 3px; }
+  .topo-btn .ic { width: 22px; height: 22px; stroke-width: 2.2; }
+  @media (max-width: 640px) { .topo-btn { right: 16px; bottom: 16px; width: 44px; height: 44px; } }
+
   @media (prefers-reduced-motion: reduce) {
+    .ponto-vivo { animation: none; } .topo-btn { transition: none; }
     html { scroll-behavior: auto; } * { transition: none !important; }
     .hub-linhas .fluxo { animation: none; } .rodando .passo { animation: none; }
   }
@@ -309,6 +334,28 @@
     <script src="./static/marca.js?v=4d14148f"></script>
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-caixa" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M20 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20l1.1-4.3A8.5 8.5 0 1 1 20 11.5z"/><path d="M9 9.5c.3 2 2.3 4.2 4.6 4.6"/></symbol>
+    <symbol id="i-nota" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
+    <symbol id="i-pix" viewBox="0 0 24 24"><path d="M12 2.5l9.5 9.5-9.5 9.5L2.5 12z"/><path d="M8 12l4-4 4 4-4 4z"/></symbol>
+    <symbol id="i-moto" viewBox="0 0 24 24"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h6l-2-6H8M14 6h3l1 4M18 14l-3-4"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+    <symbol id="i-ia" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12.5l2.7 2.7L16 9.5"/></symbol>
+    <symbol id="i-off" viewBox="0 0 24 24"><path d="M2 8.5a15 15 0 0 1 4-2.6M10 5.1A15 15 0 0 1 22 8.5M5 12.5a10 10 0 0 1 3.5-2M15 10.7a10 10 0 0 1 4 1.8M8.5 16a5 5 0 0 1 7 0M12 20h.01M3 3l18 18"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 8.5a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 20h.01"/></symbol>
+    <symbol id="i-balanca" viewBox="0 0 24 24"><path d="M12 3v18M7 21h10M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/><path d="M16 16l3-8 3 8c-.9.6-1.9 1-3 1s-2.1-.4-3-1zM2 16l3-8 3 8c-.9.6-1.9 1-3 1s-2.1-.4-3-1z"/></symbol>
+    <symbol id="i-chip" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></symbol>
+    <symbol id="i-desliga" viewBox="0 0 24 24"><path d="M18.8 12.3l1.7-1.7a5 5 0 0 0-7.1-7.1l-1.7 1.7M5.2 11.7l-1.7 1.7a5 5 0 0 0 7.1 7.1l1.7-1.7M8 2v3M2 8h3M16 19v3M19 16h3"/></symbol>
+    <symbol id="i-celular" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/><circle cx="17.5" cy="6.5" r="3" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-olho-off" viewBox="0 0 24 24"><path d="M10.7 5.1A10.7 10.7 0 0 1 21.9 11.7a1 1 0 0 1 0 .7 10.7 10.7 0 0 1-1.4 2.5M14.1 14.2a3 3 0 0 1-4.2-4.2M17.5 17.5A10.7 10.7 0 0 1 2.1 12.3a1 1 0 0 1 0-.7 10.7 10.7 0 0 1 4.4-5.1M2 2l20 20"/></symbol>
+    <symbol id="i-seta" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-baixar" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+    <symbol id="i-subir" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+    <symbol id="i-feito" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></symbol>
+    <symbol id="i-nuvem" viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 1-9.9A6 6 0 0 1 19.5 10 4 4 0 0 1 18 18z"/><path d="M9.5 13.5l2 2 3.5-3.5"/></symbol>
+  </svg>
 
 <header class="topo">
   <div class="wrap">
@@ -335,7 +382,7 @@
         <h1>O sistema que faz o pequeno comércio <em>vender, atender e decidir</em> sozinho.</h1>
         <p class="apoio">Caixa, estoque, nota fiscal, WhatsApp com IA e delivery numa só plataforma, que cada loja usa com a própria marca.</p>
         <div class="acoes">
-          <a class="btn btn-acao" href="./painel.html">Ver a demo ao vivo →</a>
+          <a class="btn btn-acao" href="./painel.html">Ver a demo ao vivo<svg class="seta" aria-hidden="true"><use href="#i-seta"/></svg></a>
           <a class="link" href="#conversar">Falar com os fundadores</a>
         </div>
         <div class="numeros">
@@ -350,8 +397,8 @@
           <img src="./static/img/landing/painel.jpg" width="1440" height="900" alt="Painel da loja no Óptima PDV, com faturamento do dia, lucro, gráfico dos últimos 7 dias e o menu com todos os módulos">
         </div>
         <div class="flutuante" aria-label="Exemplo de atendimento do agente de IA no WhatsApp">
-          <div class="bolha-in">🎤 “manda dois fardos de Heineken e dois gelos de 5 quilos, é pra entregar aqui em casa”</div>
-          <div class="bolha"><span class="quem">Agente de IA</span><br>Fechado! 2 fardos Heineken + 2 gelos 5kg, entrega na Qd. 12. Total R$ 172,80. Segue o Pix 👇</div>
+          <div class="bolha-in"><svg class="ic" aria-hidden="true"><use href="#i-mic"/></svg>“manda dois fardos de Heineken e dois gelos de 5 quilos, é pra entregar aqui em casa”</div>
+          <div class="bolha"><span class="quem">Agente de IA</span><br>Fechado! 2 fardos Heineken + 2 gelos 5kg, entrega na Qd. 12. Total R$ 172,80. Segue o Pix.</div>
         </div>
       </div>
     </div>
@@ -366,9 +413,9 @@
         <p class="apoio">E o dono passa o dia apagando incêndio em vez de vender.</p>
       </div>
       <div class="grade-3">
-        <div class="cartao"><span class="ico" aria-hidden="true">🧾</span><h3>Caixa de um lado, estoque do outro</h3><p>O sistema de caixa não sabe o que está acabando, e a nota fiscal sai num terceiro programa.</p></div>
-        <div class="cartao"><span class="ico" aria-hidden="true">📱</span><h3>Pedidos no WhatsApp pessoal</h3><p>O dono responde cliente de madrugada, anota pedido no papel e perde venda quando não vê a mensagem.</p></div>
-        <div class="cartao"><span class="ico" aria-hidden="true">📒</span><h3>Decisão no escuro</h3><p>Fiado no caderno, lucro “no olho” e compra feita por intuição, sem saber o que vende em cada dia e horário.</p></div>
+        <div class="cartao"><span class="ico-tile c-laranja" aria-hidden="true"><svg class="ic"><use href="#i-desliga"/></svg></span><h3>Caixa de um lado, estoque do outro</h3><p>O sistema de caixa não sabe o que está acabando, e a nota fiscal sai num terceiro programa.</p></div>
+        <div class="cartao"><span class="ico-tile c-laranja" aria-hidden="true"><svg class="ic"><use href="#i-celular"/></svg></span><h3>Pedidos no WhatsApp pessoal</h3><p>O dono responde cliente de madrugada, anota pedido no papel e perde venda quando não vê a mensagem.</p></div>
+        <div class="cartao"><span class="ico-tile c-laranja" aria-hidden="true"><svg class="ic"><use href="#i-olho-off"/></svg></span><h3>Decisão no escuro</h3><p>Fiado no caderno, lucro “no olho” e compra feita por intuição, sem saber o que vende em cada dia e horário.</p></div>
       </div>
     </div>
   </section>
@@ -391,7 +438,7 @@
             <li><span><b>Cardápio digital e página da loja:</b> pedido pelo celular, QR na mesa e link na bio</span></li>
             <li><span><b>Campanhas e fidelidade:</b> cashback, cartão fidelidade e mensagem na hora certa</span></li>
           </ul>
-          <a class="link" href="./whatsapp.html">Ver o WhatsApp na demo →</a>
+          <a class="link" href="./whatsapp.html">Ver o WhatsApp na demo<svg class="seta" aria-hidden="true"><use href="#i-seta"/></svg></a>
         </div>
         <div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>/whatsapp</span></div>
           <img src="./static/img/landing/whatsapp.jpg" width="1440" height="900" loading="lazy" alt="Tela de conversas do WhatsApp com o agente de IA montando um pedido"></div>
@@ -406,7 +453,7 @@
             <li><span><b>Delivery, comandas e cozinha:</b> pedidos de todos os canais num só quadro</span></li>
             <li><span><b>Estoque, nota fiscal e fluxo de caixa:</b> lotes, validade, NFC-e automática e o dinheiro dos próximos 30 dias</span></li>
           </ul>
-          <a class="link" href="./delivery.html">Ver o delivery na demo →</a>
+          <a class="link" href="./delivery.html">Ver o delivery na demo<svg class="seta" aria-hidden="true"><use href="#i-seta"/></svg></a>
         </div>
         <div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>/delivery</span></div>
           <img src="./static/img/landing/delivery.jpg" width="1440" height="900" loading="lazy" alt="Quadro de pedidos de delivery com colunas novos, separando, em rota e entregues"></div>
@@ -421,7 +468,7 @@
             <li><span><b>Sugestões para aprovar:</b> reposição, combo, oferta programada e escala, com um clique</span></li>
             <li><span><b>Assistente de IA:</b> o dono pergunta em português e recebe a resposta com os números da loja</span></li>
           </ul>
-          <a class="link" href="./inteligencia.html">Ver a inteligência na demo →</a>
+          <a class="link" href="./inteligencia.html">Ver a inteligência na demo<svg class="seta" aria-hidden="true"><use href="#i-seta"/></svg></a>
         </div>
         <div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>/inteligencia</span></div>
           <img src="./static/img/landing/inteligencia.jpg" width="1440" height="900" loading="lazy" alt="Tela de inteligência com mapa de calor de vendas, clima e sugestões"></div>
@@ -430,19 +477,6 @@
   </section>
 
   <!-- 3b. Como funciona (diagramas) -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <symbol id="i-caixa" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
-    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M20 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20l1.1-4.3A8.5 8.5 0 1 1 20 11.5z"/><path d="M9 9.5c.3 2 2.3 4.2 4.6 4.6"/></symbol>
-    <symbol id="i-nota" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
-    <symbol id="i-pix" viewBox="0 0 24 24"><path d="M12 2.5l9.5 9.5-9.5 9.5L2.5 12z"/><path d="M8 12l4-4 4 4-4 4z"/></symbol>
-    <symbol id="i-moto" viewBox="0 0 24 24"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h6l-2-6H8M14 6h3l1 4M18 14l-3-4"/></symbol>
-    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
-    <symbol id="i-ia" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol>
-    <symbol id="i-check" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12.5l2.7 2.7L16 9.5"/></symbol>
-    <symbol id="i-off" viewBox="0 0 24 24"><path d="M2 8.5a15 15 0 0 1 4-2.6M10 5.1A15 15 0 0 1 22 8.5M5 12.5a10 10 0 0 1 3.5-2M15 10.7a10 10 0 0 1 4 1.8M8.5 16a5 5 0 0 1 7 0M12 20h.01M3 3l18 18"/></symbol>
-    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 8.5a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 20h.01"/></symbol>
-    <symbol id="i-nuvem" viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 1-9.9A6 6 0 0 1 19.5 10 4 4 0 0 1 18 18z"/><path d="M9.5 13.5l2 2 3.5-3.5"/></symbol>
-  </svg>
 
   <section class="diagramas" id="como-funciona">
     <div class="wrap">
@@ -533,7 +567,7 @@
       </div>
       <div class="nicho-rodape">
         <span class="muted">Ateliê Lume, Casa Forte e Pão Dourado são lojas de demonstração da plataforma, com logo e produtos próprios. Números ilustrativos.</span>
-        <a class="link" href="./identidade.html">Testar o White Label na demo →</a>
+        <a class="link" href="./identidade.html">Testar o White Label na demo<svg class="seta" aria-hidden="true"><use href="#i-seta"/></svg></a>
       </div>
     </div>
   </section>
@@ -564,7 +598,7 @@
             <li>Cada loja no próprio endereço</li>
             <li>Teste grátis de 5 dias direto do site</li>
           </ul>
-          <p style="margin:20px 0 0"><a class="link" href="./master.html">Ver o Painel Master na demo →</a></p>
+          <p style="margin:20px 0 0"><a class="link" href="./master.html">Ver o Painel Master na demo<svg class="seta" aria-hidden="true"><use href="#i-seta"/></svg></a></p>
         </div>
         <div class="master-tela">
           <div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span id="master-url">master.optimapdv.com.br</span></div>
@@ -602,13 +636,13 @@
       </div>
 
       <div class="cabeca-secao" style="margin:96px 0 48px">
-        <span class="rotulo">Por que agora</span>
-        <h2>Três mudanças empurram o pequeno comércio para trocar de sistema.</h2>
+        <span class="rotulo">Momento de mercado</span>
+        <h2>Três forças aceleram a troca.</h2>
       </div>
       <div class="grade-3">
-        <div class="cartao"><span class="ico" aria-hidden="true">⚖️</span><h3>Reforma tributária</h3><p>A nota fiscal ganha os campos do IBS e da CBS. Sistemas antigos precisam ser trocados ou atualizados, e o Óptima PDV já emite com eles.</p></div>
-        <div class="cartao"><span class="ico" aria-hidden="true">💬</span><h3>O WhatsApp virou o balcão</h3><p>O cliente pede pelo WhatsApp. Quem atende rápido vende mais, e um agente de IA atende 24 horas sem contratar ninguém.</p></div>
-        <div class="cartao"><span class="ico" aria-hidden="true">✨</span><h3>IA ficou barata</h3><p>O custo de uma conversa com IA caiu para centavos. Agora dá para colocar um atendente e um analista dentro de um sistema de R$ 49, em todos os planos.</p></div>
+        <div class="cartao"><span class="ico-tile c-azul" aria-hidden="true"><svg class="ic"><use href="#i-balanca"/></svg></span><h3>Reforma Tributária</h3><p>Sistemas antigos exigem troca imediata.</p></div>
+        <div class="cartao"><span class="ico-tile c-verde" aria-hidden="true"><svg class="ic"><use href="#i-zap"/></svg></span><h3>WhatsApp é o Balcão</h3><p>Atendimento instantâneo 24 horas.</p></div>
+        <div class="cartao"><span class="ico-tile c-roxo" aria-hidden="true"><svg class="ic"><use href="#i-chip"/></svg></span><h3>IA Acessível</h3><p>Custo caiu para centavos mensais.</p></div>
       </div>
     </div>
   </section>
@@ -622,9 +656,9 @@
         <p class="apoio">Uma distribuidora de bebidas usa o sistema no caixa há 3 meses: venda no balcão, estoque com lotes e validade, fiado, fechamento de caixa e o assistente de IA.</p>
       </div>
       <div class="linha">
-        <div class="marco feito"><span class="quando">✓ Em produção</span><h3 style="margin-top:8px">1ª loja usando há 3 meses</h3><p>Sistema de uma loja rodando no dia a dia de uma distribuidora de bebidas.</p></div>
-        <div class="marco agora"><span class="quando">● Agora</span><h3 style="margin-top:8px">Plataforma multi-loja</h3><p>137 telas e 13 módulos prontos, na fase final de testes antes do lançamento.</p></div>
-        <div class="marco proximo"><span class="quando">→ Próximo passo</span><h3 style="margin-top:8px">Lançamento e primeiras lojas</h3><p>Abrir o teste grátis pelo site e converter as primeiras lojas pagantes por nicho.</p></div>
+        <div class="marco feito"><span class="quando"><svg class="ic" aria-hidden="true"><use href="#i-feito"/></svg>Em produção</span><h3 style="margin-top:8px">1ª loja usando há 3 meses</h3><p>Sistema de uma loja rodando no dia a dia de uma distribuidora de bebidas.</p></div>
+        <div class="marco agora"><span class="quando"><i class="ponto-vivo" aria-hidden="true"></i>Agora</span><h3 style="margin-top:8px">Plataforma multi-loja</h3><p>137 telas e 13 módulos prontos, na fase final de testes antes do lançamento.</p></div>
+        <div class="marco proximo"><span class="quando"><svg class="ic" aria-hidden="true"><use href="#i-seta"/></svg>Próximo passo</span><h3 style="margin-top:8px">Lançamento e primeiras lojas</h3><p>Abrir o teste grátis pelo site e converter as primeiras lojas pagantes por nicho.</p></div>
       </div>
     </div>
   </section>
@@ -657,10 +691,12 @@
         <a class="btn btn-acao" href="https://wa.me/5561993129262?text=Ol%C3%A1%2C%20Tiago!%20Vi%20a%20demo%20do%20%C3%93ptima%20PDV%20e%20quero%20conversar." target="_blank" rel="noopener">Conversar com o Tiago</a>
         <a class="btn btn-fantasma" href="https://wa.me/5561981034342?text=Ol%C3%A1%2C%20Lucas!%20Vi%20a%20demo%20do%20%C3%93ptima%20PDV%20e%20quero%20conversar." target="_blank" rel="noopener">Conversar com o Lucas</a>
       </div>
-      <p style="margin-top:22px"><a class="link" href="./static/deck/Optima-PDV-Deck.pdf" download="Optima-PDV-Deck.pdf">Baixar o deck de investimento (PDF) ↓</a></p>
+      <p style="margin-top:22px"><a class="link" href="./static/deck/Optima-PDV-Deck.pdf" download="Optima-PDV-Deck.pdf">Baixar o deck de investimento (PDF)<svg class="seta" aria-hidden="true"><use href="#i-baixar"/></svg></a></p>
     </div>
   </section>
 </main>
+
+<button type="button" class="topo-btn" id="topo-btn" aria-label="Voltar ao topo" title="Voltar ao topo"><svg class="ic" aria-hidden="true"><use href="#i-subir"/></svg></button>
 
 <footer class="rodape">
   <div class="wrap">
@@ -735,6 +771,15 @@
       }, { threshold: .4 });
       obs.observe(primeiro);
     }
+  })();
+
+  /* Voltar ao topo: aparece depois da primeira dobra. */
+  (function () {
+    var b = document.getElementById("topo-btn"), parado = window.matchMedia("(prefers-reduced-motion: reduce)").matches, pedido = false;
+    function ver() { pedido = false; b.classList.toggle("ver", window.scrollY > 600); }
+    window.addEventListener("scroll", function () { if (!pedido) { pedido = true; requestAnimationFrame(ver); } }, { passive: true });
+    b.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: parado ? "auto" : "smooth" }); document.querySelector(".marca").focus({ preventScroll: true }); });
+    ver();
   })();
 
   /* Painel Master: troca a tela mostrada. */
