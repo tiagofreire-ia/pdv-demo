@@ -80,9 +80,62 @@
   .avatar { width: 120px; height: 120px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 50px; color: #fff; flex: none; }
 
   .contato { font-size: 34px; font-weight: 800; color: var(--blue-claro); }
+
+  /* Diagramas */
+  .ic { width: 34px; height: 34px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .c-azul { --c: #60A5FA; } .c-verde { --c: #34D399; } .c-laranja { --c: #F97316; } .c-roxo { --c: #A78BFA; } .c-ciano { --c: #22D3EE; }
+  .hub { position: relative; flex: 1; margin: 70px 60px 50px; }
+  .hub svg.linhas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hub .linhas path { stroke-width: 3; vector-effect: non-scaling-stroke; stroke-dasharray: 6 12; fill: none; }
+  .no { position: absolute; transform: translate(-50%, -50%); width: 470px; display: flex; gap: 20px; align-items: center;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 24px 26px; box-shadow: 0 20px 50px rgba(0,0,0,.4); }
+  .no-ico { width: 68px; height: 68px; border-radius: 18px; display: grid; place-items: center; flex: none;
+    background: color-mix(in srgb, var(--c) 16%, transparent); color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 35%, transparent); }
+  .no b { display: block; font-size: 28px; line-height: 1.2; }
+  .no small { display: block; font-size: 22px; color: var(--muted); margin-top: 4px; }
+  .no-centro { width: 420px; flex-direction: column; text-align: center; gap: 14px; padding: 40px 30px; border-radius: 32px;
+    background: linear-gradient(160deg, #13244A, #0F1A33); border-color: rgba(96,165,250,.55);
+    box-shadow: 0 0 0 12px rgba(13,110,253,.08), 0 0 120px rgba(13,110,253,.35); }
+  .no-centro .simbolo { width: 84px; height: 84px; font-size: 42px; border-radius: 22px; }
+  .no-centro .tag { font-size: 18px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--blue-claro); }
+  .no-centro b { font-size: 40px; } .no-centro small { color: var(--text-2); }
+  .sai { display: flex; gap: 14px; align-items: center; justify-content: center; }
+  .sai > span { font-size: 18px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+  .sai s { font-size: 21px; font-weight: 600; color: var(--muted); text-decoration-color: var(--acao); text-decoration-thickness: 3px;
+    padding: 8px 18px; border-radius: 999px; border: 1px dashed var(--line); }
+  .fluxo { margin-top: 34px; }
+  .fluxo-tit { display: flex; align-items: center; gap: 14px; font-size: 26px; font-weight: 800; margin-bottom: 18px; }
+  .fluxo-tit i { width: 14px; height: 14px; border-radius: 50%; }
+  .trilha { display: grid; grid-template-columns: repeat(4, 1fr); gap: 64px; }
+  .passo { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 26px 28px; display: flex; gap: 20px; align-items: center; }
+  .passo + .passo::before { content: ""; position: absolute; left: -54px; top: 50%; width: 40px; height: 3px; background: var(--c); opacity: .75; }
+  .passo + .passo::after { content: ""; position: absolute; left: -18px; top: calc(50% - 8px); border-left: 12px solid var(--c); border-top: 9px solid transparent; border-bottom: 9px solid transparent; opacity: .75; }
+  .passo .n { display: block; font-size: 17px; font-weight: 800; letter-spacing: .12em; color: var(--muted); margin-bottom: 4px; }
+  .passo h4 { margin: 0; font-size: 26px; line-height: 1.25; font-weight: 800; }
+
+  /* Escada de IA */
+  .degraus { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: end; height: 620px; }
+  .degrau { display: flex; flex-direction: column; height: 100%; }
+  .degrau .barra { flex: 1; display: flex; align-items: flex-end; font-style: normal; }
+  .degrau i { display: block; width: 100%; height: var(--h); border-radius: 22px 22px 8px 8px; margin-bottom: 22px;
+    background: linear-gradient(180deg, rgba(96,165,250,.95), rgba(13,110,253,.3)); box-shadow: 0 0 60px rgba(13,110,253,.25); }
+  .degrau b { font-size: 32px; white-space: nowrap; } .degrau span { font-size: 24px; color: var(--muted); line-height: 1.35; margin-top: 4px; min-height: 66px; }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-caixa" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M20 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20l1.1-4.3A8.5 8.5 0 1 1 20 11.5z"/><path d="M9 9.5c.3 2 2.3 4.2 4.6 4.6"/></symbol>
+  <symbol id="i-nota" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
+  <symbol id="i-pix" viewBox="0 0 24 24"><path d="M12 2.5l9.5 9.5-9.5 9.5L2.5 12z"/><path d="M8 12l4-4 4 4-4 4z"/></symbol>
+  <symbol id="i-moto" viewBox="0 0 24 24"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h6l-2-6H8M14 6h3l1 4M18 14l-3-4"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+  <symbol id="i-ia" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12.5l2.7 2.7L16 9.5"/></symbol>
+  <symbol id="i-off" viewBox="0 0 24 24"><path d="M2 8.5a15 15 0 0 1 4-2.6M10 5.1A15 15 0 0 1 22 8.5M5 12.5a10 10 0 0 1 3.5-2M15 10.7a10 10 0 0 1 4 1.8M8.5 16a5 5 0 0 1 7 0M12 20h.01M3 3l18 18"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 8.5a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 20h.01"/></symbol>
+  <symbol id="i-nuvem" viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 1-9.9A6 6 0 0 1 19.5 10 4 4 0 0 1 18 18z"/><path d="M9.5 13.5l2 2 3.5-3.5"/></symbol>
+</svg>
 
 <!-- 1. Capa -->
 <section class="slide">
@@ -121,7 +174,7 @@
         <li><span><b>White Label:</b> nome, logo e cores de cada loja</span></li>
       </ul>
     </div>
-    <div><div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>adegabomgole.optimapdv.com.br/painel</span></div>
+    <div><div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>demo.optimati.com.br/painel</span></div>
       <img src="../telas_estaticas/static/img/landing/painel.jpg" alt=""></div></div>
   </div>
   <div class="rodape"><span><b>Óptima PDV</b></span><span>03</span></div>
@@ -181,6 +234,40 @@
   <div class="rodape"><span><b>Óptima PDV</b></span><span>06</span></div>
 </section>
 
+<!-- Como funciona: diagrama 1 -->
+<section class="slide">
+  <div class="rotulo">Como funciona</div>
+  <h2 style="font-size:60px;margin-bottom:0">Tudo conectado no mesmo núcleo.</h2>
+  <div class="hub">
+    <svg class="linhas" viewBox="0 0 1000 600" preserveAspectRatio="none">
+      <path d="M500 300L130 230" stroke="#60A5FA"/><path d="M500 300L500 60" stroke="#F97316"/><path d="M500 300L250 540" stroke="#60A5FA"/><path d="M500 300L870 230" stroke="#F97316"/><path d="M500 300L750 540" stroke="#60A5FA"/>
+    </svg>
+    <div class="no no-centro" style="left:50%;top:50%"><span class="simbolo">Ó</span><span class="tag">Núcleo único</span><b>Óptima PDV</b><small>Mesmo estoque, caixa e cliente</small></div>
+    <div class="no c-azul" style="left:13%;top:38.3%"><span class="no-ico"><svg class="ic"><use href="#i-caixa"/></svg></span><div><b>Balcão / PDV</b><small>Vende até sem internet</small></div></div>
+    <div class="no c-verde" style="left:50%;top:10%"><span class="no-ico"><svg class="ic"><use href="#i-zap"/></svg></span><div><b>WhatsApp + Agente IA</b><small>Atende áudio e texto 24h</small></div></div>
+    <div class="no c-laranja" style="left:25%;top:90%"><span class="no-ico"><svg class="ic"><use href="#i-nota"/></svg></span><div><b>SEFAZ / Fiscal</b><small>NFC-e e Reforma Tributária</small></div></div>
+    <div class="no c-ciano" style="left:87%;top:38.3%"><span class="no-ico"><svg class="ic"><use href="#i-pix"/></svg></span><div><b>Pix e Financeiro</b><small>Cobrança e baixa automática</small></div></div>
+    <div class="no c-roxo" style="left:75%;top:90%"><span class="no-ico"><svg class="ic"><use href="#i-moto"/></svg></span><div><b>Delivery e Cardápio</b><small>Loja com marca própria</small></div></div>
+  </div>
+  <div class="sai"><span>Sai do balcão</span><s>Caixa avulso</s><s>Emissor de nota separado</s><s>WhatsApp pessoal do dono</s><s>Caderno de fiado</s><s>App de delivery com comissão</s></div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>07</span></div>
+</section>
+
+<!-- Como funciona: diagrama 2 -->
+<section class="slide alt">
+  <div class="rotulo">Como funciona</div>
+  <h2 style="font-size:60px">Fluxo real de ponta a ponta.</h2>
+  <div class="fluxo">
+    <div class="fluxo-tit"><i style="background:#34D399"></i>Venda automática no WhatsApp</div>
+    <div class="trilha"><div class="passo c-verde"><span class="no-ico"><svg class="ic"><use href="#i-mic"/></svg></span><div><span class="n">PASSO 1</span><h4>Áudio ou mensagem chega</h4></div></div><div class="passo c-roxo"><span class="no-ico"><svg class="ic"><use href="#i-ia"/></svg></span><div><span class="n">PASSO 2</span><h4>IA consulta preço e estoque real</h4></div></div><div class="passo c-ciano"><span class="no-ico"><svg class="ic"><use href="#i-pix"/></svg></span><div><span class="n">PASSO 3</span><h4>Gera Pix automaticamente</h4></div></div><div class="passo c-azul"><span class="no-ico"><svg class="ic"><use href="#i-check"/></svg></span><div><span class="n">PASSO 4</span><h4>Baixa estoque e registra no caixa</h4></div></div></div>
+  </div>
+  <div class="fluxo" style="margin-top:64px">
+    <div class="fluxo-tit"><i style="background:#F97316"></i>Resiliência offline-first</div>
+    <div class="trilha"><div class="passo c-laranja"><span class="no-ico"><svg class="ic"><use href="#i-off"/></svg></span><div><span class="n">PASSO 1</span><h4>Internet cai na loja</h4></div></div><div class="passo c-azul"><span class="no-ico"><svg class="ic"><use href="#i-caixa"/></svg></span><div><span class="n">PASSO 2</span><h4>Caixa continua vendendo localmente</h4></div></div><div class="passo c-ciano"><span class="no-ico"><svg class="ic"><use href="#i-wifi"/></svg></span><div><span class="n">PASSO 3</span><h4>Conexão retorna</h4></div></div><div class="passo c-verde"><span class="no-ico"><svg class="ic"><use href="#i-nuvem"/></svg></span><div><span class="n">PASSO 4</span><h4>Sincroniza nuvem, estoque e fiscal</h4></div></div></div>
+  </div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>08</span></div>
+</section>
+
 <!-- 7. Nichos -->
 <section class="slide">
   <div class="rotulo">Um produto, muitos nichos</div>
@@ -196,27 +283,27 @@
       <span class="chip" style="background:#F8EBDD;color:#8A4B14">Balança</span><span class="chip" style="background:#F8EBDD;color:#8A4B14">Produção</span><span class="chip" style="background:#F8EBDD;color:#8A4B14">Encomendas</span><span class="chip" style="background:#F8EBDD;color:#8A4B14">Validade</span></div></div>
   </div>
   <p class="legenda" style="margin-top:28px">Ateliê Lume, Casa Forte e Pão Dourado são lojas de demonstração da plataforma, com logo e produtos próprios. A plataforma tem páginas de venda para mais de 9 ramos do varejo.</p>
-  <div class="rodape"><span><b>Óptima PDV</b></span><span>07</span></div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>09</span></div>
 </section>
 
 <!-- 8. Plataforma -->
 <section class="slide alt">
   <div class="duas" style="grid-template-columns: 640px 1fr">
     <div>
-      <div class="rotulo">A plataforma</div>
+      <div class="rotulo">Painel Master</div>
       <h2 style="font-size:60px">Uma central para todas as lojas.</h2>
       <ul class="lista">
-        <li><span><b>Dados isolados por loja,</b> com teste de vazamento em todas as tabelas</span></li>
-        <li><span><b>Cada loja no próprio endereço</b> nomedaloja.optimapdv.com.br</span></li>
-        <li><span><b>Cobrança automática</b> por cartão, Pix ou boleto</span></li>
-        <li><span><b>Teste grátis de 5 dias</b> direto do site de vendas</span></li>
+        <li><span><b>Visão geral:</b> todas as lojas, a situação de cada uma e as rotinas automáticas</span></li>
+        <li><span><b>Ficha da loja:</b> liga e desliga módulos na hora; a mensalidade acompanha</span></li>
+        <li><span><b>Cobrança automática</b> por cartão, Pix ou boleto, sem bloqueio surpresa</span></li>
+        <li><span><b>Dados isolados por loja,</b> cada uma no próprio endereço</span></li>
       </ul>
     </div>
     <div><div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>master.optimapdv.com.br</span></div>
       <img src="../telas_estaticas/static/img/landing/master.jpg" alt=""></div>
       <p class="legenda">Tela real do Master, com a situação real da plataforma em pré-lançamento.</p></div>
   </div>
-  <div class="rodape"><span><b>Óptima PDV</b></span><span>08</span></div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>10</span></div>
 </section>
 
 <!-- 9. Modelo de negócio -->
@@ -224,27 +311,49 @@
   <div class="rotulo">Como ganha dinheiro</div>
   <h2>Assinatura mensal que cresce com o uso de cada loja.</h2>
   <div class="grade-3">
-    <div class="cartao"><h3>Plano de entrada</h3><div class="grande" style="margin:18px 0 22px">R$ 59<small> /mês</small></div><p>Caixa, estoque e clientes. Barato para entrar, sem fidelidade.</p></div>
-    <div class="cartao"><h3>Módulos por ramo</h3><div class="grande" style="margin:18px 0 22px">+ módulos</div><p>Nota fiscal, WhatsApp com IA, delivery, inteligência… A loja liga o que precisa e o valor por loja sobe junto.</p></div>
+    <div class="cartao"><h3>Plano de entrada</h3><div class="grande" style="margin:18px 0 22px">R$ 49<small> /mês</small></div><p>Caixa, estoque, clientes e IA com franquia de uso. Barato para entrar, sem fidelidade.</p></div>
+    <div class="cartao"><h3>Módulos por ramo</h3><div class="grande" style="margin:18px 0 22px">+ módulos</div><p>Nota fiscal, WhatsApp com IA, delivery, inteligência… A loja liga o que precisa: o valor e a franquia de IA sobem juntos.</p></div>
     <div class="cartao"><h3>Venda que escala</h3><div class="grande" style="margin:18px 0 22px">5 dias</div><p>de teste grátis pelo site, com páginas por ramo e cobrança automática. Pouca venda manual por loja.</p></div>
   </div>
-  <div class="rodape"><span><b>Óptima PDV</b></span><span>09</span></div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>11</span></div>
+</section>
+
+<!-- IA em todos os planos -->
+<section class="slide alt">
+  <div class="duas" style="grid-template-columns: 700px 1fr">
+    <div>
+      <div class="rotulo">IA em todos os planos</div>
+      <h2 style="font-size:60px">Toda loja usa IA desde o primeiro dia.</h2>
+      <p class="apoio" style="font-size:28px">A franquia de uso cresce conforme a loja liga módulos.</p>
+      <ul class="lista">
+        <li><span><b>Limitada por uso,</b> com controle por pessoa já no sistema</span></li>
+        <li><span><b>Custo acompanha a receita:</b> mais módulos, mais franquia</span></li>
+        <li><span><b>Porta de entrada barata</b> que puxa a expansão</span></li>
+      </ul>
+    </div>
+    <div class="degraus">
+      <div class="degrau" style="--h:34%"><em class="barra"><i></i></em><b>Entrada · R$ 49</b><span>Assistente de IA no sistema</span></div>
+      <div class="degrau" style="--h:64%"><em class="barra"><i></i></em><b>+ Módulos</b><span>Franquia maior e agente no WhatsApp</span></div>
+      <div class="degrau" style="--h:100%"><em class="barra"><i></i></em><b>Loja completa</b><span>A maior franquia de IA</span></div>
+    </div>
+  </div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>12</span></div>
 </section>
 
 <!-- 10. Por que agora -->
-<section class="slide alt">
+<section class="slide">
   <div class="rotulo">Por que agora</div>
   <h2>Três mudanças empurram o pequeno comércio para trocar de sistema.</h2>
   <div class="grade-3">
     <div class="cartao"><span class="ico">⚖️</span><h3>Reforma tributária</h3><p>A nota fiscal ganha os campos do IBS e da CBS. Sistemas antigos precisam ser trocados ou atualizados, e o Óptima PDV já emite com eles.</p></div>
     <div class="cartao"><span class="ico">💬</span><h3>O WhatsApp virou o balcão</h3><p>O cliente pede pelo WhatsApp. Quem atende rápido vende mais, e um agente de IA atende 24 horas sem contratar ninguém.</p></div>
-    <div class="cartao"><span class="ico">✨</span><h3>IA ficou barata</h3><p>O custo de uma conversa com IA caiu para centavos. Dá para colocar um atendente e um analista dentro de um sistema de R$ 59.</p></div>
+    <div class="cartao"><span class="ico">✨</span><h3>IA ficou barata</h3><p>O custo de uma conversa com IA caiu para centavos. Dá para colocar um atendente e um analista dentro de um sistema de R$ 49, em todos os planos.</p></div>
   </div>
-  <div class="rodape"><span><b>Óptima PDV</b></span><span>10</span></div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>13</span></div>
 </section>
 
 <!-- 11. Onde estamos -->
-<section class="slide">
+<section class="slide alt">
   <div class="rotulo">Onde estamos</div>
   <h2>Já roda de verdade, todos os dias.</h2>
   <p class="apoio">Uma distribuidora de bebidas usa o sistema no caixa há 3 meses: venda no balcão, estoque com lotes e validade, fiado, fechamento de caixa e o assistente de IA.</p>
@@ -253,11 +362,11 @@
     <div class="marco"><span class="quando" style="color:var(--blue-claro)">● Agora</span><h3>Plataforma multi-loja</h3><p>137 telas e 13 módulos prontos, na fase final de testes antes do lançamento.</p></div>
     <div class="marco"><span class="quando" style="color:var(--acao)">→ Próximo passo</span><h3>Lançamento e primeiras lojas</h3><p>Abrir o teste grátis pelo site e converter as primeiras lojas pagantes por nicho.</p></div>
   </div>
-  <div class="rodape"><span><b>Óptima PDV</b></span><span>11</span></div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>14</span></div>
 </section>
 
 <!-- 12. A rodada -->
-<section class="slide alt">
+<section class="slide">
   <div class="rotulo">A rodada</div>
   <h2>O que o investimento acelera.</h2>
   <p class="apoio">O produto está construído. O investimento leva a plataforma ao mercado. Valor e condições apresentados na conversa.</p>
@@ -267,11 +376,11 @@
     <div class="cartao" style="padding:36px"><span class="ico">💬</span><h3>WhatsApp oficial</h3><p>Óptima como parceira de tecnologia da Meta, para ligar o WhatsApp de cada loja.</p></div>
     <div class="cartao" style="padding:36px"><span class="ico">📈</span><h3>Primeiras lojas</h3><p>Aquisição e acompanhamento das primeiras lojas pagantes em cada nicho.</p></div>
   </div>
-  <div class="rodape"><span><b>Óptima PDV</b></span><span>12</span></div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>15</span></div>
 </section>
 
 <!-- 13. Equipe -->
-<section class="slide">
+<section class="slide alt">
   <div class="rotulo">Equipe</div>
   <h2>Quem constrói o Óptima PDV.</h2>
   <div class="grade-2" style="margin-top:auto;max-width:1400px">
@@ -280,11 +389,11 @@
     <div class="pessoa"><span class="avatar" style="background:linear-gradient(135deg,#EA580C,#F97316)">L</span>
       <div><h3 style="font-size:48px;margin-bottom:6px">Lucas</h3><p class="muted" style="font-size:28px">Fundador · Desenvolvedor</p></div></div>
   </div>
-  <div class="rodape"><span><b>Óptima PDV</b></span><span>13</span></div>
+  <div class="rodape"><span><b>Óptima PDV</b></span><span>16</span></div>
 </section>
 
 <!-- 14. Contato -->
-<section class="slide alt" style="justify-content:center;align-items:center;text-align:center">
+<section class="slide" style="justify-content:center;align-items:center;text-align:center">
   <div class="marca" style="font-size:40px"><span class="simbolo" style="width:68px;height:68px;font-size:34px">Ó</span><span>Óptima <b>PDV</b></span></div>
   <h2 style="margin:56px 0 24px;font-size:88px">Vamos conversar?</h2>
   <p class="apoio" style="margin:0 auto">20 minutos para mostrar o produto, os próximos passos e a rodada.</p>

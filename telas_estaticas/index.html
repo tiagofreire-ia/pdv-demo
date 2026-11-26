@@ -172,6 +172,17 @@
   .modelo-preco small { font-size: 17px; color: var(--muted); font-weight: 600; letter-spacing: 0; }
   .agora { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 
+  .escada { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 48px; align-items: end; margin-top: 20px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--raio); padding: 32px; }
+  .escada h3 { font-size: 24px; margin-bottom: 10px; }
+  .degraus { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: end; height: 220px; }
+  .degrau { display: flex; flex-direction: column; height: 100%; }
+  .degrau .barra { flex: 1; display: flex; align-items: flex-end; font-style: normal; }
+  .degrau i { display: block; width: 100%; height: var(--h); min-height: 40px; border-radius: 12px 12px 4px 4px; margin-bottom: 12px;
+    background: linear-gradient(180deg, rgba(96,165,250,.9), rgba(13,110,253,.35)); box-shadow: 0 0 30px rgba(13,110,253,.25); }
+  .degrau b { font-size: 15px; white-space: nowrap; } .degrau span { font-size: 13px; color: var(--muted); line-height: 1.35; min-height: 3.5em; }
+  @media (max-width: 860px) { .escada { grid-template-columns: 1fr; padding: 24px; } .degraus { height: 200px; } }
+
   /* ---------- Em produção (linha do tempo) ---------- */
   .linha { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; position: relative; }
   .marco { padding: 28px; border-radius: var(--raio); border: 1px solid var(--line); background: var(--surface); position: relative; }
@@ -572,9 +583,22 @@
         <h2>Assinatura mensal que cresce com o uso de cada loja.</h2>
       </div>
       <div class="grade-3">
-        <div class="cartao"><h3>Plano de entrada</h3><div class="modelo-preco">R$ 59<small> /mês</small></div><p>Caixa, estoque e clientes. Barato para entrar, sem fidelidade.</p></div>
-        <div class="cartao"><h3>Módulos por ramo</h3><div class="modelo-preco">+ módulos</div><p>Nota fiscal, WhatsApp com IA, delivery, inteligência… A loja liga o que precisa e o valor por loja sobe junto.</p></div>
+        <div class="cartao"><h3>Plano de entrada</h3><div class="modelo-preco">R$ 49<small> /mês</small></div><p>Caixa, estoque, clientes e IA com franquia de uso. Barato para entrar, sem fidelidade.</p></div>
+        <div class="cartao"><h3>Módulos por ramo</h3><div class="modelo-preco">+ módulos</div><p>Nota fiscal, WhatsApp com IA, delivery, inteligência… A loja liga o que precisa: o valor e a franquia de IA sobem juntos.</p></div>
         <div class="cartao"><h3>Venda que escala</h3><div class="modelo-preco">5 dias</div><p>de teste grátis direto do site, com páginas por ramo e cobrança automática. Pouca venda manual por loja.</p></div>
+      </div>
+
+      <div class="escada">
+        <div>
+          <span class="rotulo">IA em todos os planos</span>
+          <h3>Toda loja usa IA desde o primeiro dia. A franquia cresce com os módulos.</h3>
+          <p class="muted" style="margin:0;font-size:16px">Limitada por uso, com controle por pessoa: o custo de IA acompanha a receita de cada loja.</p>
+        </div>
+        <div class="degraus" role="img" aria-label="Franquia de IA crescendo do plano de entrada à loja completa">
+          <div class="degrau" style="--h:38%"><em class="barra"><i></i></em><b>Entrada</b><span>Assistente de IA no sistema</span></div>
+          <div class="degrau" style="--h:66%"><em class="barra"><i></i></em><b>+ Módulos</b><span>Franquia maior e agente no WhatsApp</span></div>
+          <div class="degrau" style="--h:100%"><em class="barra"><i></i></em><b>Completa</b><span>A maior franquia de IA</span></div>
+        </div>
       </div>
 
       <div class="cabeca-secao" style="margin:96px 0 48px">
@@ -584,7 +608,7 @@
       <div class="grade-3">
         <div class="cartao"><span class="ico" aria-hidden="true">⚖️</span><h3>Reforma tributária</h3><p>A nota fiscal ganha os campos do IBS e da CBS. Sistemas antigos precisam ser trocados ou atualizados, e o Óptima PDV já emite com eles.</p></div>
         <div class="cartao"><span class="ico" aria-hidden="true">💬</span><h3>O WhatsApp virou o balcão</h3><p>O cliente pede pelo WhatsApp. Quem atende rápido vende mais, e um agente de IA atende 24 horas sem contratar ninguém.</p></div>
-        <div class="cartao"><span class="ico" aria-hidden="true">✨</span><h3>IA ficou barata</h3><p>O custo de uma conversa com IA caiu para centavos. Agora dá para colocar um atendente e um analista dentro de um sistema de R$ 59.</p></div>
+        <div class="cartao"><span class="ico" aria-hidden="true">✨</span><h3>IA ficou barata</h3><p>O custo de uma conversa com IA caiu para centavos. Agora dá para colocar um atendente e um analista dentro de um sistema de R$ 49, em todos os planos.</p></div>
       </div>
     </div>
   </section>

@@ -1217,10 +1217,10 @@ def tela_plano() -> str:
     faturas = tabela(
         ["Mês", "Situação", "Valor"],
         [
-            ["Novembro/2026<div class=\"small muted\">vence 10/11 · cartão final 4421</div>", tag("aviso", "a vencer"), "<b>R$ 350,00</b>"],
-            ["Outubro/2026<div class=\"small muted\">cartão final 4421</div>", tag("ok", "paga"), "<b>R$ 312,00</b>"],
-            ["Setembro/2026<div class=\"small muted\">Pix</div>", tag("ok", "paga"), "<b>R$ 233,00</b>"],
-            ["Agosto/2026<div class=\"small muted\">Pix</div>", tag("ok", "paga"), "<b>R$ 233,00</b>"],
+            ["Novembro/2026<div class=\"small muted\">vence 10/11 · cartão final 4421</div>", tag("aviso", "a vencer"), "<b>R$ 340,00</b>"],
+            ["Outubro/2026<div class=\"small muted\">cartão final 4421</div>", tag("ok", "paga"), "<b>R$ 302,00</b>"],
+            ["Setembro/2026<div class=\"small muted\">Pix</div>", tag("ok", "paga"), "<b>R$ 223,00</b>"],
+            ["Agosto/2026<div class=\"small muted\">Pix</div>", tag("ok", "paga"), "<b>R$ 223,00</b>"],
         ],
         (2,),
     )
@@ -1229,14 +1229,15 @@ def tela_plano() -> str:
              btn("Trocar cartão", "btn-secundario", "Troca de cartão segura pelo provedor de pagamento."))
         + '<div class="nv-faixa aviso">Preços ilustrativos da demonstração.</div>'
         + kpis([
-            ("Plano", "Inicial", "R$ 59/mês · 1 caixa"),
+            ("Plano", "Inicial", "R$ 49/mês · 1 caixa · IA inclusa"),
             ("Módulos ligados", "12 de 13", "R$ 272/mês em módulos"),
-            ("Mensalidade", "R$ 350,00", "próxima cobrança em 10/11"),
+            ("Mensalidade", "R$ 340,00", "próxima cobrança em 10/11"),
             ("Caixas", "2", "1 incluído + 1 extra (R$ 19)"),
         ])
         + f'<div class="card" style="margin-bottom:18px">{mods}</div>'
         + '<div class="nv-grade-lado">' + card("Faturas", faturas)
         + card("Como funciona", '<ul class="nv-linhas">'
+               '<li><span class="nv-ico">✨</span><div class="cresce"><b>IA em todos os planos</b><span>franquia de uso por mês, que cresce conforme você liga módulos</span></div></li>'
                '<li><span class="nv-ico">🧪</span><div class="cresce"><b>Teste grátis de 5 dias</b><span>com todos os módulos</span></div></li>'
                '<li><span class="nv-ico">💳</span><div class="cresce"><b>Cartão recorrente, Pix ou boleto</b><span>aviso 3 dias antes do vencimento</span></div></li>'
                '<li><span class="nv-ico">🔒</span><div class="cresce"><b>Sem bloqueio surpresa</b><span>5 dias de carência, depois só leitura: os dados nunca somem</span></div></li></ul>')

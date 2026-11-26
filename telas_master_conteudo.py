@@ -308,7 +308,8 @@ def tela_cobranca() -> str:
 
 def tela_precos() -> str:
     mods = [
-        ("Plano Inicial", "caixa, estoque, clientes e 1 caixa", "R$ 59,00/mês", True),
+        ("Plano Inicial", "caixa, estoque, clientes, 1 caixa e IA com franquia de uso", "R$ 49,00/mês", True),
+        ("Franquia de IA", "em todos os planos; cresce conforme a loja liga módulos", "a definir", False),
         ("Nota fiscal NFC-e", "", "a definir", False), ("WhatsApp com agente de IA", "", "a definir", False),
         ("Comandas e cozinha", "", "a definir", False), ("Delivery", "", "a definir", False),
         ("Produção e encomendas", "", "a definir", False), ("Cardápio digital e Minha página", "", "a definir", False),
@@ -320,7 +321,7 @@ def tela_precos() -> str:
         '<p style="margin:0 0 12px"><a class="link-ouro" href="./master_cobranca.html">‹ Cobrança</a></p>'
         + topo("Tabela de preços", "Plano e módulos com histórico: a mudança vale para as próximas faturas e fica registrada.",
                btn("Salvar nova tabela", "btn-principal btn-alto", "Nova tabela salva com data de início. Faturas já emitidas não mudam."))
-        + '<div class="nv-faixa aviso">Só o Plano Inicial (R$ 59) está definido. Os preços dos módulos serão fechados antes do lançamento.</div>'
+        + '<div class="nv-faixa aviso">Só o Plano Inicial (R$ 49) está definido. A IA entra em todos os planos com franquia de uso, que cresce com os módulos; os preços dos módulos e das franquias serão fechados antes do lançamento.</div>'
         + card("Plano e módulos", tabela(["Item", "Situação", "Preço"], linhas, (2,)))
     )
     return pagina("nv-master", corpo)
