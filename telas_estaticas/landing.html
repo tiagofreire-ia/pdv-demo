@@ -201,7 +201,98 @@
   .rodape { border-top: 1px solid var(--line); padding: 28px 0; font-size: 14px; color: var(--muted); }
   .rodape .wrap { display: flex; gap: 16px; justify-content: space-between; flex-wrap: wrap; }
 
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  /* ---------- Diagramas (como funciona) ---------- */
+  .diagramas { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .nichos { background: transparent; border: 0; }
+  .sub { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin: 0 0 22px; }
+  .sub h3 { font-size: 24px; margin: 0; }
+  .sub .num { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--blue-claro); }
+  .ic { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+  .hub { position: relative; height: 600px; margin: 0 auto; max-width: 1060px; }
+  .hub-linhas { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .hub-linhas .base { stroke: var(--line); stroke-width: 2; vector-effect: non-scaling-stroke; }
+  .hub-linhas .fluxo { stroke: var(--blue-claro); stroke-width: 2; stroke-dasharray: 4 14; vector-effect: non-scaling-stroke; opacity: .9; animation: corre 1.6s linear infinite; }
+  .hub-linhas .fluxo.lar { stroke: var(--acao); }
+  @keyframes corre { to { stroke-dashoffset: -36; } }
+  .no { position: absolute; transform: translate(-50%, -50%); width: 262px; display: flex; gap: 12px; align-items: center;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+  .no-ico { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; flex: none;
+    background: color-mix(in srgb, var(--c) 16%, transparent); color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 35%, transparent); }
+  .no b { display: block; font-size: 16px; line-height: 1.25; }
+  .no small { display: block; font-size: 13px; color: var(--muted); line-height: 1.35; margin-top: 2px; }
+  .no-centro { width: 270px; flex-direction: column; text-align: center; gap: 10px; padding: 26px 22px; border-radius: 22px;
+    background: linear-gradient(160deg, #13244A, #0F1A33); border-color: rgba(96,165,250,.55);
+    box-shadow: 0 0 0 8px rgba(13,110,253,.08), 0 0 80px rgba(13,110,253,.35), 0 24px 60px rgba(0,0,0,.45); }
+  .no-centro .marca-simbolo { width: 54px; height: 54px; border-radius: 16px; font-size: 26px; }
+  .no-centro b { font-size: 22px; letter-spacing: -.01em; }
+  .no-centro small { color: var(--text-2); }
+  .no-centro .tag { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--blue-claro); }
+  .sai { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin-top: 30px; }
+  @media (max-width: 860px) { .sai { justify-content: flex-start; } .sai > span:first-child { width: 100%; } }
+  .sai > span:first-child { font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+  .sai s { font-size: 14px; font-weight: 600; color: var(--muted); text-decoration-color: var(--acao); text-decoration-thickness: 2px;
+    padding: 6px 12px; border-radius: 999px; border: 1px dashed var(--line); }
+
+  .fluxo-bloco { margin-top: 96px; }
+  .trilha { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 44px; counter-reset: p; }
+  .passo { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--raio); padding: 22px 20px; }
+  .passo + .passo::before { content: ""; position: absolute; left: -38px; top: 50%; width: 32px; height: 2px; background: color-mix(in srgb, var(--c) 70%, transparent); }
+  .passo + .passo::after { content: ""; position: absolute; left: -12px; top: calc(50% - 5px); width: 0; height: 0;
+    border-left: 8px solid color-mix(in srgb, var(--c) 70%, transparent); border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+  .passo-topo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .passo .n { font-size: 12px; font-weight: 800; letter-spacing: .12em; color: var(--muted); }
+  .passo .no-ico { width: 46px; height: 46px; }
+  .passo h4 { margin: 0 0 10px; font-size: 18px; line-height: 1.3; font-weight: 800; }
+  .chip { display: inline-block; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+    color: var(--c); background: color-mix(in srgb, var(--c) 12%, transparent); border: 1px solid color-mix(in srgb, var(--c) 30%, transparent); }
+  .painel-fluxo[hidden] { display: none; }
+  .rodando .passo { animation: acende .5s ease both; }
+  .rodando .passo:nth-child(2) { animation-delay: .45s; } .rodando .passo:nth-child(3) { animation-delay: .9s; } .rodando .passo:nth-child(4) { animation-delay: 1.35s; }
+  @keyframes acende { from { opacity: .25; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .c-azul { --c: #60A5FA; } .c-verde { --c: #34D399; } .c-laranja { --c: #F97316; } .c-roxo { --c: #A78BFA; } .c-ciano { --c: #22D3EE; }
+
+  @media (max-width: 860px) {
+    .hub { height: auto; display: flex; flex-direction: column; gap: 14px; padding-left: 0; }
+    .hub-linhas { display: none; }
+    .no { position: relative; transform: none; left: auto !important; top: auto !important; width: 100%; }
+    .no-centro { margin-bottom: 10px; }
+    .no:not(.no-centro) { margin-left: 28px; width: calc(100% - 28px); }
+    .no:not(.no-centro)::before { content: ""; position: absolute; left: -28px; top: -15px; bottom: 50%; width: 18px;
+      border-left: 2px solid var(--line); border-bottom: 2px solid var(--line); border-bottom-left-radius: 10px; }
+    .no:not(.no-centro)::after { content: ""; position: absolute; left: -28px; top: 50%; bottom: -15px; border-left: 2px solid var(--line); }
+    .no:last-child::after { display: none; }
+    .trilha { grid-template-columns: 1fr; gap: 30px; }
+    .passo + .passo::before { left: 40px; top: -26px; width: 2px; height: 20px; }
+    .passo + .passo::after { left: 35px; top: -9px; border-left: 6px solid transparent; border-right: 6px solid transparent;
+      border-top: 8px solid color-mix(in srgb, var(--c) 70%, transparent); border-bottom: 0; }
+  }
+
+  /* ---------- Painel Master em destaque ---------- */
+  .master-sec { background:
+    radial-gradient(55% 60% at 100% 0%, rgba(13,110,253,.18), transparent 70%),
+    radial-gradient(40% 50% at 0% 100%, rgba(249,115,22,.08), transparent 70%); border-top: 1px solid var(--line); }
+  .master-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 40px; }
+  .master-kpis div { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
+  .master-kpis div:first-child { border-color: rgba(96,165,250,.6); }
+  .master-kpis strong { display: block; font-size: 30px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+  .master-kpis span { font-size: 14px; color: var(--muted); }
+  .master-grade { display: grid; grid-template-columns: minmax(0, .62fr) minmax(0, 1.38fr); gap: 40px; align-items: start; }
+  .vistas { display: grid; gap: 10px; }
+  .vista { text-align: left; font: inherit; color: var(--text-2); cursor: pointer; background: transparent; border: 1px solid var(--line);
+    border-radius: 14px; padding: 16px 18px; transition: background .2s, border-color .2s; }
+  .vista b { display: block; color: var(--text); font-size: 17px; margin-bottom: 2px; }
+  .vista span { font-size: 14px; line-height: 1.45; display: block; }
+  .vista[aria-selected="true"] { background: var(--surface); border-color: var(--blue-claro); box-shadow: inset 3px 0 0 var(--blue-claro); }
+  .vistas-extra { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 8px; font-size: 14px; color: var(--muted); }
+  .vistas-extra li::before { content: "✓ "; color: var(--ok); font-weight: 800; }
+  .master-tela img { transition: opacity .25s; }
+  @media (max-width: 980px) { .master-grade { grid-template-columns: 1fr; } .master-kpis { grid-template-columns: 1fr 1fr; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; } * { transition: none !important; }
+    .hub-linhas .fluxo { animation: none; } .rodando .passo { animation: none; }
+  }
 </style>
     <link rel="stylesheet" href="./static/novos.css?v=291d3c7a">
     <script src="./static/marca.js?v=4d14148f"></script>
@@ -213,8 +304,9 @@
     <a class="marca" href="#inicio" aria-label="Óptima PDV, início"><span class="marca-simbolo" aria-hidden="true">Ó</span><span>Óptima <b>PDV</b></span></a>
     <nav class="nav" aria-label="Seções">
       <a href="#produto">Produto</a>
+      <a href="#como-funciona">Como funciona</a>
       <a href="#nichos">Nichos</a>
-      <a href="#plataforma">Plataforma</a>
+      <a href="#plataforma">Painel Master</a>
       <a href="#negocio">Negócio</a>
       <a href="#equipe">Equipe</a>
     </nav>
@@ -243,7 +335,7 @@
       </div>
       <div class="vitrine">
         <div class="tela">
-          <div class="tela-barra"><i></i><i></i><i></i><span>adegabomgole.optimapdv.com.br/painel</span></div>
+          <div class="tela-barra"><i></i><i></i><i></i><span>demo.optimati.com.br/painel</span></div>
           <img src="./static/img/landing/painel.jpg" width="1440" height="900" alt="Painel da loja no Óptima PDV, com faturamento do dia, lucro, gráfico dos últimos 7 dias e o menu com todos os módulos">
         </div>
         <div class="flutuante" aria-label="Exemplo de atendimento do agente de IA no WhatsApp">
@@ -326,6 +418,75 @@
     </div>
   </section>
 
+  <!-- 3b. Como funciona (diagramas) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-caixa" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M20 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20l1.1-4.3A8.5 8.5 0 1 1 20 11.5z"/><path d="M9 9.5c.3 2 2.3 4.2 4.6 4.6"/></symbol>
+    <symbol id="i-nota" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
+    <symbol id="i-pix" viewBox="0 0 24 24"><path d="M12 2.5l9.5 9.5-9.5 9.5L2.5 12z"/><path d="M8 12l4-4 4 4-4 4z"/></symbol>
+    <symbol id="i-moto" viewBox="0 0 24 24"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h6l-2-6H8M14 6h3l1 4M18 14l-3-4"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+    <symbol id="i-ia" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12.5l2.7 2.7L16 9.5"/></symbol>
+    <symbol id="i-off" viewBox="0 0 24 24"><path d="M2 8.5a15 15 0 0 1 4-2.6M10 5.1A15 15 0 0 1 22 8.5M5 12.5a10 10 0 0 1 3.5-2M15 10.7a10 10 0 0 1 4 1.8M8.5 16a5 5 0 0 1 7 0M12 20h.01M3 3l18 18"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 8.5a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 20h.01"/></symbol>
+    <symbol id="i-nuvem" viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 1-9.9A6 6 0 0 1 19.5 10 4 4 0 0 1 18 18z"/><path d="M9.5 13.5l2 2 3.5-3.5"/></symbol>
+  </svg>
+
+  <section class="diagramas" id="como-funciona">
+    <div class="wrap">
+      <div class="cabeca-secao">
+        <span class="rotulo">Como funciona</span>
+        <h2>Um núcleo só. Nenhuma ferramenta paralela.</h2>
+        <p class="apoio">Cada módulo lê e escreve no mesmo lugar: o que vende no balcão já aparece no WhatsApp, no Pix e na nota.</p>
+      </div>
+
+      <div class="sub"><span class="num">Diagrama 1</span><h3>Tudo conectado no mesmo núcleo</h3></div>
+      <div class="hub" role="img" aria-label="O Óptima PDV no centro, ligado ao Balcão/PDV, WhatsApp com agente de IA, SEFAZ/Fiscal, Pix e financeiro e Delivery e cardápio">
+        <svg class="hub-linhas" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
+          <g class="base"><path d="M500 300L140 220"/><path d="M500 300L500 70"/><path d="M500 300L260 520"/><path d="M500 300L860 220"/><path d="M500 300L740 520"/></g>
+          <g fill="none"><path class="fluxo" d="M500 300L140 220"/><path class="fluxo lar" d="M500 300L500 70"/><path class="fluxo" d="M500 300L260 520"/><path class="fluxo lar" d="M500 300L860 220"/><path class="fluxo" d="M500 300L740 520"/></g>
+        </svg>
+        <div class="no no-centro" style="left:50%;top:50%">
+          <span class="marca-simbolo" aria-hidden="true">Ó</span>
+          <span class="tag">Núcleo único</span>
+          <b>Óptima PDV</b>
+          <small>Mesmo estoque, caixa e cliente</small>
+        </div>
+        <div class="no c-azul" style="left:14%;top:36.7%"><span class="no-ico"><svg class="ic"><use href="#i-caixa"/></svg></span><div><b>Balcão / PDV</b><small>Vende até sem internet</small></div></div>
+        <div class="no c-verde" style="left:50%;top:11.7%"><span class="no-ico"><svg class="ic"><use href="#i-zap"/></svg></span><div><b>WhatsApp + Agente IA</b><small>Atende áudio e texto 24h</small></div></div>
+        <div class="no c-laranja" style="left:26%;top:86.7%"><span class="no-ico"><svg class="ic"><use href="#i-nota"/></svg></span><div><b>SEFAZ / Fiscal</b><small>NFC-e e Reforma Tributária</small></div></div>
+        <div class="no c-ciano" style="left:86%;top:36.7%"><span class="no-ico"><svg class="ic"><use href="#i-pix"/></svg></span><div><b>Pix e Financeiro</b><small>Cobrança e baixa automática</small></div></div>
+        <div class="no c-roxo" style="left:74%;top:86.7%"><span class="no-ico"><svg class="ic"><use href="#i-moto"/></svg></span><div><b>Delivery e Cardápio</b><small>Loja com marca própria</small></div></div>
+      </div>
+      <div class="sai"><span>Sai do balcão</span><s>Caixa avulso</s><s>Emissor de nota separado</s><s>WhatsApp pessoal do dono</s><s>Caderno de fiado</s><s>App de delivery com comissão</s></div>
+
+      <div class="fluxo-bloco">
+        <div class="sub"><span class="num">Diagrama 2</span><h3>Fluxo real de ponta a ponta</h3></div>
+        <div class="abas" role="tablist" aria-label="Fluxos">
+          <button class="aba" role="tab" aria-selected="true" aria-controls="fluxo-zap" data-fluxo="fluxo-zap"><i style="background:#34D399"></i>Venda automática no WhatsApp</button>
+          <button class="aba" role="tab" aria-selected="false" aria-controls="fluxo-off" data-fluxo="fluxo-off"><i style="background:#F97316"></i>Resiliência offline-first</button>
+        </div>
+        <div class="painel-fluxo" id="fluxo-zap" role="tabpanel">
+          <ol class="trilha">
+            <li class="passo c-verde"><div class="passo-topo"><span class="no-ico"><svg class="ic"><use href="#i-mic"/></svg></span><span class="n">PASSO 1</span></div><h4>Áudio ou mensagem chega</h4><span class="chip">Áudio de 0:12</span></li>
+            <li class="passo c-roxo"><div class="passo-topo"><span class="no-ico"><svg class="ic"><use href="#i-ia"/></svg></span><span class="n">PASSO 2</span></div><h4>IA consulta preço e estoque real</h4><span class="chip">Dados do sistema</span></li>
+            <li class="passo c-ciano"><div class="passo-topo"><span class="no-ico"><svg class="ic"><use href="#i-pix"/></svg></span><span class="n">PASSO 3</span></div><h4>Gera Pix automaticamente</h4><span class="chip">QR de R$ 172,80</span></li>
+            <li class="passo c-azul"><div class="passo-topo"><span class="no-ico"><svg class="ic"><use href="#i-check"/></svg></span><span class="n">PASSO 4</span></div><h4>Baixa estoque e registra no caixa</h4><span class="chip">Sem digitar nada</span></li>
+          </ol>
+        </div>
+        <div class="painel-fluxo" id="fluxo-off" role="tabpanel" hidden>
+          <ol class="trilha">
+            <li class="passo c-laranja"><div class="passo-topo"><span class="no-ico"><svg class="ic"><use href="#i-off"/></svg></span><span class="n">PASSO 1</span></div><h4>Internet cai na loja</h4><span class="chip">Offline</span></li>
+            <li class="passo c-azul"><div class="passo-topo"><span class="no-ico"><svg class="ic"><use href="#i-caixa"/></svg></span><span class="n">PASSO 2</span></div><h4>Caixa continua vendendo localmente</h4><span class="chip">Fila guardada no caixa</span></li>
+            <li class="passo c-ciano"><div class="passo-topo"><span class="no-ico"><svg class="ic"><use href="#i-wifi"/></svg></span><span class="n">PASSO 3</span></div><h4>Conexão retorna</h4><span class="chip">Detecta sozinho</span></li>
+            <li class="passo c-verde"><div class="passo-topo"><span class="no-ico"><svg class="ic"><use href="#i-nuvem"/></svg></span><span class="n">PASSO 4</span></div><h4>Sincroniza nuvem, estoque e fiscal</h4><span class="chip">Nada se perde</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 4. Nichos -->
   <section class="nichos" id="nichos">
     <div class="wrap">
@@ -367,24 +528,38 @@
   </section>
 
   <!-- 5. Plataforma -->
-  <section class="plataforma" id="plataforma">
+  <section class="master-sec" id="plataforma">
     <div class="wrap">
-      <div>
-        <span class="rotulo">A plataforma</span>
+      <div class="cabeca-secao">
+        <span class="rotulo">Painel Master</span>
         <h2>Uma central para todas as lojas.</h2>
         <p class="apoio">Uma área separada, só da equipe Óptima, com login em duas etapas: cria lojas, liga módulos, cobra, publica novidades e dá suporte.</p>
-        <div class="vantagem" style="display:block"><ul>
-          <li><span><b>Dados isolados por loja,</b> com teste de vazamento em todas as tabelas</span></li>
-          <li><span><b>Cada loja no próprio endereço:</b> nomedaloja.optimapdv.com.br</span></li>
-          <li><span><b>Cobrança automática</b> por cartão, Pix ou boleto, com carência e só leitura em vez de bloqueio</span></li>
-          <li><span><b>Teste grátis de 5 dias</b> direto do site de vendas</span></li>
-        </ul></div>
-        <a class="link" href="./master.html">Ver o Painel Master na demo →</a>
       </div>
-      <div>
-        <div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span>master.optimapdv.com.br</span></div>
-          <img src="./static/img/landing/master.jpg" width="1440" height="900" loading="lazy" alt="Painel Master com a lista de lojas, cobrança e módulos contratados"></div>
-        <p class="legenda">Tela real do Master, com a situação real da plataforma em pré-lançamento.</p>
+      <div class="master-kpis">
+        <div><strong>5</strong><span>lojas na plataforma</span></div>
+        <div><strong>13</strong><span>módulos, ligados por loja</span></div>
+        <div><strong>3 meses</strong><span>de cliente em produção</span></div>
+        <div><strong>14 de 15</strong><span>fases antes do lançamento</span></div>
+      </div>
+      <div class="master-grade">
+        <div>
+          <div class="vistas" role="tablist" aria-label="Telas do Painel Master">
+            <button class="vista" role="tab" aria-selected="true" data-img="master" data-url="master.optimapdv.com.br" data-alt="Visão geral do Painel Master com as lojas, a situação de cada uma e as rotinas automáticas"><b>Visão geral</b><span>Todas as lojas, a situação de cada uma e as rotinas automáticas.</span></button>
+            <button class="vista" role="tab" aria-selected="false" data-img="master_loja" data-url="master.optimapdv.com.br/lojas/padaria" data-alt="Ficha da loja no Painel Master com os módulos incluídos e adicionais ligados"><b>Ficha da loja</b><span>Liga e desliga módulos na hora; a mensalidade acompanha.</span></button>
+            <button class="vista" role="tab" aria-selected="false" data-img="master_cobranca" data-url="master.optimapdv.com.br/cobranca" data-alt="Cobrança no Painel Master com as regras automáticas e os provedores de pagamento"><b>Cobrança</b><span>Cartão, Pix ou boleto, com carência e só leitura em vez de bloqueio.</span></button>
+          </div>
+          <ul class="vistas-extra">
+            <li>Dados isolados por loja, com teste de vazamento</li>
+            <li>Cada loja no próprio endereço</li>
+            <li>Teste grátis de 5 dias direto do site</li>
+          </ul>
+          <p style="margin:20px 0 0"><a class="link" href="./master.html">Ver o Painel Master na demo →</a></p>
+        </div>
+        <div class="master-tela">
+          <div class="tela"><div class="tela-barra"><i></i><i></i><i></i><span id="master-url">master.optimapdv.com.br</span></div>
+            <img id="master-img" src="./static/img/landing/master.jpg" width="1440" height="900" loading="lazy" alt="Visão geral do Painel Master com as lojas, a situação de cada uma e as rotinas automáticas"></div>
+          <p class="legenda">Telas reais do Master, com a situação real da plataforma em pré-lançamento.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -505,7 +680,7 @@
       el("modulos").innerHTML = n.modulos.map(function (m) { return "<span>" + esc(m) + "</span>"; }).join("");
       el("cta").textContent = n.cta;
     }
-    var abas = document.querySelectorAll(".aba");
+    var abas = document.querySelectorAll("#nichos .aba");
     abas.forEach(function (a) {
       a.addEventListener("click", function () {
         abas.forEach(function (x) { x.setAttribute("aria-selected", x === a ? "true" : "false"); });
@@ -514,6 +689,40 @@
     });
     Object.keys(NICHOS).forEach(function (k) { var i = new Image(); i.src = "./static/img/lojas/" + NICHOS[k].logo + ".png"; });
     mostrar("adega");
+  })();
+
+  /* Fluxo de ponta a ponta: abas e passos que acendem em sequência. */
+  (function () {
+    var abas = document.querySelectorAll("#como-funciona .aba");
+    function rodar(painel) { painel.classList.remove("rodando"); void painel.offsetWidth; painel.classList.add("rodando"); }
+    abas.forEach(function (a) {
+      a.addEventListener("click", function () {
+        abas.forEach(function (x) {
+          var on = x === a; x.setAttribute("aria-selected", on ? "true" : "false");
+          document.getElementById(x.getAttribute("data-fluxo")).hidden = !on;
+        });
+        rodar(document.getElementById(a.getAttribute("data-fluxo")));
+      });
+    });
+    var primeiro = document.getElementById("fluxo-zap");
+    if ("IntersectionObserver" in window) {
+      var obs = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { rodar(primeiro); obs.disconnect(); } });
+      }, { threshold: .4 });
+      obs.observe(primeiro);
+    }
+  })();
+
+  /* Painel Master: troca a tela mostrada. */
+  (function () {
+    var vistas = document.querySelectorAll(".vista"), img = document.getElementById("master-img"), url = document.getElementById("master-url");
+    vistas.forEach(function (v) {
+      var pre = new Image(); pre.src = "./static/img/landing/" + v.getAttribute("data-img") + ".jpg";
+      v.addEventListener("click", function () {
+        vistas.forEach(function (x) { x.setAttribute("aria-selected", x === v ? "true" : "false"); });
+        img.src = pre.src; img.alt = v.getAttribute("data-alt"); url.textContent = v.getAttribute("data-url");
+      });
+    });
   })();
 </script>
 </body>
