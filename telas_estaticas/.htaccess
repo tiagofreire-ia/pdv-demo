@@ -1,0 +1,8 @@
+# Páginas HTML: o navegador sempre confere com o servidor antes de usar a cópia guardada
+# (sem isso ele reaproveita uma página velha, que aponta para fotos e estilos antigos).
+# Fotos, CSS, JS e o PDF já levam ?v=<hash> no endereço, então podem ficar em cache por 7 dias.
+<IfModule mod_headers.c>
+  <FilesMatch "\.html?$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
